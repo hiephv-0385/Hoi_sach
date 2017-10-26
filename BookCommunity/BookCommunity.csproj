@@ -18,10 +18,17 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
-    <Compile Remove="ClientApp\admin\**" />
     <Content Remove="ClientApp\**" />
-    <EmbeddedResource Remove="ClientApp\admin\**" />
-    <None Remove="ClientApp\admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\admin\.angular-cli.json" />
+    <Content Include="ClientApp\admin\e2e\tsconfig.e2e.json" />
+    <Content Include="ClientApp\admin\package.json" />
+    <Content Include="ClientApp\admin\src\tsconfig.app.json" />
+    <Content Include="ClientApp\admin\src\tsconfig.spec.json" />
+    <Content Include="ClientApp\admin\tsconfig.json" />
+    <Content Include="ClientApp\admin\tslint.json" />
   </ItemGroup>
 
   <!--<ItemGroup>
