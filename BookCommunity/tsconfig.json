@@ -12,6 +12,6 @@
     "lib": [ "es6", "dom" ],
     "types": [ "webpack-env" ]
   },
-  "exclude": [ "bin", "node_modules" ],
+  "exclude": [ "bin", "node_modules", "ClientApp/admin/*", "ClientApp/frontend/app/components/**/*.spec.ts" ],
   "atom": { "rewriteTsconfig": false }
 }

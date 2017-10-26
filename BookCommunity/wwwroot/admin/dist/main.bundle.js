@@ -38,7 +38,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class='container-fluid'>\n  <div class='row'>\n      <div class='col-sm-3'>\n      </div>\n      <div class='col-sm-9 body-content'>\n          <router-outlet></router-outlet>\n      </div>\n  </div>\n</div>\n"
+module.exports = "<div class='container-fluid'>\n  <div class='row'>\n      <div class='col-sm-3'>\n      </div>\n      <div class='col-sm-9 body-content'>\n          <router-outlet></router-outlet>\n      </div>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
@@ -99,9 +99,6 @@ var AppModule = (function () {
 }());
 AppModule = __decorate([
     Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["M" /* NgModule */])({
-        declarations: [
-            __WEBPACK_IMPORTED_MODULE_3__app_component__["a" /* AppComponent */]
-        ],
         imports: [
             __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
             __WEBPACK_IMPORTED_MODULE_2__app_routing_module__["a" /* AppRoutingModule */]
@@ -156,7 +153,7 @@ AppRoutingModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_3__angular_http__["a" /* HttpModule */],
             __WEBPACK_IMPORTED_MODULE_2__angular_forms__["a" /* FormsModule */],
             __WEBPACK_IMPORTED_MODULE_4__angular_router__["a" /* RouterModule */].forRoot([
-                { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+                { path: 'admin', redirectTo: 'dashboard', pathMatch: 'full' },
                 { path: 'dashboard', component: __WEBPACK_IMPORTED_MODULE_6__dashboard_dashboard_component__["a" /* DashboardComponent */] }
             ])
         ]
@@ -188,7 +185,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/dashboard/dashboard.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<h1>This is dash borad page</h1>"
+module.exports = "<p>\n  dashboard works!\n</p>\n"
 
 /***/ }),
 
@@ -204,11 +201,15 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 
 var DashboardComponent = (function () {
     function DashboardComponent() {
-        this.title = 'Dashboard';
     }
+    DashboardComponent.prototype.ngOnInit = function () {
+    };
     return DashboardComponent;
 }());
 DashboardComponent = __decorate([
@@ -216,7 +217,8 @@ DashboardComponent = __decorate([
         selector: 'app-dashboard',
         template: __webpack_require__("../../../../../src/app/dashboard/dashboard.component.html"),
         styles: [__webpack_require__("../../../../../src/app/dashboard/dashboard.component.css")]
-    })
+    }),
+    __metadata("design:paramtypes", [])
 ], DashboardComponent);
 
 //# sourceMappingURL=dashboard.component.js.map

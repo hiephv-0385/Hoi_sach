@@ -4,8 +4,6 @@ const merge = require('webpack-merge');
 const AotPlugin = require('@ngtools/webpack').AotPlugin;
 const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 
-console.log("path", path.resolve(__dirname, "ClientApp/frontend"));
-
 module.exports = (env) => {
     // Configuration in common to both client-side and server-side bundles
     const isDevBuild = !(env && env.prod);
@@ -21,9 +19,8 @@ module.exports = (env) => {
             rules: [
                 { 
                     test: /\.ts$/, 
-                    include: /ClientApp\/frontend\/\*/, 
-                    use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack'
-                },
+                    include: /ClientApp\/frontend/, 
+                    use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
                 { test: /\.css$/, use: [ 'to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize' ] },
                 { test: /\.(png|jpg|jpeg|gif|svg)$/, use: 'url-loader?limit=25000' }

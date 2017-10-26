@@ -76,7 +76,7 @@ module.exports = (env) => {
         resolve: { mainFields: ['main'] },
         entry: { vendor: allModules.concat(['aspnet-prerendering']) },
         output: {
-            path: path.join(__dirname, 'ClientApp', 'dist'),
+            path: path.join(__dirname, 'ClientApp', 'frontend', 'dist'),
             libraryTarget: 'commonjs2',
         },
         module: {
@@ -84,7 +84,7 @@ module.exports = (env) => {
         },
         plugins: [
             new webpack.DllPlugin({
-                path: path.join(__dirname, 'ClientApp', 'dist', '[name]-manifest.json'),
+                path: path.join(__dirname, 'ClientApp', 'frontend', 'dist', '[name]-manifest.json'),
                 name: '[name]_[hash]'
             })
         ]
