@@ -15,6 +15,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using BC.Data.Validations;
 using BC.Data.Models.AdminUserDomain;
+using Microsoft.AspNetCore.Http;
 
 namespace BookCommunity
 {
@@ -57,22 +58,6 @@ namespace BookCommunity
         {
             app.UseCors("CorsPolicy");
 
-             // Route all unknown requests to app root
-            app.Use(async (context, next) =>
-            {
-                await next();
-
-                // If there's no available file and the request doesn't contain an extension, we're probably trying to access a page.
-                // Rewrite request to use app root
-                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
-                {
-                    Console.WriteLine("ok");
-                    context.Request.Path = "/admin/dist/index.html"; // Put your Angular root page here 
-                    context.Response.StatusCode = 200; // Make sure we update the status code, otherwise it returns 404
-                    await next();
-                }
-            });
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,7 +69,22 @@ namespace BookCommunity
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-            }      
+            }
+
+            var angularRoutes = new[] {
+                 "/dashboard"
+             };
+
+            app.Use(async (context, next) =>
+            {
+                if (null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/admin/dist/indext.html");
+                }
+
+                await next();
+            });
 
             app.UseStaticFiles();
 
