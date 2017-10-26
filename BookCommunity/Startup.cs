@@ -3,6 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Linq;
 using BC.Data.Models;
 using BC.Data.Repositories.AdminSecurity;
 using BC.Infrastructure.Hash;
@@ -53,6 +57,22 @@ namespace BookCommunity
         {
             app.UseCors("CorsPolicy");
 
+             // Route all unknown requests to app root
+            app.Use(async (context, next) =>
+            {
+                await next();
+
+                // If there's no available file and the request doesn't contain an extension, we're probably trying to access a page.
+                // Rewrite request to use app root
+                if (context.Response.StatusCode == 404 && !Path.HasExtension(context.Request.Path.Value))
+                {
+                    Console.WriteLine("ok");
+                    context.Request.Path = "/admin/dist/index.html"; // Put your Angular root page here 
+                    context.Response.StatusCode = 200; // Make sure we update the status code, otherwise it returns 404
+                    await next();
+                }
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -64,7 +84,7 @@ namespace BookCommunity
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-            }
+            }      
 
             app.UseStaticFiles();
 
