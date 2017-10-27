@@ -15,6 +15,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using BC.Data.Validations;
 using BC.Data.Models.AdminUserDomain;
+using Microsoft.AspNetCore.Http;
 
 namespace BookCommunity
 {
@@ -68,7 +69,22 @@ namespace BookCommunity
             else
             {
                 app.UseExceptionHandler("/Home/Error");
-            }      
+            }
+
+            var angularRoutes = new[] {
+                 "/dashboard"
+             };
+
+            app.Use(async (context, next) =>
+            {
+                if (null != angularRoutes.FirstOrDefault(
+                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
+                {
+                    context.Request.Path = new PathString("/admin/dist/indext.html");
+                }
+
+                await next();
+            });
 
             app.UseStaticFiles();
 

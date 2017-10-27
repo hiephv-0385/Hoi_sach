@@ -18,10 +18,21 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
-    <Compile Remove="ClientApp\admin\**" />
     <Content Remove="ClientApp\**" />
-    <EmbeddedResource Remove="ClientApp\admin\**" />
-    <None Remove="ClientApp\admin\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\admin\src\app\app.routing.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="ClientApp\admin\.angular-cli.json" />
+    <Content Include="ClientApp\admin\e2e\tsconfig.e2e.json" />
+    <Content Include="ClientApp\admin\package.json" />
+    <Content Include="ClientApp\admin\src\tsconfig.app.json" />
+    <Content Include="ClientApp\admin\src\tsconfig.spec.json" />
+    <Content Include="ClientApp\admin\tsconfig.json" />
+    <Content Include="ClientApp\admin\tslint.json" />
   </ItemGroup>
 
   <!--<ItemGroup>
@@ -68,6 +79,10 @@
 
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.DotNet.Watcher.Tools" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\admin\src\app\app.routing.module.ts" />
   </ItemGroup> 
 
 </Project>

@@ -19,7 +19,7 @@ module.exports = (env) => {
             rules: [
                 { 
                     test: /\.ts$/, 
-                    include: /ClientApp\/frontend/, 
+                    include: /ClientApp/, 
                     use: isDevBuild ? ['awesome-typescript-loader?silent=true', 'angular2-template-loader'] : '@ngtools/webpack' },
                 { test: /\.html$/, use: 'html-loader?minimize=false' },
                 { test: /\.css$/, use: [ 'to-string-loader', isDevBuild ? 'css-loader' : 'css-loader?minimize' ] },
