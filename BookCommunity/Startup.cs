@@ -75,17 +75,6 @@ namespace BookCommunity
                  "/dashboard"
              };
 
-            app.Use(async (context, next) =>
-            {
-                if (null != angularRoutes.FirstOrDefault(
-                    (ar) => context.Request.Path.Value.StartsWith(ar, StringComparison.OrdinalIgnoreCase)))
-                {
-                    context.Request.Path = new PathString("/admin/dist/indext.html");
-                }
-
-                await next();
-            });
-
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
