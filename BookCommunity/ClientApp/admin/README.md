@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-# Admin
+# Book Community Admin
 =======
-# AngularCliDemo
->>>>>>> 8b31a2f1c183f052d9864f3efd4bafa634f4f221
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.4.9.
 
