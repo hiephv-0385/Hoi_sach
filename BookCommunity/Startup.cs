@@ -96,7 +96,7 @@ namespace BookCommunity
 
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults: new { controller = "Admin", action = "Index" });
             });
         }
 
