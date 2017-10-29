@@ -21,7 +21,7 @@
       "styles": [
         "styles.css",
         "vendor/adminlte/css/AdminLTE.min.css",
-        "vendor/adminlte/css/skins/_all-skins.css",
+        "vendor/adminlte/css/skins/skin-blue.min.css",
         "vendor/bootstrap/css/bootstrap.min.css"
       ],
       "scripts": [],
