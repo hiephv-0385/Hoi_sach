@@ -19,6 +19,10 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "app",
       "styles": [
+        "vendor/adminlte/css/AdminLTE.min.css",
+        "vendor/adminlte/css/skins/_all-skins.css",
+        "vendor/bootstrap/css/bootstrap.min.css",
+        "vendor/font_awesome/css/font-awesome.min.css",
         "styles.css"
       ],
       "scripts": [],
