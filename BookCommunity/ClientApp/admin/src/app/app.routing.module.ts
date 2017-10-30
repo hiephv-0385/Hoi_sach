@@ -9,6 +9,7 @@ import { DataTableModule } from 'angular2-datatable';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { UserListComponent } from './user/list/user.list.component';
+import { UserDetailComponent } from './user/detail/user.detail.component';
 
 @NgModule({
     declarations: [
@@ -24,7 +25,13 @@ import { UserListComponent } from './user/list/user.list.component';
         RouterModule.forRoot([
             { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
             { path: 'dashboard', component: DashboardComponent },
-            { path: 'users', component: UserListComponent }
+            {
+                path: 'users', component: UserListComponent,
+                children: [
+                    { path: 'add', component: UserDetailComponent },
+                    { path: 'edit/:id', component: UserDetailComponent }
+                ]
+            },
         ])
     ]
 })
