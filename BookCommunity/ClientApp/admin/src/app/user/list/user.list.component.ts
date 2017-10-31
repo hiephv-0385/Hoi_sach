@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 
 export interface User {
     name: string;
@@ -14,7 +15,11 @@ export interface User {
 })
 export class UserListComponent implements OnInit {
     public data: User[] = [];
-    constructor() { }
+
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+    ) { }
 
     ngOnInit() {
         for (let i = 0; i < 100; i++) {
@@ -27,5 +32,10 @@ export class UserListComponent implements OnInit {
 
             this.data.push(user);
         }
+    }
+
+    public addUser(): void {
+        this.router.navigate(['/users'])
+            .then(() => this.router.navigate(['/users/add'], { replaceUrl: true }));
     }
 }
