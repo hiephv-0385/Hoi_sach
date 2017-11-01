@@ -5,25 +5,25 @@
                 <h3 class="box-title">Quick Example</h3>
             </div>
 
-            <form role="form" [formGroup]="userform">
+            <form role="form" [formGroup]="userform" (ngSubmit)="saveUser()">
                 <div class="box-body">
                     <div class="form-group">
                         <label for="firstName">First name</label>
-                        <input type="text" class="form-control" formControlName="firstName" errorCss [input]="firstName">
+                        <input type="text" class="form-control" formControlName="firstName" adminErrorCss [input]="firstName">
                         <p *ngIf="firstName.dirty || firstName.touched">
                             <span class="help-block" *ngIf="firstName.errors?.required">First Name is required</span>
                         </p>
                     </div>
                     <div class="form-group">
                         <label for="lastName">Last name</label>
-                        <input type="text" class="form-control" formControlName="lastName" errorCss [input]="lastName">
+                        <input type="text" class="form-control" formControlName="lastName" adminErrorCss [input]="lastName">
                         <p *ngIf="lastName.dirty || lastName.touched">
                             <span class="help-block" *ngIf="lastName.errors?.required">Last Name is required</span>
                         </p>
                     </div>
                     <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" formControlName="email" errorCss [input]="email">
+                        <input type="email" class="form-control" formControlName="email" adminErrorCss [input]="email">
                         <p *ngIf="email.errors && (email.dirty || email.touched)">
                             <span class="help-block" *ngIf="email.errors.required">Email is required</span>
                             <span class="help-block" *ngIf="email.errors.email">Email is invalid format</span>
@@ -31,7 +31,7 @@
                     </div>
                     <div class="form-group">
                         <label for="password">Password</label>
-                        <input type="password" class="form-control" formControlName="password" errorCss [input]="password">
+                        <input type="password" class="form-control" formControlName="password" adminErrorCss [input]="password">
                         <p *ngIf="password.errors && (password.dirty || password.touched)">
                             <span class="help-block" *ngIf="password.errors.required">Password is required</span>
                             <span class="help-block" *ngIf="password.errors.minlength">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirmation Password</label>
-                        <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirmation password" errorCss [input]="confirmPassword">
+                        <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirmation password" adminErrorCss [input]="confirmPassword">
                         <p *ngIf="confirmPassword.dirty || confirmPassword.touched">
                             <span class="help-block" *ngIf="confirmPassword.errors?.MatchPassword">Confirm password not match</span>
                         </p>
@@ -56,7 +56,7 @@
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox"> Is Active
+                            <input type="checkbox" formControlName="confirmPassword"> Is Active
                         </label>
                     </div>
                 </div>

@@ -6,7 +6,7 @@
   "apps": [
     {
       "root": "src",
-      "outDir": "../../wwwroot/admin/dist",
+      "outDir": "../../wwwroot",
       "assets": [
         "assets",
         "favicon.ico"
@@ -21,8 +21,7 @@
       "styles": [
         "styles.css",
         "vendor/adminlte/css/AdminLTE.min.css",
-        "vendor/adminlte/css/skins/skin-blue.min.css",
-        "vendor/bootstrap/css/bootstrap.min.css"
+        "vendor/adminlte/css/skins/skin-blue.min.css"
       ],
       "scripts": [],
       "environmentSource": "environments/environment.ts",

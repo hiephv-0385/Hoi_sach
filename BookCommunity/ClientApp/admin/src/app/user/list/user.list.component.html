@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="box-body">
-            <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="5">
+            <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="5">
                 <thead>
                     <tr>
                         <th style="width: 20%">
@@ -37,19 +37,23 @@
                             <mfDefaultSorter by="email">Email</mfDefaultSorter>
                         </th>
                         <th style="width: 10%">
-                            <mfDefaultSorter by="age">Age</mfDefaultSorter>
+                            <mfDefaultSorter by="avatar">Avatar</mfDefaultSorter>
                         </th>
                         <th style="width: 20%">
-                            <mfDefaultSorter by="city">City</mfDefaultSorter>
+                            <mfDefaultSorter by="active">Active</mfDefaultSorter>
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of mf.data">
-                        <td>{{item.name}}</td>
-                        <td>{{item.email}}</td>
-                        <td class="text-right">{{item.age}}</td>
-                        <td>{{item.city | uppercase}}</td>
+                        <td>{{ item.firstName }}{{ item.lastName }}</td>
+                        <td>{{ item.email }}</td>
+                        <td class="text-right">{{ item.avatar }}</td>
+                        <td>
+                            <a href="#" *ngIf="item.isActive">
+                                <span class="glyphicon glyphicon-ok"></span>
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
                 <tfoot>

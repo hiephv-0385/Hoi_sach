@@ -1,7 +1,7 @@
 export interface BaseModel {
-    id: string;
-    updatedOn: string;
-    createdOn: string;
+    id?: string;
+    updatedOn?: string;
+    createdOn?: string;
     isActive: boolean;
 }
 

@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+
+import { UserService } from "../../services/user.service";
+import { AdminUser } from "../../services/models";
 
 export interface User {
     name: string;
@@ -9,33 +12,27 @@ export interface User {
 }
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user.list.component.html',
-  styleUrls: ['./user.list.component.css']
+  selector: "app-user-list",
+  templateUrl: "./user.list.component.html",
+  styleUrls: ["./user.list.component.css"]
 })
 export class UserListComponent implements OnInit {
-    public data: User[] = [];
+    public users: AdminUser[] = [];
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
+        private userService: UserService
     ) { }
 
     ngOnInit() {
-        for (let i = 0; i < 100; i++) {
-            const user: User = {
-                name: `Name-${i}`,
-                email: `example-${i}@gmail.com`,
-                age: i + 1,
-                city: `City-${i}`
-            };
-
-            this.data.push(user);
-        }
+        this.userService.getAdminUsers().subscribe((data) => {
+            this.users = data;
+        });
     }
 
     public addUser(): void {
-        this.router.navigate(['/users'])
-            .then(() => this.router.navigate(['/users/add'], { replaceUrl: true }));
+        this.router.navigate(["/users"])
+            .then(() => this.router.navigate(["/users/add"], { replaceUrl: true }));
     }
 }

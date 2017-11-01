@@ -21,7 +21,8 @@
     "import-spacing": true,
     "indent": [
       true,
-      "spaces"
+      "spaces",
+      4
     ],
     "interface-over-type-literal": true,
     "label-position": true,
@@ -83,7 +84,7 @@
     "prefer-const": true,
     "quotemark": [
       true,
-      "single"
+      "double"
     ],
     "radix": true,
     "semicolon": [
@@ -118,7 +119,7 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      "admin",
       "camelCase"
     ],
     "component-selector": [
