@@ -58,6 +58,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BC.Data\BC.Data.csproj" />
     <ProjectReference Include="..\BC.Infrastructure\BC.Infrastructure.csproj" />
+    <ProjectReference Include="..\BC.Web\BC.Web.csproj" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 
 import { UserService } from "../../services/user.service";
+import { UploadService } from "../../services/upload.service";
 import { AdminUser } from "../../services/models";
 import { PasswordValidation } from "../../shared/password.validation";
 
@@ -21,8 +22,11 @@ export class UserDetailComponent implements OnInit {
     confirmPassword: FormControl;
     isActive: FormControl;
 
+    private uploadedFileName: string;
+
     constructor(
         private userService: UserService,
+        private uploadService: UploadService,
         protected fb: FormBuilder
     ) { }
 
@@ -40,13 +44,18 @@ export class UserDetailComponent implements OnInit {
             lastName: this.lastName.value,
             email: this.email.value,
             password: this.password.value,
-            avatar: "",
+            avatar: this.uploadedFileName,
             isActive: this.isActive.value,
             isSupperUser: false
         };
 
         this.userService.addAdminUser(user).subscribe((data) => {
-            console.log("data", data);
+        });
+    }
+
+    public onFileChange(event: any): void {
+        this.uploadService.uploadUserAvatar(event).subscribe((result) => {
+            this.uploadedFileName = result.fileName;
         });
     }
 

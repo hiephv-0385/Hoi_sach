@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.IO;
-using System.Collections.Generic;
-using System.Linq;
 using BC.Data.Models;
 using BC.Data.Repositories.AdminSecurity;
 using BC.Infrastructure.Hash;
@@ -15,7 +11,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using BC.Data.Validations;
 using BC.Data.Models.AdminUserDomain;
-using Microsoft.AspNetCore.Http;
+using BC.Web.Middlewares;
 
 namespace BookCommunity
 {
@@ -40,6 +36,8 @@ namespace BookCommunity
                     .AllowCredentials());
             });
 
+            services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
+
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
             }).AddFluentValidation();
@@ -57,6 +55,8 @@ namespace BookCommunity
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
+
+            app.UseAntiforgeryToken();
 
             if (env.IsDevelopment())
             {

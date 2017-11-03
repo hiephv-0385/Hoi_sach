@@ -48,7 +48,9 @@
                     <tr *ngFor="let item of mf.data">
                         <td>{{ item.firstName }}{{ item.lastName }}</td>
                         <td>{{ item.email }}</td>
-                        <td class="text-right">{{ item.avatar }}</td>
+                        <td class="text-right">
+                            <img src="{{ item.avatar }}" />
+                        </td>
                         <td>
                             <a href="#" *ngIf="item.isActive">
                                 <span class="glyphicon glyphicon-ok"></span>

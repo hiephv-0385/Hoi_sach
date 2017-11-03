@@ -6,7 +6,10 @@ using BC.Data.Repositories.AdminSecurity;
 using BC.Infrastructure;
 using BC.Infrastructure.Hash;
 using BC.Data.Filters;
+using BC.Data.Constants;
 using BC.Data.Models.AdminUserDomain;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BookCommunity.Controllers
 {
@@ -16,11 +19,13 @@ namespace BookCommunity.Controllers
     {
         private readonly IAdminUserRepository _adminUserRepository;
         private readonly ICryptography _cryptography;
+        private IHostingEnvironment _env;
 
-        public AdminUsersController(IAdminUserRepository adminUserRepository, ICryptography cryptography)
+        public AdminUsersController(IAdminUserRepository adminUserRepository, ICryptography cryptography, IHostingEnvironment env)
         {
             _adminUserRepository = adminUserRepository;
             _cryptography = cryptography;
+            _env = env;
         }
 
         [NoCache]
@@ -56,6 +61,7 @@ namespace BookCommunity.Controllers
 
         // POST api/adminusers
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public void Post([FromBody]AdminUserDto value)
         {
             _adminUserRepository.AddAdminUser(new AdminUser
@@ -63,6 +69,7 @@ namespace BookCommunity.Controllers
                 FirstName = value.FirstName,
                 LastName = value.LastName,
                 Email = value.Email,
+                Avatar = value.Avatar,
                 Password = _cryptography.Encrypt(value.Password),
                 IsSupperUser = false,
                 CreatedOn = DateTime.Now,
@@ -82,7 +89,7 @@ namespace BookCommunity.Controllers
 
             adminUser.FirstName = value.FirstName;
             adminUser.LastName = value.LastName;
-            adminUser.Avartar = value.Avartar;
+            adminUser.Avatar = value.Avatar;
             adminUser.IsActive = value.IsActive;
             adminUser.UpdatedOn = DateTime.Now;
 
@@ -96,6 +103,39 @@ namespace BookCommunity.Controllers
         public void Delete(string id)
         {
             _adminUserRepository.RemoveAdminUser(id);
+        }
+
+        [HttpPost("avatar")]
+        [ValidateAntiForgeryToken]
+        public async Task<UploadResult> Upload()
+        {
+            string updatedFileName = "";
+            string fullPath = Path.Combine(_env.WebRootPath, FolderPath.UserAvatar);
+            var files = Request.Form.Files;
+            if (Directory.Exists(fullPath) == false)
+            {
+                Directory.CreateDirectory(fullPath);
+            }
+
+            foreach (var file in files)
+            {
+                if (file.Length <= 0)
+                {
+                    continue;
+                }
+
+                var destinationPath = Path.Combine(fullPath, file.FileName);
+                using (var stream = new FileStream(destinationPath, FileMode.Create))
+                {
+                    updatedFileName = file.FileName;
+                    await file.CopyToAsync(stream);
+                }
+            }
+
+            return new UploadResult {
+                FileName = string.Format("{0}/{1}", FolderPath.UserAvatar, updatedFileName),
+                Status = 200
+            };
         }
     }
 }

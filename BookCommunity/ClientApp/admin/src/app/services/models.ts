@@ -13,3 +13,8 @@ export interface AdminUser extends BaseModel {
     password: string;
     isSupperUser: boolean;
 }
+
+export interface UploadResult {
+    fileName: string;
+    status: number;
+}

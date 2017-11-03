@@ -11,7 +11,7 @@ namespace BC.Data.Models.AdminUserDomain
 
         public string Email { get; set; }
 
-        public string Avartar { get; set; } = string.Empty;
+        public string Avatar { get; set; } = string.Empty;
        
         public string Password { get; set; }
 
