@@ -34,7 +34,7 @@ export class UploadService {
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
         return this.http.post(this.updloadUrl, formData, { headers: headers })
-            .map((res: Response) => res)
+            .map((res: Response) => res.json())
             .catch((error: any) => {
                 console.log("error", error);
                 return Observable.throw(JSON.stringify(error) || "Server error");

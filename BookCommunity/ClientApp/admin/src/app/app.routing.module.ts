@@ -12,6 +12,7 @@ import { DashboardComponent } from "./dashboard/dashboard.component";
 import { UserListComponent } from "./user/list/user.list.component";
 import { UserDetailComponent } from "./user/detail/user.detail.component";
 import { ErrorCssDirective } from "./directives/error.css.directive";
+import { AlertMessageComponent } from "./directives/alers/alert.message.component";
 
 @NgModule({
     declarations: [
@@ -19,6 +20,7 @@ import { ErrorCssDirective } from "./directives/error.css.directive";
         DashboardComponent,
         UserListComponent,
         UserDetailComponent,
+        AlertMessageComponent,
         ErrorCssDirective
     ],
     imports: [

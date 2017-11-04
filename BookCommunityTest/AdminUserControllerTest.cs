@@ -7,6 +7,7 @@ using BC.Data.Repositories.AdminSecurity;
 using BC.Infrastructure.Hash;
 using BC.Data.Models.AdminUserDomain;
 using System.Linq;
+using Microsoft.AspNetCore.Hosting;
 
 namespace BookCommunityTest
 {
@@ -14,11 +15,13 @@ namespace BookCommunityTest
     {
         private Mock<IAdminUserRepository> _mockRepo;
         private Mock<ICryptography> _mockCryptography;
+        private Mock<IHostingEnvironment> _mockHostingEnvironment;
 
         public AdminUserControllerTest()
         {
             _mockRepo = new Mock<IAdminUserRepository>();
             _mockCryptography = new Mock<ICryptography>();
+            _mockHostingEnvironment = new Mock<IHostingEnvironment>();
         }
 
         [Fact]
@@ -26,7 +29,7 @@ namespace BookCommunityTest
         {
             _mockRepo.Setup(repo => repo.GetAllAdminUsers()).Returns(Task.FromResult(GetTestAdminUsers()));
 
-            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object);
+            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockHostingEnvironment.Object);
 
             var result = await controller.Get();
 
@@ -43,7 +46,7 @@ namespace BookCommunityTest
         {
             const string id = "59eae2c942c913751fecc202";
 
-            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object);
+            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockHostingEnvironment.Object);
 
             var result = await controller.Get(id);
         }

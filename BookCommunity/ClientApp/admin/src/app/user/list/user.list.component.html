@@ -1,8 +1,10 @@
 <div class="row">
     <div class="col-md-12 action-row">
         <button class="btn btn-primary pull-right" id="btnAddUser" (click)="addUser()">Add</button>
+        <button class="btn btn-danger pull-right magin-right" id="btndDeleteUser" (click)="deleteUser()">Delete</button>
     </div>
 </div>
+<app-alert-message [notify]="responseNotify"></app-alert-message>
 <div class="row">
     <div class="col-md-12">
       <div class="box">
@@ -30,31 +32,41 @@
             <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="5">
                 <thead>
                     <tr>
-                        <th style="width: 20%">
+                        <th style="width: 5%;">#</th>
+                        <th>
                             <mfDefaultSorter by="name">Name</mfDefaultSorter>
                         </th>
-                        <th style="width: 50%">
+                        <th style="width: 20%">
                             <mfDefaultSorter by="email">Email</mfDefaultSorter>
                         </th>
-                        <th style="width: 10%">
+                        <th style="width: 20%">
                             <mfDefaultSorter by="avatar">Avatar</mfDefaultSorter>
                         </th>
                         <th style="width: 20%">
                             <mfDefaultSorter by="active">Active</mfDefaultSorter>
                         </th>
+                        <th style="width: 5%">
+                            <mfDefaultSorter by="action">Action</mfDefaultSorter>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr *ngFor="let item of mf.data">
+                        <td>
+                            <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
+                        </td>
                         <td>{{ item.firstName }}{{ item.lastName }}</td>
                         <td>{{ item.email }}</td>
-                        <td class="text-right">
-                            <img src="{{ item.avatar }}" />
+                        <td>
+                            <img class="user-avatar" src="{{ item.avatar }}" />
                         </td>
                         <td>
                             <a href="#" *ngIf="item.isActive">
                                 <span class="glyphicon glyphicon-ok"></span>
                             </a>
+                        </td>
+                        <td>
+                            <a href="admin/users/{{ item.id }}"><i class="fa fa-fw fa-edit"></i></a>
                         </td>
                     </tr>
                 </tbody>

@@ -9,7 +9,7 @@ import * as adminModel from "./models";
 
 @Injectable()
 export class UserService {
-    private adminUserUrl = "/api/adminusers/";
+    private adminUserUrl = "/api/adminusers";
     private csrfToken: string;
 
     constructor(
@@ -31,6 +31,24 @@ export class UserService {
 
         return this.http.post(this.adminUserUrl, user, { headers: headers })
             .map((res: Response) => res)
+            .catch((error: any) => {
+                console.log("error", error);
+                return Observable.throw(JSON.stringify(error) || "Server error");
+            });
+    }
+
+    public deleteAdminUser(userId: string): Observable<Response> {
+        const headers = new Headers();
+        headers.set("X-XSRF-TOKEN", this.csrfToken);
+        const deleteUrl = `${this.adminUserUrl}/${userId}`;
+
+        return this.http.delete(deleteUrl, { headers: headers })
+            .map((res: Response) => res);
+    }
+
+    public deleteAdminUsers(userIds: string[]): Observable<void> {
+        const requests = userIds.map(u => this.deleteAdminUser(u));
+        return Observable.combineLatest(requests)
             .catch((error: any) => {
                 console.log("error", error);
                 return Observable.throw(JSON.stringify(error) || "Server error");

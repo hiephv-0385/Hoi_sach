@@ -79,6 +79,7 @@ namespace BookCommunity.Controllers
 
         // PUT api/adminusers/5
         [HttpPut("{id}")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]AdminUser value)
         {
             var adminUser = await _adminUserRepository.GetAdminUser(id);
@@ -100,6 +101,7 @@ namespace BookCommunity.Controllers
 
         // DELETE api/adminusers/23243423
         [HttpDelete("{id}")]
+        [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
             _adminUserRepository.RemoveAdminUser(id);

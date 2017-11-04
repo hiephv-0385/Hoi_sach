@@ -55,6 +55,8 @@ export class UserDetailComponent implements OnInit {
 
     public onFileChange(event: any): void {
         this.uploadService.uploadUserAvatar(event).subscribe((result) => {
+            console.log("ok");
+            console.log("result", result.fileName);
             this.uploadedFileName = result.fileName;
         });
     }

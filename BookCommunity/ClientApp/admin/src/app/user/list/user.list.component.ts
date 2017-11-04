@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../../services/user.service";
-import { AdminUser } from "../../services/models";
+import { AdminUser, ExtendedAdminUser, ResponseNotify } from "../../services/models";
 
 export interface User {
     name: string;
@@ -17,7 +17,8 @@ export interface User {
   styleUrls: ["./user.list.component.css"]
 })
 export class UserListComponent implements OnInit {
-    public users: AdminUser[] = [];
+    public users: ExtendedAdminUser[] = [];
+    public responseNotify: ResponseNotify;
 
     constructor(
         private route: ActivatedRoute,
@@ -27,12 +28,29 @@ export class UserListComponent implements OnInit {
 
     ngOnInit() {
         this.userService.getAdminUsers().subscribe((data) => {
-            this.users = data;
+            this.users = data.map(item => <ExtendedAdminUser>item);
         });
     }
 
     public addUser(): void {
         this.router.navigate(["/users"])
             .then(() => this.router.navigate(["/users/add"], { replaceUrl: true }));
+    }
+
+    public deleteUser(): void {
+        const deletedUserIds = this.users.filter(u => u.isChecked).map(u => u.id);
+        this.userService.deleteAdminUsers(deletedUserIds).subscribe((data) => {
+            this.users = this.users.filter(u => !deletedUserIds.includes(u.id, 0));
+            this.responseNotify = {
+                isSuccess: true,
+                message: "User(s) have delete successfuly"
+            };
+        },
+        (err) => {
+            this.responseNotify = {
+                isSuccess: false,
+                message: `Error happen: ${err.toString()}`
+            };
+        });
     }
 }
