@@ -29,33 +29,33 @@
           </div>
         </div>
         <div class="box-body">
-            <table class="table table-striped" [mfData]="users" #mf="mfDataTable" [mfRowsOnPage]="5">
+            <table class="table table-striped" *ngIf="adminUserList && adminUserList.data">
                 <thead>
                     <tr>
                         <th style="width: 5%;">#</th>
                         <th>
-                            <mfDefaultSorter by="name">Name</mfDefaultSorter>
+                            Name
                         </th>
                         <th style="width: 20%">
-                            <mfDefaultSorter by="email">Email</mfDefaultSorter>
+                            Email
                         </th>
                         <th style="width: 20%">
-                            <mfDefaultSorter by="avatar">Avatar</mfDefaultSorter>
+                            Avatar
                         </th>
                         <th style="width: 20%">
-                            <mfDefaultSorter by="active">Active</mfDefaultSorter>
+                            Active
                         </th>
                         <th style="width: 5%">
-                            <mfDefaultSorter by="action">Action</mfDefaultSorter>
+                            Action
                         </th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of mf.data">
+                    <tr *ngFor="let item of adminUserList.data | paginate: { itemsPerPage: 5, currentPage: page, totalItems: adminUserList.count }">
                         <td>
                             <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                         </td>
-                        <td>{{ item.firstName }}{{ item.lastName }}</td>
+                        <td>{{ item.firstName }} {{ item.lastName }}</td>
                         <td>{{ item.email }}</td>
                         <td>
                             <img class="user-avatar" src="{{ item.avatar }}" />
@@ -66,14 +66,14 @@
                             </a>
                         </td>
                         <td>
-                            <a href="admin/users/{{ item.id }}"><i class="fa fa-fw fa-edit"></i></a>
+                            <a [routerLink]="['/users/edit', item.id]"><i class="fa fa-fw fa-edit"></i></a>
                         </td>
                     </tr>
                 </tbody>
                 <tfoot>
                     <tr>
                         <td colspan="4">
-                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                            <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
                         </td>
                     </tr>
                 </tfoot>

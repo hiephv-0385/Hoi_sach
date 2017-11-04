@@ -1,3 +1,4 @@
+<app-alert-message [notify]="responseNotify"></app-alert-message>
 <div class="row">
     <div class="col-md-12">
         <div class="box box-primary">
@@ -5,7 +6,7 @@
                 <h3 class="box-title">Quick Example</h3>
             </div>
 
-            <form role="form" [formGroup]="userform" (ngSubmit)="saveUser()" #u>
+            <form role="form" [formGroup]="userform" (ngSubmit)="saveUser()" #form="ngForm">
                 <div class="box-body">
                     <div class="form-group">
                         <label for="firstName">First name</label>
@@ -44,7 +45,7 @@
                     </div>
                     <div class="form-group">
                         <label for="confirmPassword">Confirmation Password</label>
-                        <input type="password" class="form-control" formControlName="confirmPassword" placeholder="Confirmation password" adminErrorCss [input]="confirmPassword">
+                        <input type="password" class="form-control" formControlName="confirmPassword" adminErrorCss [input]="confirmPassword">
                         <p *ngIf="confirmPassword.dirty || confirmPassword.touched">
                             <span class="help-block" *ngIf="confirmPassword.errors?.MatchPassword">Confirm password not match</span>
                         </p>
@@ -52,17 +53,23 @@
                     <div class="form-group">
                         <label for="avatar">Avartar</label>
                         <input type="file" formControlName="avatar" (change)="onFileChange($event)">
-                        <img src="" alt="" class="user-avartar">
+                        <div class="avatar-thumb">
+                            <img src="{{ uploadedFileName }}" alt="" class="img-thumbnail user-avartar">
+                            <button type="button" class="close" aria-label="Close" title="Remove" (click)="removeAvatar()" *ngIf="uploadedFileName">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
                     </div>
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox" formControlName="confirmPassword"> Is Active
+                            <input type="checkbox" formControlName="isActive"> Is Active
                         </label>
                     </div>
                 </div>
 
                 <div class="box-footer">
-                    <button type="submit" class="btn btn-primary" [disabled]="!u || u.invalid">Save</button>
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+                    <button type="button" class="btn btn-default" *ngIf="!userId" (click)="clearForm()">Clear</button>
                 </div>
             </form>
         </div>

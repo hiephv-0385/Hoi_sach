@@ -10,6 +10,10 @@ using BC.Data.Constants;
 using BC.Data.Models.AdminUserDomain;
 using System.IO;
 using Microsoft.AspNetCore.Hosting;
+using BC.Data.Models;
+using BC.Data.Requests;
+using BC.Data.Responses;
+using System.Linq;
 
 namespace BookCommunity.Controllers
 {
@@ -30,14 +34,20 @@ namespace BookCommunity.Controllers
 
         [NoCache]
         [HttpGet]
-        public Task<IEnumerable<AdminUser>> Get()
+        public async Task<AdminUserListResponse> Get([FromQuery]PagingRequest request)
         {
-            return GetAdminUsersInternal();
+            var adminUsers = await _adminUserRepository.GetAdminUsers(request);
+            var count = await _adminUserRepository.CountAll();
+            return new AdminUserListResponse
+            {
+                Count =  count,
+                Data = adminUsers
+            };
         }
 
-        private async Task<IEnumerable<AdminUser>> GetAdminUsersInternal()
+        private async Task<IEnumerable<AdminUser>> GetAdminUsersInternal(PagingRequest request)
         {
-            return await _adminUserRepository.GetAllAdminUsers();
+            return await _adminUserRepository.GetAdminUsers(request); ;
         }
 
         // GET api/adminusers/5
@@ -71,6 +81,7 @@ namespace BookCommunity.Controllers
                 Email = value.Email,
                 Avatar = value.Avatar,
                 Password = _cryptography.Encrypt(value.Password),
+                IsActive = value.IsActive,
                 IsSupperUser = false,
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
@@ -80,7 +91,7 @@ namespace BookCommunity.Controllers
         // PUT api/adminusers/5
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(string id, [FromBody]AdminUser value)
+        public async Task<IActionResult> Put(string id, [FromBody]UpdateAdminUserDto value)
         {
             var adminUser = await _adminUserRepository.GetAdminUser(id);
             if (adminUser == null)
@@ -138,6 +149,18 @@ namespace BookCommunity.Controllers
                 FileName = string.Format("{0}/{1}", FolderPath.UserAvatar, updatedFileName),
                 Status = 200
             };
+        }
+
+        [HttpPost("avatar/remove")]
+        [ValidateAntiForgeryToken]
+        public void RemoveAvatar([FromBody]Avatar avatar)
+        {
+            string fullPath = Path.Combine(_env.WebRootPath, avatar.FileName);
+            FileInfo file = new FileInfo(fullPath);
+            if (file.Exists)
+            {
+                file.Delete();
+            }
         }
     }
 }

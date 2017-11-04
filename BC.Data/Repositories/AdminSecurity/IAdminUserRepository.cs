@@ -2,12 +2,13 @@
 using System.Threading.Tasks;
 using MongoDB.Driver;
 using BC.Data.Models.AdminUserDomain;
+using BC.Data.Requests;
 
 namespace BC.Data.Repositories.AdminSecurity
 {
     public interface IAdminUserRepository
     {
-        Task<IEnumerable<AdminUser>> GetAllAdminUsers();
+        Task<IEnumerable<AdminUser>> GetAdminUsers(PagingRequest request);
 
         Task<AdminUser> GetAdminUser(string id);
 
@@ -18,5 +19,7 @@ namespace BC.Data.Repositories.AdminSecurity
         Task<DeleteResult> RemoveAdminUser(string id);
 
         Task<DeleteResult> RemoveAllAdminUsers();
+
+        Task<long> CountAll();
     }
 }

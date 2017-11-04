@@ -2,14 +2,13 @@ import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../../services/user.service";
-import { AdminUser, ExtendedAdminUser, ResponseNotify } from "../../services/models";
-
-export interface User {
-    name: string;
-    email: string;
-    age: number;
-    city: string;
-}
+import {
+    AdminUser,
+    ExtendedAdminUser,
+    ResponseNotify,
+    GetAdminUsersParams,
+    AdminUserListResponse
+} from "../../services/models";
 
 @Component({
   selector: "app-user-list",
@@ -17,18 +16,32 @@ export interface User {
   styleUrls: ["./user.list.component.css"]
 })
 export class UserListComponent implements OnInit {
-    public users: ExtendedAdminUser[] = [];
+    public adminUserList: AdminUserListResponse;
     public responseNotify: ResponseNotify;
+    public page = 1;
 
     constructor(
         private route: ActivatedRoute,
         private router: Router,
         private userService: UserService
-    ) { }
+    ) {
+     }
 
     ngOnInit() {
-        this.userService.getAdminUsers().subscribe((data) => {
-            this.users = data.map(item => <ExtendedAdminUser>item);
+        const params: GetAdminUsersParams = {
+            offset: 0,
+            limit: 5
+        };
+        this.userService.getAdminUsers(params).subscribe((result) => {
+            if (!result.data) {
+                return;
+            }
+
+            const extUsers = result.data.map(item => <ExtendedAdminUser>item);
+            this.adminUserList = {
+                count: result.count,
+                data: extUsers
+            };
         });
     }
 
@@ -38,9 +51,9 @@ export class UserListComponent implements OnInit {
     }
 
     public deleteUser(): void {
-        const deletedUserIds = this.users.filter(u => u.isChecked).map(u => u.id);
+        const deletedUserIds = this.adminUserList.data.filter(u => u.isChecked).map(u => u.id);
         this.userService.deleteAdminUsers(deletedUserIds).subscribe((data) => {
-            this.users = this.users.filter(u => !deletedUserIds.includes(u.id, 0));
+            this.adminUserList.data = this.adminUserList.data.filter(u => !deletedUserIds.includes(u.id, 0));
             this.responseNotify = {
                 isSuccess: true,
                 message: "User(s) have delete successfuly"
@@ -51,6 +64,19 @@ export class UserListComponent implements OnInit {
                 isSuccess: false,
                 message: `Error happen: ${err.toString()}`
             };
+        });
+    }
+
+    public pageChanged($event): void {
+        const limit = 5;
+        this.page = +$event;
+        const params: GetAdminUsersParams = {
+            offset: (this.page - 1) * limit,
+            limit: limit
+        };
+
+        this.userService.getAdminUsers(params).subscribe((data) => {
+            this.adminUserList = data;
         });
     }
 }

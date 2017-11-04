@@ -1,5 +1,6 @@
 ﻿using BC.Data.Models;
 using BC.Data.Models.AdminUserDomain;
+using BC.Data.Requests;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -18,11 +19,14 @@ namespace BC.Data.Repositories.AdminSecurity
             _context = new BCContext(settings);
         }
 
-        public async Task<IEnumerable<AdminUser>> GetAllAdminUsers()
+        public async Task<IEnumerable<AdminUser>> GetAdminUsers(PagingRequest request)
         {
             try
             {
-                return await _context.AdminUsers.Find(new BsonDocument()).ToListAsync();
+                return await _context.AdminUsers.Find(new BsonDocument())
+                    .Skip(request.Offset)
+                    .Limit(request.Limit)
+                    .ToListAsync();
             }
             catch (Exception ex)
             {
@@ -96,6 +100,11 @@ namespace BC.Data.Repositories.AdminSecurity
             {
                 throw ex;
             }
+        }
+
+        public async Task<long> CountAll()
+        {
+            return await _context.AdminUsers.CountAsync(new BsonDocument());
         }
     }
 }

@@ -18,6 +18,11 @@ export interface ExtendedAdminUser extends AdminUser {
     isChecked?: boolean;
 }
 
+export interface AdminUserListResponse {
+    count: number;
+    data: ExtendedAdminUser[];
+}
+
 export interface UploadResult {
     fileName: string;
     status: number;
@@ -26,4 +31,20 @@ export interface UploadResult {
 export interface ResponseNotify {
     isSuccess: boolean;
     message: string;
+}
+
+export interface UpdateAdminUserDto {
+    firstName: string;
+    lastName: string;
+    avatar?: string;
+    isActive: boolean;
+}
+
+export interface Avatar {
+    fileName: string;
+}
+
+export interface GetAdminUsersParams {
+    offset?: number;
+    limit?: number;
 }

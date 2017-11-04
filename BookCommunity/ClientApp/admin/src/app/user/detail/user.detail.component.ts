@@ -1,9 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
+import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../../services/user.service";
 import { UploadService } from "../../services/upload.service";
-import { AdminUser } from "../../services/models";
+import { AdminUser, UpdateAdminUserDto, ResponseNotify } from "../../services/models";
 import { PasswordValidation } from "../../shared/password.validation";
 
 @Component({
@@ -13,6 +14,8 @@ import { PasswordValidation } from "../../shared/password.validation";
 })
 export class UserDetailComponent implements OnInit {
     public userform: FormGroup;
+    public currentUser: AdminUser;
+    public responseNotify: ResponseNotify;
 
     firstName: FormControl;
     lastName: FormControl;
@@ -23,22 +26,65 @@ export class UserDetailComponent implements OnInit {
     isActive: FormControl;
 
     private uploadedFileName: string;
+    private userId: string;
 
     constructor(
         private userService: UserService,
         private uploadService: UploadService,
-        protected fb: FormBuilder
+        protected fb: FormBuilder,
+        private route: ActivatedRoute
     ) { }
 
     ngOnInit() {
         this.createUserFormControls();
         this.createForm();
+        this.route.params.subscribe(params => {
+            if (!params["id"]) {
+                return;
+            }
+
+            this.userId = params["id"];
+            this.userService.getAdminUser(this.userId).subscribe((data) => {
+                this.fillAdminUser(data);
+            });
+         });
     }
 
     public saveUser(): void {
         if (this.userform.invalid) {
             return;
         }
+
+        this.saveOrUpdate();
+    }
+
+    public onFileChange(event: any): void {
+        this.uploadService.uploadUserAvatar(event).subscribe((result) => {
+            this.uploadedFileName = result.fileName;
+        });
+    }
+
+    public removeAvatar(): void {
+        this.userService.removeAvatar(this.uploadedFileName).subscribe(data => {
+        },
+        err => {
+            this.responseNotify = {
+                isSuccess: false,
+                message: `Remove avatar error: ${err.statusText}`
+            };
+        });
+        this.uploadedFileName = "";
+    }
+
+    private saveOrUpdate(): void {
+        if (this.userId) {
+            this.updateAdminUser();
+        } else {
+            this.addUser();
+        }
+    }
+
+    private addUser(): void {
         const user: AdminUser = {
             firstName: this.firstName.value,
             lastName: this.lastName.value,
@@ -50,14 +96,38 @@ export class UserDetailComponent implements OnInit {
         };
 
         this.userService.addAdminUser(user).subscribe((data) => {
+            this.responseNotify = {
+                isSuccess: true,
+                message: "User has been updated successfuly"
+            };
+        },
+        (err) => {
+            this.responseNotify = {
+                isSuccess: false,
+                message: `Error happen: ${err.statusText}`
+            };
         });
     }
 
-    public onFileChange(event: any): void {
-        this.uploadService.uploadUserAvatar(event).subscribe((result) => {
-            console.log("ok");
-            console.log("result", result.fileName);
-            this.uploadedFileName = result.fileName;
+    private updateAdminUser(): void {
+        const payload: UpdateAdminUserDto = {
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
+            avatar: this.uploadedFileName,
+            isActive: this.isActive.value
+        };
+
+        this.userService.updateAdminUser(this.userId, payload).subscribe((data) => {
+            this.responseNotify = {
+                isSuccess: true,
+                message: "User has been updated successfuly"
+            };
+        },
+        (err) => {
+            this.responseNotify = {
+                isSuccess: false,
+                message: err.statusText
+            };
         });
     }
 
@@ -78,6 +148,23 @@ export class UserDetailComponent implements OnInit {
         this.isActive = new FormControl(false);
     }
 
+    private fillAdminUser(user: AdminUser) {
+        if (!user) {
+            return;
+        }
+
+        this.firstName.setValue(user.firstName);
+        this.lastName.setValue(user.lastName);
+        this.email.setValue(user.email);
+        this.email.disable();
+        this.password.setValue(user.password);
+        this.password.disable();
+        this.confirmPassword.setValue(user.password);
+        this.confirmPassword.disable();
+        this.uploadedFileName = user.avatar;
+        this.isActive.setValue(user.isActive);
+    }
+
     private createForm() {
         this.userform = this.fb.group({
             firstName: this.firstName,
@@ -90,4 +177,15 @@ export class UserDetailComponent implements OnInit {
         }, { validator: PasswordValidation.MatchPassword });
     }
 
+    public clearForm() {
+        // this.firstName.setValue("");
+        // this.lastName.setValue("");
+        // this.email.setValue("");
+        // this.password.setValue("");
+        // this.confirmPassword.setValue("");
+        // this.avatar.setValue("");
+        // this.isActive.setValue(false);
+
+        this.userform.reset();
+    }
 }

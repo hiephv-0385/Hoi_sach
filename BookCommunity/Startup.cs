@@ -96,6 +96,8 @@ namespace BookCommunity
             services.AddTransient<ICryptography, Cryptography>();
 
             services.AddTransient<IValidator<AdminUserDto>, CreateAdminUserValidator>();
+
+            services.AddTransient<IValidator<UpdateAdminUserDto>, UpdateAdminUserValidator>();
         }
     }
 }

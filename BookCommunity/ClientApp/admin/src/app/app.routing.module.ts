@@ -4,7 +4,7 @@ import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
-import { DataTableModule } from "angular2-datatable";
+import { NgxPaginationModule } from "ngx-pagination";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
@@ -28,11 +28,12 @@ import { AlertMessageComponent } from "./directives/alers/alert.message.componen
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
-        DataTableModule,
+        NgxPaginationModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "dashboard", pathMatch: "full" },
             { path: "dashboard", component: DashboardComponent },
             { path: "users/add", component: UserDetailComponent },
+            { path: "users/edit/:id", component: UserDetailComponent },
             { path: "users", component: UserListComponent }
         ])
     ],
