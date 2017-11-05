@@ -1,14 +1,14 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
 
-import { UserService } from "../../services/user.service";
+import { UserService } from "../../../services/user.service";
 import {
     AdminUser,
     ExtendedAdminUser,
     ResponseNotify,
     GetAdminUsersParams,
     AdminUserListResponse
-} from "../../services/models";
+} from "../../../services/models";
 
 @Component({
   selector: "app-user-list",

@@ -8,9 +8,9 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
-import { DashboardComponent } from "./dashboard/dashboard.component";
-import { UserListComponent } from "./user/list/user.list.component";
-import { UserDetailComponent } from "./user/detail/user.detail.component";
+import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import { UserListComponent } from "./components/user/list/user.list.component";
+import { UserDetailComponent } from "./components/user/detail/user.detail.component";
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
 import { ValidatorMessageComponent } from "./directives/validator.mesage/validator.message.component";

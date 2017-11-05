@@ -2,10 +2,10 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 
-import { UserService } from "../../services/user.service";
-import { UploadService } from "../../services/upload.service";
-import { AdminUser, UpdateAdminUserDto, ResponseNotify } from "../../services/models";
-import { PasswordValidation } from "../../shared/password.validation";
+import { UserService } from "../../../services/user.service";
+import { UploadService } from "../../../services/upload.service";
+import { AdminUser, UpdateAdminUserDto, ResponseNotify } from "../../../services/models";
+import { PasswordValidation } from "../../../shared/password.validation";
 
 @Component({
     selector: "app-user-detail",
@@ -111,10 +111,10 @@ export class UserDetailComponent implements OnInit {
 
     private updateAdminUser(): void {
         const payload: UpdateAdminUserDto = {
-            firstName: this.firstName.value,
-            lastName: this.lastName.value,
+            firstName: this.userform.controls.firstName.value,
+            lastName: this.userform.controls.lastName.value,
             avatar: this.uploadedFileName,
-            isActive: this.isActive.value
+            isActive: this.userform.controls.isActive.value
         };
 
         this.userService.updateAdminUser(this.userId, payload).subscribe((data) => {
@@ -178,14 +178,6 @@ export class UserDetailComponent implements OnInit {
     }
 
     public clearForm() {
-        // this.firstName.setValue("");
-        // this.lastName.setValue("");
-        // this.email.setValue("");
-        // this.password.setValue("");
-        // this.confirmPassword.setValue("");
-        // this.avatar.setValue("");
-        // this.isActive.setValue(false);
-
         this.userform.reset();
     }
 }
