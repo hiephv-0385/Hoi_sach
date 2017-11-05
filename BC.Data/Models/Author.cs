@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BC.Data.Models.CountryDomain;
+using System;
 
 namespace BC.Data.Models
 {

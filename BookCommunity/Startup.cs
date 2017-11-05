@@ -12,6 +12,7 @@ using FluentValidation;
 using BC.Data.Validations;
 using BC.Data.Models.AdminUserDomain;
 using BC.Web.Middlewares;
+using BC.Data.Models.CountryDomain;
 
 namespace BookCommunity
 {
@@ -98,6 +99,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<AdminUserDto>, CreateAdminUserValidator>();
 
             services.AddTransient<IValidator<UpdateAdminUserDto>, UpdateAdminUserValidator>();
+
+            services.AddTransient<IValidator<Country>, CountryValidator>();
         }
     }
 }

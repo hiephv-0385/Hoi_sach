@@ -1,4 +1,5 @@
 ﻿using BC.Data.Enums;
+using BC.Data.Models.CountryDomain;
 using System;
 
 namespace BC.Data.Models

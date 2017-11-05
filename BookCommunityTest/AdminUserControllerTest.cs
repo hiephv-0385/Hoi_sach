@@ -8,6 +8,7 @@ using BC.Infrastructure.Hash;
 using BC.Data.Models.AdminUserDomain;
 using System.Linq;
 using Microsoft.AspNetCore.Hosting;
+using BC.Data.Requests;
 
 namespace BookCommunityTest
 {
@@ -27,15 +28,20 @@ namespace BookCommunityTest
         [Fact]
         public async Task GetAllAdminUsersTest()
         {
-            _mockRepo.Setup(repo => repo.GetAllAdminUsers()).Returns(Task.FromResult(GetTestAdminUsers()));
+            var request = new PagingRequest
+            {
+                Offset = 0,
+                Limit = 1
+            };
+            _mockRepo.Setup(repo => repo.GetAdminUsers(request)).Returns(Task.FromResult(GetTestAdminUsers()));
 
             var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockHostingEnvironment.Object);
 
-            var result = await controller.Get();
+            var result = await controller.Get(request);
 
             // Assert
-            var allAdminUsers = result.ToList();
-            Assert.Equal(2, allAdminUsers.Count);
+            var allAdminUsers = result.Data?.ToList();
+            Assert.Equal(2, allAdminUsers?.Count);
 
             Assert.Equal("test1@example.com", allAdminUsers[0].Email);
             Assert.Equal("test2@example.com", allAdminUsers[1].Email);
