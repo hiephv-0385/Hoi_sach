@@ -1,0 +1,11 @@
+<p *ngIf="control.errors && (control.dirty || control.touched)">
+    <span class="help-block" *ngIf="control.errors.required">{{ name }} is required</span>
+    <span class="help-block" *ngIf="control.errors.minlength">
+        {{ name }} must be at least {{ control.errors.minlength.requiredLength }} characters, actual {{ control.errors.minlength.actualLength }} characters 
+    </span>
+    <span class="help-block" *ngIf="control.errors.maxlength">
+        {{ name }} must be less than {{ control.errors.maxlength.requiredLength }} characters, Actual {{ control.errors.maxlength.actualLength }} characters 
+    </span>
+    <span class="help-block" *ngIf="control.errors.email">{{ name }} is invalid format</span>
+    <span class="help-block" *ngIf="control.errors?.MatchPassword">{{ name }} not match</span>
+</p>

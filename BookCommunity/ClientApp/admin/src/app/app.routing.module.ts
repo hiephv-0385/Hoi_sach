@@ -13,6 +13,7 @@ import { UserListComponent } from "./user/list/user.list.component";
 import { UserDetailComponent } from "./user/detail/user.detail.component";
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
+import { ValidatorMessageComponent } from "./directives/validator.mesage/validator.message.component";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import { AlertMessageComponent } from "./directives/alers/alert.message.componen
         UserListComponent,
         UserDetailComponent,
         AlertMessageComponent,
-        ErrorCssDirective
+        ErrorCssDirective,
+        ValidatorMessageComponent
     ],
     imports: [
         CommonModule,

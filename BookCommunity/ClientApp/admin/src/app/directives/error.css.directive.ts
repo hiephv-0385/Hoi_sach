@@ -14,6 +14,9 @@ export class ErrorCssDirective {
     }
 
     @HostListener("blur") onMouseBlur() {
+        if (this.input.errors.minlength) {
+            console.log("aaa", this.input.errors.minlength);
+        }
         this.setInpuValidationClass(this.input);
     }
 

@@ -54,6 +54,7 @@ export class UserListComponent implements OnInit {
         const deletedUserIds = this.adminUserList.data.filter(u => u.isChecked).map(u => u.id);
         this.userService.deleteAdminUsers(deletedUserIds).subscribe((data) => {
             this.adminUserList.data = this.adminUserList.data.filter(u => !deletedUserIds.includes(u.id, 0));
+            this.adminUserList.count = this.adminUserList.count - deletedUserIds.length;
             this.responseNotify = {
                 isSuccess: true,
                 message: "User(s) have delete successfuly"
