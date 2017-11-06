@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace BC.Data.Models.AdminUserDomain
+namespace BC.Web.Models.AdminUserDomain
 {
     [BsonIgnoreExtraElements]
     public class AdminUser: BaseModel

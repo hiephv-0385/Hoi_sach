@@ -1,4 +1,4 @@
-﻿namespace BC.Data.Models.AdminUserDomain
+﻿namespace BC.Web.Models.AdminUserDomain
 {
     public class AdminUserDto
     {

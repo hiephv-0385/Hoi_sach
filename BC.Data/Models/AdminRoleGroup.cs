@@ -1,6 +1,6 @@
 ﻿using MongoDB.Bson.Serialization.Attributes;
 
-namespace BC.Data.Models
+namespace BC.Web.Models
 {
     public class AdminRoleGroup: BaseModel
     {

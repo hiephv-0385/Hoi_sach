@@ -1,4 +1,4 @@
-namespace BC.Data.Models.AdminUserDomain
+namespace BC.Web.UploadFiles
 {
     public class UploadResult
     {

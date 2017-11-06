@@ -2,18 +2,16 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BC.Data.Repositories.AdminSecurity;
+using BC.Web.Repositories.AdminSecurity;
 using BC.Infrastructure;
 using BC.Infrastructure.Hash;
-using BC.Data.Filters;
-using BC.Data.Constants;
-using BC.Data.Models.AdminUserDomain;
-using System.IO;
-using Microsoft.AspNetCore.Hosting;
-using BC.Data.Models;
-using BC.Data.Requests;
-using BC.Data.Responses;
-using System.Linq;
+using BC.Web.Filters;
+using BC.Web.Models.AdminUserDomain;
+using BC.Web.Models;
+using BC.Web.Requests;
+using BC.Web.Responses;
+using BC.Web.UploadFiles;
+using BC.Web.Constants;
 
 namespace BookCommunity.Controllers
 {
@@ -23,13 +21,16 @@ namespace BookCommunity.Controllers
     {
         private readonly IAdminUserRepository _adminUserRepository;
         private readonly ICryptography _cryptography;
-        private IHostingEnvironment _env;
+        private IUploadFile _uploadFile;
 
-        public AdminUsersController(IAdminUserRepository adminUserRepository, ICryptography cryptography, IHostingEnvironment env)
+        public AdminUsersController(
+            IAdminUserRepository adminUserRepository, 
+            ICryptography cryptography, 
+            IUploadFile uploadFile)
         {
             _adminUserRepository = adminUserRepository;
             _cryptography = cryptography;
-            _env = env;
+            _uploadFile = uploadFile;
         }
 
         [NoCache]
@@ -122,31 +123,10 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = "";
-            string fullPath = Path.Combine(_env.WebRootPath, FolderPath.UserAvatar);
-            var files = Request.Form.Files;
-            if (Directory.Exists(fullPath) == false)
-            {
-                Directory.CreateDirectory(fullPath);
-            }
-
-            foreach (var file in files)
-            {
-                if (file.Length <= 0)
-                {
-                    continue;
-                }
-
-                var destinationPath = Path.Combine(fullPath, file.FileName);
-                using (var stream = new FileStream(destinationPath, FileMode.Create))
-                {
-                    updatedFileName = file.FileName;
-                    await file.CopyToAsync(stream);
-                }
-            }
+            string updatedFileName = await _uploadFile.Upload(FolderPath.UserAvatar, Request.Form);
 
             return new UploadResult {
-                FileName = string.Format("{0}/{1}", FolderPath.UserAvatar, updatedFileName),
+                FileName = updatedFileName,
                 Status = 200
             };
         }
@@ -155,12 +135,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            string fullPath = Path.Combine(_env.WebRootPath, avatar.FileName);
-            FileInfo file = new FileInfo(fullPath);
-            if (file.Exists)
-            {
-                file.Delete();
-            }
+            _uploadFile.RemoveFile(avatar.FileName);
         }
     }
 }

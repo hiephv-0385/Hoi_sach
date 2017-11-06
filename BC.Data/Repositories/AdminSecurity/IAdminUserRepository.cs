@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using MongoDB.Driver;
-using BC.Data.Models.AdminUserDomain;
-using BC.Data.Requests;
+using BC.Web.Models.AdminUserDomain;
+using BC.Web.Requests;
 
-namespace BC.Data.Repositories.AdminSecurity
+namespace BC.Web.Repositories.AdminSecurity
 {
     public interface IAdminUserRepository
     {

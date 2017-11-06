@@ -3,7 +3,7 @@ using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace BC.Data.Models
+namespace BC.Web.Models
 {
     public class BaseModel
     {

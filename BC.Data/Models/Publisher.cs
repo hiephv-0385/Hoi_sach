@@ -1,6 +1,6 @@
-﻿using BC.Data.Models.CountryDomain;
+﻿using BC.Web.Models.CountryDomain;
 
-namespace BC.Data.Models
+namespace BC.Web.Models
 {
     public class Publisher: BaseModel
     {

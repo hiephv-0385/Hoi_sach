@@ -1,4 +1,4 @@
-﻿namespace BC.Data.Models
+﻿namespace BC.Web.Models
 {
     public class Avatar
     {

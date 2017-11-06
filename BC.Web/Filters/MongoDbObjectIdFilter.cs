@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
 
-namespace BC.Data.Filters
+namespace BC.Web.Filters
 {
     public class MongoDbObjectIdFilter: Attribute, IActionFilter
     {

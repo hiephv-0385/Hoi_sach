@@ -1,7 +1,7 @@
-﻿using BC.Data.Models.AdminUserDomain;
+﻿using BC.Web.Models.AdminUserDomain;
 using System.Collections.Generic;
 
-namespace BC.Data.Responses
+namespace BC.Web.Responses
 {
     public class AdminUserListResponse
     {

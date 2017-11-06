@@ -3,12 +3,12 @@ using Xunit;
 using Moq;
 using System.Threading.Tasks;
 using BookCommunity.Controllers;
-using BC.Data.Repositories.AdminSecurity;
+using BC.Web.Repositories.AdminSecurity;
 using BC.Infrastructure.Hash;
-using BC.Data.Models.AdminUserDomain;
+using BC.Web.Models.AdminUserDomain;
 using System.Linq;
-using Microsoft.AspNetCore.Hosting;
-using BC.Data.Requests;
+using BC.Web.Requests;
+using BC.Web.UploadFiles;
 
 namespace BookCommunityTest
 {
@@ -16,13 +16,13 @@ namespace BookCommunityTest
     {
         private Mock<IAdminUserRepository> _mockRepo;
         private Mock<ICryptography> _mockCryptography;
-        private Mock<IHostingEnvironment> _mockHostingEnvironment;
+        private Mock<IUploadFile> _mockUploadFile;
 
         public AdminUserControllerTest()
         {
             _mockRepo = new Mock<IAdminUserRepository>();
             _mockCryptography = new Mock<ICryptography>();
-            _mockHostingEnvironment = new Mock<IHostingEnvironment>();
+            _mockUploadFile = new Mock<IUploadFile>();
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace BookCommunityTest
             };
             _mockRepo.Setup(repo => repo.GetAdminUsers(request)).Returns(Task.FromResult(GetTestAdminUsers()));
 
-            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockHostingEnvironment.Object);
+            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockUploadFile.Object);
 
             var result = await controller.Get(request);
 
@@ -52,7 +52,7 @@ namespace BookCommunityTest
         {
             const string id = "59eae2c942c913751fecc202";
 
-            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockHostingEnvironment.Object);
+            var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockUploadFile.Object);
 
             var result = await controller.Get(id);
         }

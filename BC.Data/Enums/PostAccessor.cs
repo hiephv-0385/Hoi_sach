@@ -1,4 +1,4 @@
-﻿namespace BC.Data.Enums
+﻿namespace BC.Web.Enums
 {
     public enum PostAccessor
     {

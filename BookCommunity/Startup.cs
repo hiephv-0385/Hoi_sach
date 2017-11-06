@@ -3,16 +3,17 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BC.Data.Models;
-using BC.Data.Repositories.AdminSecurity;
+using BC.Web.Models;
+using BC.Web.Repositories.AdminSecurity;
 using BC.Infrastructure.Hash;
-using BC.Data.Filters;
+using BC.Web.Filters;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using BC.Data.Validations;
-using BC.Data.Models.AdminUserDomain;
+using BC.Web.Validations;
+using BC.Web.Models.AdminUserDomain;
 using BC.Web.Middlewares;
-using BC.Data.Models.CountryDomain;
+using BC.Web.Models.CountryDomain;
+using BC.Web.UploadFiles;
 
 namespace BookCommunity
 {
@@ -95,6 +96,8 @@ namespace BookCommunity
             services.AddTransient<IAdminUserRepository, AdminUserRepository>();
 
             services.AddTransient<ICryptography, Cryptography>();
+
+            services.AddTransient<IUploadFile, UploadFile>();
 
             services.AddTransient<IValidator<AdminUserDto>, CreateAdminUserValidator>();
 

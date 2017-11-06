@@ -1,4 +1,4 @@
-﻿namespace BC.Data.Requests
+﻿namespace BC.Web.Requests
 {
     public class PagingRequest
     {

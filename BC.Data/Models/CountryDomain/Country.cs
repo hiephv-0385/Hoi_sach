@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace BC.Data.Models.CountryDomain
+namespace BC.Web.Models.CountryDomain
 {
     public class Country: BaseModel
     {

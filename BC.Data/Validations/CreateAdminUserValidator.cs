@@ -1,7 +1,7 @@
-﻿using BC.Data.Models.AdminUserDomain;
+﻿using BC.Web.Models.AdminUserDomain;
 using FluentValidation;
 
-namespace BC.Data.Validations
+namespace BC.Web.Validations
 {
     public class CreateAdminUserValidator: AbstractValidator<AdminUserDto>
     {
