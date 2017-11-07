@@ -1,6 +1,6 @@
-﻿using BC.Web.Enums;
+﻿using BC.Data.Enums;
 
-namespace BC.Web.Models
+namespace BC.Data.Models
 {
     public class Post: BaseModel
     {

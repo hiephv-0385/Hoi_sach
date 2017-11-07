@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BC.Web.Repositories.AdminSecurity;
-using BC.Infrastructure;
+using BC.Data.Repositories;
 using BC.Infrastructure.Hash;
 using BC.Web.Filters;
-using BC.Web.Models.AdminUserDomain;
-using BC.Web.Models;
-using BC.Web.Requests;
-using BC.Web.Responses;
+using BC.Data.Models;
+using BC.Data.Requests;
+using BC.Data.Responses;
 using BC.Web.UploadFiles;
 using BC.Web.Constants;
 

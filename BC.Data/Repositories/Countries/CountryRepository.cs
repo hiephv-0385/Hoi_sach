@@ -1,13 +1,12 @@
-﻿using BC.Web.Models.CountryDomain;
-using BC.Web.Requests;
+﻿using BC.Data.Models;
+using BC.Data.Requests;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace BC.Web.Repositories.Countries
+namespace BC.Data.Repositories.Countries
 {
     public class CountryRepository: ICountryRepository
     {

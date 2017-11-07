@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BC.Web.Models.CountryDomain
+﻿namespace BC.Data.Models
 {
     public class Country: BaseModel
     {

@@ -1,8 +1,7 @@
-﻿using BC.Web.Enums;
-using BC.Web.Models.CountryDomain;
+﻿using BC.Data.Enums;
 using System;
 
-namespace BC.Web.Models
+namespace BC.Data.Models
 {
     public class Member: BaseModel
     {

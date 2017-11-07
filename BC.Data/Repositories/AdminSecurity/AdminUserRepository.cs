@@ -1,6 +1,5 @@
-﻿using BC.Web.Models;
-using BC.Web.Models.AdminUserDomain;
-using BC.Web.Requests;
+﻿using BC.Data.Models;
+using BC.Data.Requests;
 using Microsoft.Extensions.Options;
 using MongoDB.Bson;
 using MongoDB.Driver;
@@ -8,7 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace BC.Web.Repositories.AdminSecurity
+namespace BC.Data.Repositories
 {
     public class AdminUserRepository: IAdminUserRepository
     {

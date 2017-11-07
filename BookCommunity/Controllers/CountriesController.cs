@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BC.Web.Repositories.Countries;
-using BC.Infrastructure;
-using BC.Web.Models.CountryDomain;
-using BC.Web.Requests;
+using BC.Data.Repositories.Countries;
+using BC.Data.Models;
+using BC.Data.Requests;
 using BC.Web.Filters;
 using BC.Web.UploadFiles;
 using BC.Web.Constants;
-using BC.Web.Models;
 
 namespace BookCommunity.Controllers
 {

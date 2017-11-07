@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-namespace BC.Infrastructure
+namespace BC.Web.Filters
 {
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public sealed class NoCacheAttribute : ActionFilterAttribute

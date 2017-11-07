@@ -1,4 +1,4 @@
-﻿namespace BC.Web.Enums
+﻿namespace BC.Data.Enums
 {
     public enum BookCaseItemStatuses
     {

@@ -3,11 +3,11 @@ using Xunit;
 using Moq;
 using System.Threading.Tasks;
 using BookCommunity.Controllers;
-using BC.Web.Repositories.AdminSecurity;
+using BC.Data.Repositories;
 using BC.Infrastructure.Hash;
-using BC.Web.Models.AdminUserDomain;
+using BC.Data.Models;
 using System.Linq;
-using BC.Web.Requests;
+using BC.Data.Requests;
 using BC.Web.UploadFiles;
 
 namespace BookCommunityTest
@@ -59,16 +59,18 @@ namespace BookCommunityTest
 
         private IEnumerable<AdminUser> GetTestAdminUsers()
         {
-            var users = new List<AdminUser>();
-            users.Add(new AdminUser
+            var users = new List<AdminUser>
             {
-                Email = "test1@example.com"
-            });
+                new AdminUser
+                {
+                    Email = "test1@example.com"
+                },
 
-            users.Add(new AdminUser
-            {
-                Email = "test2@example.com"
-            });
+                new AdminUser
+                {
+                    Email = "test2@example.com"
+                }
+            };
 
             return users;
         }

@@ -3,16 +3,14 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BC.Web.Models;
-using BC.Web.Repositories.AdminSecurity;
+using BC.Data.Models;
+using BC.Data.Repositories;
 using BC.Infrastructure.Hash;
 using BC.Web.Filters;
 using FluentValidation.AspNetCore;
 using FluentValidation;
-using BC.Web.Validations;
-using BC.Web.Models.AdminUserDomain;
+using BC.Data.Validations;
 using BC.Web.Middlewares;
-using BC.Web.Models.CountryDomain;
 using BC.Web.UploadFiles;
 
 namespace BookCommunity

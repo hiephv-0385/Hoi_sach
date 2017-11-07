@@ -1,7 +1,7 @@
-﻿using BC.Web.Models.CountryDomain;
+﻿using BC.Data.Models;
 using System;
 
-namespace BC.Web.Models
+namespace BC.Data.Models
 {
     public class Author: BaseModel
     {

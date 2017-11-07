@@ -1,4 +1,4 @@
-﻿namespace BC.Web.Models
+﻿namespace BC.Data.Models
 {
     public class PostPicture: BaseModel
     {

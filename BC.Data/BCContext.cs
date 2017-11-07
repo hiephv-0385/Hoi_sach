@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Options;
-using BC.Web.Models;
+using BC.Data.Models;
 using MongoDB.Driver;
-using BC.Web.Models.AdminUserDomain;
-using BC.Web.Models.CountryDomain;
 
-namespace BC.Web
+namespace BC.Data
 {
     public class BCContext
     {

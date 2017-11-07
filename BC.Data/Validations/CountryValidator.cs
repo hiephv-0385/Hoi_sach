@@ -1,7 +1,7 @@
-using BC.Web.Models.CountryDomain;
+using BC.Data.Models;
 using FluentValidation;
 
-namespace BC.Web.Validations
+namespace BC.Data.Validations
 {
     public class CountryValidator: AbstractValidator<Country>
     {
