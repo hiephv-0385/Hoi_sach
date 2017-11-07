@@ -29,6 +29,7 @@ namespace BookCommunity.Controllers
             _adminUserRepository = adminUserRepository;
             _cryptography = cryptography;
             _uploadFile = uploadFile;
+            ViewBag.PageName = "Users";
         }
 
         [NoCache]

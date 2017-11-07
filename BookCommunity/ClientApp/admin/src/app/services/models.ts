@@ -18,8 +18,11 @@ export interface ExtendedAdminUser extends AdminUser {
     isChecked?: boolean;
 }
 
-export interface AdminUserListResponse {
+export interface ListResponse {
     count: number;
+}
+
+export interface AdminUserListResponse extends ListResponse {
     data: ExtendedAdminUser[];
 }
 
@@ -44,7 +47,31 @@ export interface Avatar {
     fileName: string;
 }
 
-export interface GetAdminUsersParams {
+export interface PagingRequest {
     offset?: number;
     limit?: number;
+}
+
+export interface GetAdminUsersParams extends PagingRequest {
+    email?: string;
+}
+
+export interface Country extends BaseModel {
+    name: string;
+    code: string;
+    sort: number;
+    flag: string;
+}
+
+export interface ExtendedCountry extends Country {
+    isChecked?: boolean;
+}
+
+export interface GetCountriesParams extends PagingRequest {
+    name?: string;
+    code?: string;
+}
+
+export interface CountryListResponse extends ListResponse {
+    data: ExtendedCountry[];
 }

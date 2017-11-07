@@ -22,6 +22,7 @@ namespace BookCommunity.Controllers
         {
             _countryRepository = countryRepository;
             _uploadFile = uploadFile;
+            ViewBag.PageName = "Countries";
         }
 
         [NoCache]

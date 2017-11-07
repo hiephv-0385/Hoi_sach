@@ -8,4 +8,10 @@
     </span>
     <span class="help-block" *ngIf="control.errors.email">{{ name }} is invalid format</span>
     <span class="help-block" *ngIf="control.errors?.MatchPassword">{{ name }} not match</span>
+    <span class="help-block" *ngIf="control.errors.min">
+        {{ name }} must be from 1 to 250 
+    </span>
+    <span class="help-block" *ngIf="control.errors.max">
+        {{ name }} must be from 1 to 250 
+    </span>
 </p>

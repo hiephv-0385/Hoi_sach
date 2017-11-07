@@ -14,7 +14,6 @@ import { PasswordValidation } from "../../../shared/password.validation";
 })
 export class UserDetailComponent implements OnInit {
     public userform: FormGroup;
-    public currentUser: AdminUser;
     public responseNotify: ResponseNotify;
 
     firstName: FormControl;
@@ -111,10 +110,10 @@ export class UserDetailComponent implements OnInit {
 
     private updateAdminUser(): void {
         const payload: UpdateAdminUserDto = {
-            firstName: this.userform.controls.firstName.value,
-            lastName: this.userform.controls.lastName.value,
+            firstName: this.firstName.value,
+            lastName: this.lastName.value,
             avatar: this.uploadedFileName,
-            isActive: this.userform.controls.isActive.value
+            isActive: this.isActive.value
         };
 
         this.userService.updateAdminUser(this.userId, payload).subscribe((data) => {

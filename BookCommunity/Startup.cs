@@ -12,6 +12,7 @@ using FluentValidation;
 using BC.Data.Validations;
 using BC.Web.Middlewares;
 using BC.Web.UploadFiles;
+using BC.Data.Repositories.Countries;
 
 namespace BookCommunity
 {
@@ -92,6 +93,8 @@ namespace BookCommunity
         private void RegisterContainers(IServiceCollection services)
         {
             services.AddTransient<IAdminUserRepository, AdminUserRepository>();
+
+            services.AddTransient<ICountryRepository, CountryRepository>();
 
             services.AddTransient<ICryptography, Cryptography>();
 
