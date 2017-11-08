@@ -2,7 +2,7 @@
 
 namespace BC.Data.Responses
 {
-    public class AdminUserListResponse: ListResponse<AdminUser>
+    public class AuthorListResponse: ListResponse<Author>
     {
     }
 }

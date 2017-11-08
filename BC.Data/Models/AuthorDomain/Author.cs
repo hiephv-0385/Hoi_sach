@@ -1,5 +1,4 @@
-﻿using BC.Data.Models;
-using System;
+﻿using System;
 
 namespace BC.Data.Models
 {
@@ -10,6 +9,8 @@ namespace BC.Data.Models
         public DateTime Birthday { get; set; }
 
         public string Picture { get; set; }
+
+        public string Introduction { get; set; }
 
         public Country Country { get; set; }
     }
