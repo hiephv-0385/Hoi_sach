@@ -29,7 +29,7 @@ namespace BookCommunity.Controllers
         [HttpGet]
         public async Task<CountryListResponse> Get([FromQuery]PagingRequest request)
         {
-            var countries = await _countryRepository.GetCountries(request);
+            var countries = await _countryRepository.GetList(request);
             var count = await _countryRepository.CountAll();
 
             return new CountryListResponse
@@ -43,7 +43,7 @@ namespace BookCommunity.Controllers
         [MongoDbObjectIdFilter]
         public async Task<IActionResult> Get(string id)
         {
-            var adminUser = await _countryRepository.GetCountry(id);
+            var adminUser = await _countryRepository.GetById(id);
             if (adminUser == null)
             {
                 return NotFound();
@@ -56,7 +56,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void Post([FromBody]Country value)
         {
-            _countryRepository.AddCountry(new Country
+            _countryRepository.Add(new Country
             {
                 Name = value.Name,
                 Code = value.Code,
@@ -72,7 +72,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]Country value)
         {
-            var country = await _countryRepository.GetCountry(id);
+            var country = await _countryRepository.GetById(id);
             if (country == null)
             {
                 return BadRequest();
@@ -85,7 +85,7 @@ namespace BookCommunity.Controllers
             country.IsActive = value.IsActive;
             country.UpdatedOn = DateTime.Now;
 
-            var updateResult = await _countryRepository.UpdateCountry(id, country);
+            var updateResult = await _countryRepository.Update(id, country);
 
             return Ok(updateResult);
         }
@@ -94,7 +94,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
-            _countryRepository.RemoveCountry(id);
+            _countryRepository.Remove(id);
         }
 
         [HttpPost("flags")]

@@ -33,7 +33,7 @@ namespace BookCommunityTest
                 Offset = 0,
                 Limit = 1
             };
-            _mockRepo.Setup(repo => repo.GetAdminUsers(request)).Returns(Task.FromResult(GetTestAdminUsers()));
+            _mockRepo.Setup(repo => repo.GetList(request)).Returns(Task.FromResult(GetTestAdminUsers()));
 
             var controller = new AdminUsersController(_mockRepo.Object, _mockCryptography.Object, _mockUploadFile.Object);
 

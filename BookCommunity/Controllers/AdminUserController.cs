@@ -36,7 +36,7 @@ namespace BookCommunity.Controllers
         [HttpGet]
         public async Task<AdminUserListResponse> Get([FromQuery]PagingRequest request)
         {
-            var adminUsers = await _adminUserRepository.GetAdminUsers(request);
+            var adminUsers = await _adminUserRepository.GetList(request);
             var count = await _adminUserRepository.CountAll();
             return new AdminUserListResponse
             {
@@ -47,7 +47,7 @@ namespace BookCommunity.Controllers
 
         private async Task<IEnumerable<AdminUser>> GetAdminUsersInternal(PagingRequest request)
         {
-            return await _adminUserRepository.GetAdminUsers(request); ;
+            return await _adminUserRepository.GetList(request); ;
         }
 
         // GET api/adminusers/5
@@ -55,7 +55,7 @@ namespace BookCommunity.Controllers
         [MongoDbObjectIdFilter]
         public async Task<IActionResult> Get(string id)
         {
-            var adminUser = await _adminUserRepository.GetAdminUser(id);
+            var adminUser = await _adminUserRepository.GetById(id);
             if (adminUser == null)
             {
                 return NotFound();
@@ -66,7 +66,7 @@ namespace BookCommunity.Controllers
 
         private async Task<AdminUser> GetAdminUserByIdInternal(string id)
         {
-            return await _adminUserRepository.GetAdminUser(id) ?? new AdminUser();
+            return await _adminUserRepository.GetById(id) ?? new AdminUser();
         }
 
         // POST api/adminusers
@@ -74,7 +74,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void Post([FromBody]AdminUserDto value)
         {
-            _adminUserRepository.AddAdminUser(new AdminUser
+            _adminUserRepository.Add(new AdminUser
             {
                 FirstName = value.FirstName,
                 LastName = value.LastName,
@@ -93,7 +93,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]UpdateAdminUserDto value)
         {
-            var adminUser = await _adminUserRepository.GetAdminUser(id);
+            var adminUser = await _adminUserRepository.GetById(id);
             if (adminUser == null)
             {
                 return BadRequest();
@@ -105,7 +105,7 @@ namespace BookCommunity.Controllers
             adminUser.IsActive = value.IsActive;
             adminUser.UpdatedOn = DateTime.Now;
 
-            var updateResult = await _adminUserRepository.UpdateAdminUser(id, adminUser);
+            var updateResult = await _adminUserRepository.Update(id, adminUser);
 
             return Ok(updateResult);
         }
@@ -115,7 +115,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
-            _adminUserRepository.RemoveAdminUser(id);
+            _adminUserRepository.Remove(id);
         }
 
         [HttpPost("avatar")]
