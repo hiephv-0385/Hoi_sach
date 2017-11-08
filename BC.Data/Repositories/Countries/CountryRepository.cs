@@ -5,6 +5,7 @@ using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace BC.Data.Repositories.Countries
 {
@@ -12,9 +13,9 @@ namespace BC.Data.Repositories.Countries
     {
         private readonly BCContext _context = null;
 
-        public CountryRepository(BCContext context)
+        public CountryRepository(IOptions<Settings> settings)
         {
-            _context = context;
+            _context = new BCContext(settings);
         }
 
         public async Task<IEnumerable<Country>> GetCountries(PagingRequest request)
@@ -22,6 +23,7 @@ namespace BC.Data.Repositories.Countries
             try
             {
                 return await _context.Countries.Find(new BsonDocument())
+                    .SortBy(c => c.Sort)
                     .Skip(request.Offset)
                     .Limit(request.Limit)
                     .ToListAsync();
@@ -90,7 +92,7 @@ namespace BC.Data.Repositories.Countries
 
         public async Task<long> CountAll()
         {
-            return await _context.AdminUsers.CountAsync(new BsonDocument());
+            return await _context.Countries.CountAsync(new BsonDocument());
         }
     }
 }

@@ -18,11 +18,9 @@ namespace BC.Web.Middlewares
 
         public Task Invoke(HttpContext context)
         {
-            if (context.Request.Path == "/")
-            {
-                var tokens = _antiforgery.GetAndStoreTokens(context);
-                context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
-            }
+            var tokens = _antiforgery.GetAndStoreTokens(context);
+            context.Response.Cookies.Append("XSRF-TOKEN", tokens.RequestToken, new CookieOptions { HttpOnly = false });
+
             return _next(context);
         }
     }

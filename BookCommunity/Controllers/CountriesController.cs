@@ -8,6 +8,7 @@ using BC.Data.Requests;
 using BC.Web.Filters;
 using BC.Web.UploadFiles;
 using BC.Web.Constants;
+using BC.Data.Responses;
 
 namespace BookCommunity.Controllers
 {
@@ -22,14 +23,20 @@ namespace BookCommunity.Controllers
         {
             _countryRepository = countryRepository;
             _uploadFile = uploadFile;
-            ViewBag.PageName = "Countries";
         }
 
         [NoCache]
         [HttpGet]
-        public async Task<IEnumerable<Country>> Get([FromQuery]PagingRequest request)
+        public async Task<CountryListResponse> Get([FromQuery]PagingRequest request)
         {
-            return await _countryRepository.GetCountries(request);
+            var countries = await _countryRepository.GetCountries(request);
+            var count = await _countryRepository.CountAll();
+
+            return new CountryListResponse
+            {
+                Count = count,
+                Data = countries
+            };
         }
 
         [HttpGet("{id}")]

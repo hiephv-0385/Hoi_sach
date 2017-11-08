@@ -3,10 +3,8 @@ using System.Collections.Generic;
 
 namespace BC.Data.Responses
 {
-    public class AdminUserListResponse
+    public class AdminUserListResponse: ListResponse
     {
-        public long Count { get; set; }
-
         public IEnumerable<AdminUser> Data { get; set; }
     }
 }

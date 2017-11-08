@@ -58,7 +58,8 @@ export class UserDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        this.uploadService.uploadUserAvatar(event).subscribe((result) => {
+        const apiUrl = "/api/adminusers/avatar";
+        this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
@@ -90,7 +91,7 @@ export class UserDetailComponent implements OnInit {
             email: this.email.value,
             password: this.password.value,
             avatar: this.uploadedFileName,
-            isActive: this.isActive.value,
+            isActive: this.isActive.value || false,
             isSupperUser: false
         };
 
@@ -113,7 +114,7 @@ export class UserDetailComponent implements OnInit {
             firstName: this.firstName.value,
             lastName: this.lastName.value,
             avatar: this.uploadedFileName,
-            isActive: this.isActive.value
+            isActive: this.isActive.value || false
         };
 
         this.userService.updateAdminUser(this.userId, payload).subscribe((data) => {
@@ -177,6 +178,7 @@ export class UserDetailComponent implements OnInit {
     }
 
     public clearForm() {
+        this.uploadedFileName = "";
         this.userform.reset();
     }
 }

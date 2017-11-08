@@ -23,6 +23,7 @@ namespace BC.Data.Repositories
             try
             {
                 return await _context.AdminUsers.Find(new BsonDocument())
+                    .SortByDescending(u => u.CreatedOn)
                     .Skip(request.Offset)
                     .Limit(request.Limit)
                     .ToListAsync();

@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="box-body">
-            <table class="table table-striped" *ngIf="adminUserList && adminUserList.data">
+            <table class="table table-striped" *ngIf="countryList && countryList.data">
                 <thead>
                     <tr>
                         <th style="width: 5%;">#</th>
@@ -62,7 +62,7 @@
                         <td>{{ item.code }}</td>
                         <td>{{ item.sort }}</td>
                         <td>
-                            <img class="user-avatar" src="{{ item.flag }}" />
+                            <img class="user-avatar" src="{{ item.flag }}" *ngIf="item.flag"/>
                         </td>
                         <td>
                             <a href="#" *ngIf="item.isActive">

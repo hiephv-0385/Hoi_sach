@@ -43,8 +43,8 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "users/edit/:id", component: UserDetailComponent },
             { path: "users", component: UserListComponent },
             { path: "countries", component: CountryListComponent },
-            { path: "countries/add", component: UserDetailComponent },
-            { path: "countries/edit/:id", component: CountryListComponent }
+            { path: "countries/add", component: CountryDetailComponent },
+            { path: "countries/edit/:id", component: CountryDetailComponent }
         ])
     ],
     providers: [

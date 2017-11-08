@@ -9,7 +9,6 @@ import * as adminModel from "./models";
 
 @Injectable()
 export class UploadService {
-    private updloadUrl = "/api/adminusers/avatar";
     private csrfToken: string;
 
     constructor(
@@ -19,7 +18,7 @@ export class UploadService {
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
-    public uploadUserAvatar(event: any): Observable<adminModel.UploadResult> {
+    public uploadFile(event: any, apiUrl: string): Observable<adminModel.UploadResult> {
         const fi = event.srcElement;
         if (!fi.files || !fi.files[0]) {
             return;
@@ -33,7 +32,7 @@ export class UploadService {
         headers.set("Accept", "application/json");
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
-        return this.http.post(this.updloadUrl, formData, { headers: headers })
+        return this.http.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
             .catch((error: any) => {
                 console.log("error", error);

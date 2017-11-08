@@ -56,7 +56,8 @@ export class CountryDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        this.uploadService.uploadUserAvatar(event).subscribe((result) => {
+        const apiUrl = "/api/countries/flags";
+        this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
@@ -87,19 +88,19 @@ export class CountryDetailComponent implements OnInit {
             code: this.code.value,
             sort: this.sort.value,
             flag: this.uploadedFileName,
-            isActive: this.isActive.value,
+            isActive: this.isActive.value || false,
         };
 
         this.countryService.addCountry(country).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
-                message: "User has been updated successfuly"
+                message: "User has been added successfuly"
             };
         },
-        (err) => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Error happen: ${err.statusText}`
+                message: err.statusText
             };
         });
     }
@@ -110,7 +111,7 @@ export class CountryDetailComponent implements OnInit {
             code: this.code.value,
             sort: this.sort.value,
             flag: this.uploadedFileName,
-            isActive: this.isActive.value
+            isActive: this.isActive.value || false
         };
 
         this.countryService.updateCountry(this.countryId, payload).subscribe((data) => {
@@ -147,7 +148,6 @@ export class CountryDetailComponent implements OnInit {
         this.name.setValue(country.name);
         this.code.setValue(country.code);
         this.sort.setValue(country.sort);
-        this.flag.setValue(country.flag);
         this.uploadedFileName = country.flag;
         this.isActive.setValue(country.isActive);
     }
@@ -163,6 +163,7 @@ export class CountryDetailComponent implements OnInit {
     }
 
     public clearForm() {
+        this.uploadedFileName = "";
         this.countryform.reset();
     }
 }

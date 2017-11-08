@@ -1,5 +1,4 @@
-﻿using BC.Web.Constants;
-using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Threading.Tasks;
@@ -40,7 +39,7 @@ namespace BC.Web.UploadFiles
                 }
             }
 
-            return string.Format("{0}/{1}", FolderPath.UserAvatar, updatedFileName);
+            return string.Format("{0}/{1}", folderName, updatedFileName);
         }
 
         public void RemoveFile(string fileName)
