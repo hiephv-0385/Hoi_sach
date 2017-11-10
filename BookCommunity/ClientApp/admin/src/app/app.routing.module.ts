@@ -5,8 +5,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { NgxPaginationModule } from "ngx-pagination";
-import { DatePickerModule } from "angular-io-datepicker";
-import { OverlayModule } from "angular-io-overlay";
+import { MomentModule } from "angular2-moment";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
@@ -41,8 +40,7 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
-        OverlayModule,
-        DatePickerModule,
+        MomentModule,
         NgxPaginationModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "dashboard", pathMatch: "full" },

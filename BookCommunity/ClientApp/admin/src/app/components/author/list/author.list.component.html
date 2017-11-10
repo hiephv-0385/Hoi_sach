@@ -59,7 +59,7 @@
                                 <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                             </td>
                             <td>{{ item.fullName }}</td>
-                            <td>{{ item.birthDay }}</td>
+                            <td>{{ item.birthday | date: 'dd/MM/yyyy' }}</td>
                             <td>{{ item.country.name }}</td>
                             <td>
                                 <img class="user-avatar" src="{{ item.picture }}" *ngIf="item.picture"/>

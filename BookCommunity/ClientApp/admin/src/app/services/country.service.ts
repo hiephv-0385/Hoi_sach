@@ -29,7 +29,10 @@ export class CountryService {
     }
 
     public getCountries(params: GetCountriesParams): Observable<ListResponse<Country>> {
-        const url = `${this.countryUrl}?offset=${params.offset}&limit=${params.limit}`;
+        let url = `${this.countryUrl}?offset=${params.offset}`;
+        if (params.limit) {
+            url = `${url}&limit=${params.limit}`;
+        }
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));

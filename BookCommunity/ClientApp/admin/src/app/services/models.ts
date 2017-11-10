@@ -71,7 +71,7 @@ export interface GetCountriesParams extends PagingRequest {
 // Author
 export interface Author extends BaseModel {
     fullName: string;
-    birthDay: string;
+    birthday: string;
     picture: string;
     introduction: string;
     country: Country;

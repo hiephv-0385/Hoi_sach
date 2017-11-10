@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BC.Data.Repositories.Countries;
 using BC.Data.Models;
-using BC.Data.Requests;
 using BC.Web.Filters;
 using BC.Web.UploadFiles;
 using BC.Web.Constants;
 using BC.Data.Responses;
+using BC.Data.Requests;
 
 namespace BookCommunity.Controllers
 {
@@ -26,14 +25,14 @@ namespace BookCommunity.Controllers
         }
 
         [NoCache]
-        [HttpGet("/all")]
-        public async Task<CountryListResponse> Get()
+        [HttpGet]
+        public async Task<CountryListResponse> Get([FromQuery]PagingRequest request)
         {
-            var countries = await _countryRepository.GetAll();
-
+            var countries = await _countryRepository.GetList(request);
+            var count = await _countryRepository.CountAll();
             return new CountryListResponse
             {
-                Count = 0,
+                Count = count,
                 Data = countries
             };
         }

@@ -1,3 +1,4 @@
+import * as moment from "moment";
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
@@ -17,18 +18,18 @@ import "rxjs/add/observable/combineLatest";
 export class AuthorDetailComponent implements OnInit {
     public authorForm: FormGroup;
     public responseNotify: ResponseNotify;
-
     public countries: Country[];
+    public authorId: string;
+    public author: Author;
+
+    private uploadedFileName: string;
 
     fullName: FormControl;
-    birthDay: FormControl;
+    birthday: FormControl;
     introduction: FormControl;
     picture: FormControl;
     countryId: FormControl;
     isActive: FormControl;
-
-    private uploadedFileName: string;
-    private authorId: string;
 
     constructor(
         private countryService: CountryService,
@@ -41,25 +42,20 @@ export class AuthorDetailComponent implements OnInit {
     ngOnInit() {
         this.createAuthorFormControls();
         this.createForm();
+        this.countryService.getCountries({ offset: 0 }).subscribe(result => {
+            this.countries = result.data;
+        });
         this.route.params.subscribe(params => {
             if (!params["id"]) {
                 return;
             }
 
             this.authorId = params["id"];
-            const getAuthorRequest = this.authorService.getAuthor(this.authorId);
-            const getCountriesRequest = this.countryService.getAllCountries();
-
-            Observable.combineLatest<Author, ListResponse<Country>>(getAuthorRequest, getCountriesRequest)
-                .subscribe(data => {
-                    const author = data[0];
-                    const countriesRes = data[1];
-                    this.fillAuthor(data[0]);
-                    if (countriesRes) {
-                        this.countries = countriesRes.data;
-                    }
-                });
-         });
+            this.authorService.getAuthor(this.authorId).subscribe(data => {
+                this.author = data;
+                this.fillAuthor(data);
+            });
+        });
     }
 
     public saveAuthor(): void {
@@ -93,7 +89,7 @@ export class AuthorDetailComponent implements OnInit {
         if (this.authorId) {
             this.updateAuthor();
         } else {
-            this.saveAuthor();
+            this.addAuthor();
         }
     }
 
@@ -101,7 +97,7 @@ export class AuthorDetailComponent implements OnInit {
         const selectedCountry = this.countries.find(c => c.id === this.countryId.value);
         const author: Author = {
             fullName: this.fullName.value,
-            birthDay: this.birthDay.value,
+            birthday: this.birthday.value,
             introduction: this.introduction.value,
             picture: this.uploadedFileName,
             country: selectedCountry,
@@ -126,14 +122,14 @@ export class AuthorDetailComponent implements OnInit {
         const selectedCountry = this.countries.find(c => c.id === this.countryId.value);
         const payload: Author = {
             fullName: this.fullName.value,
-            birthDay: this.birthDay.value,
+            birthday: this.birthday.value,
             introduction: this.introduction.value,
             picture: this.uploadedFileName,
             country: selectedCountry,
             isActive: this.isActive.value || false
         };
 
-        this.authorService.updateAuthor(this.countryId, payload).subscribe((data) => {
+        this.authorService.updateAuthor(this.authorId, payload).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Author has been updated successfuly"
@@ -149,7 +145,7 @@ export class AuthorDetailComponent implements OnInit {
 
     private createAuthorFormControls() {
         this.fullName = new FormControl("", Validators.required);
-        this.birthDay = new FormControl("", Validators.required);
+        this.birthday = new FormControl("", Validators.required);
         this.introduction = new FormControl("", [
             Validators.required,
             Validators.min(100),
@@ -166,7 +162,8 @@ export class AuthorDetailComponent implements OnInit {
         }
 
         this.fullName.setValue(author.fullName);
-        this.birthDay.setValue(author.birthDay);
+        const date = moment(author.birthday).format("YYYY-MM-DD");
+        this.birthday.setValue(date);
         this.introduction.setValue(author.introduction);
         this.uploadedFileName = author.picture;
         this.isActive.setValue(author.isActive);
@@ -175,7 +172,7 @@ export class AuthorDetailComponent implements OnInit {
     private createForm() {
         this.authorForm = this.fb.group({
             fullName: this.fullName,
-            birthDay: this.birthDay,
+            birthday: this.birthday,
             introduction: this.introduction,
             countryId: this.countryId,
             picture: this.picture,

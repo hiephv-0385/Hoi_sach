@@ -3,3 +3,16 @@
 @import '../node_modules/font-awesome/css/font-awesome.min.css';
 @import '../node_modules/admin-lte/dist/css/AdminLTE.min.css';
 @import '../node_modules/admin-lte/dist/css/skins/skin-blue.min.css';
+
+.action-row {
+    margin-bottom: 10px;
+}
+
+.user-avatar {
+    width: 100px;
+    height: 100px;
+}
+
+.magin-right {
+    margin-right: 10px;
+}

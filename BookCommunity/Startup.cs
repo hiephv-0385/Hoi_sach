@@ -112,6 +112,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<UpdateAdminUserDto>, UpdateAdminUserValidator>();
 
             services.AddTransient<IValidator<Country>, CountryValidator>();
+
+            services.AddTransient<IValidator<Author>, AuthorValidator>();
         }
     }
 }
