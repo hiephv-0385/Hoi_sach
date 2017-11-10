@@ -33,6 +33,20 @@ namespace BC.Data.Repositories
             }
         }
 
+        public async Task<IEnumerable<T>> GetAll()
+        {
+            try
+            {
+                return await _dbCollection.Find(new BsonDocument())
+                    .SortByDescending(u => u.CreatedOn)
+                    .ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<T> GetById(string id)
         {
             var filter = Builders<T>.Filter.Eq("Id", id);

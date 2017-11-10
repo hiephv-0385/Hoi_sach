@@ -35,6 +35,13 @@ export class CountryService {
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
+    public getAllCountries(): Observable<ListResponse<Country>> {
+        const url = `${this.countryUrl}/all`;
+        return this.http.get(url)
+            .map((res: Response) => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+    }
+
     public addCountry(user: Country): Observable<Country> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);

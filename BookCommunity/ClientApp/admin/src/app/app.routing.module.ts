@@ -5,6 +5,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpModule } from "@angular/http";
 import { RouterModule } from "@angular/router";
 import { NgxPaginationModule } from "ngx-pagination";
+import { DatePickerModule } from "angular-io-datepicker";
+import { OverlayModule } from "angular-io-overlay";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
@@ -14,6 +16,7 @@ import { UserDetailComponent } from "./components/user/detail/user.detail.compon
 import { CountryListComponent } from "./components/country/list/country.list.component";
 import { CountryDetailComponent } from "./components/country/detail/country.detail.component";
 import { AuthorListComponent } from "./components/author/list/author.list.component";
+import { AuthorDetailComponent } from "./components/author/detail/author.detail.component";
 
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
@@ -28,6 +31,7 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         CountryListComponent,
         CountryDetailComponent,
         AuthorListComponent,
+        AuthorDetailComponent,
         AlertMessageComponent,
         ErrorCssDirective,
         ValidatorMessageComponent
@@ -37,6 +41,8 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
+        OverlayModule,
+        DatePickerModule,
         NgxPaginationModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "dashboard", pathMatch: "full" },
@@ -47,7 +53,9 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "countries", component: CountryListComponent },
             { path: "countries/add", component: CountryDetailComponent },
             { path: "countries/edit/:id", component: CountryDetailComponent },
-            { path: "authors", component: AuthorListComponent }
+            { path: "authors", component: AuthorListComponent },
+            { path: "authors/add", component: AuthorDetailComponent },
+            { path: "authors/edit/:id", component: AuthorDetailComponent }
         ])
     ],
     providers: [

@@ -10,6 +10,8 @@ namespace BC.Data.Repositories
     {
         Task<IEnumerable<T>> GetList(PagingRequest request);
 
+        Task<IEnumerable<T>> GetAll();
+
         Task<T> GetById(string id);
 
         Task Add(T item);

@@ -35,7 +35,7 @@ export class AuthorService {
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
-    public addAuthors(author: Author): Observable<Author> {
+    public addAuthor(author: Author): Observable<Author> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
@@ -47,7 +47,7 @@ export class AuthorService {
             });
     }
 
-    public updateCountry(authorId, payload: Author): Observable<Author> {
+    public updateAuthor(authorId, payload: Author): Observable<Author> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.authorUrl}/${authorId}`;

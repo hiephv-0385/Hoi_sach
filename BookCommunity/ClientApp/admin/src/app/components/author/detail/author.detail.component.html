@@ -1,0 +1,66 @@
+<app-alert-message [notify]="responseNotify"></app-alert-message>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Author info</h3>
+            </div>
+
+            <form role="form" [formGroup]="authorForm" (ngSubmit)="saveAuthor()" #form="ngForm">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="fullName">Full Name</label>
+                        <input type="text" class="form-control" formControlName="fullName" adminErrorCss [input]="fullName">
+                        <app-validator-message name="FullName" [control]="fullName"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="birthDay">BirthDay</label>
+                        <date-picker class="form-control" formControlName="birthDay"></date-picker>
+                        <app-validator-message name="BirthDay" [control]="birthDay"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="countryId">Country</label>
+                        <select class="form-control" formControlName="countryId" adminErrorCss [input]="countryId">
+                            <option value="">-- Select country --</option>
+                            <option *ngFor="let country of countries" [value]="item.id">{{ item.name }}</option>
+                        </select>
+                        <app-validator-message name="Country" [control]="countryId"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="introduction">Introduction</label>
+                        <textarea 
+                            type="number" 
+                            class="form-control" 
+                            formControlName="introduction" 
+                            adminErrorCss [input]="introduction" 
+                            minlength="100" 
+                            maxlength="1000"
+                            placeholder="Input introduction from 100 to 1000 characters">
+                        </textarea>
+                        <app-validator-message name="Introduction" [control]="introduction"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="picture">Avatar</label>
+                        <input type="file" formControlName="picture" (change)="onFileChange($event)">
+                        <div class="avatar-thumb">
+                            <img src="{{ uploadedFileName }}" alt="" class="img-thumbnail user-avartar">
+                            <button type="button" class="close" aria-label="Close" title="Remove" (click)="removePicture()" *ngIf="uploadedFileName">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="isActive"> Is Active
+                        </label>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+                    <button type="button" class="btn btn-default" *ngIf="!authorId" (click)="clearForm()">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

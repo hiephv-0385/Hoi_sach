@@ -5,7 +5,6 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { UploadService } from "../../../services/upload.service";
 import { Country, ResponseNotify } from "../../../services/models";
-import { PasswordValidation } from "../../../shared/password.validation";
 
 @Component({
     selector: "app-country-detail",

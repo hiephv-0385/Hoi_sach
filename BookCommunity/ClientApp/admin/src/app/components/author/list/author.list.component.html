@@ -34,16 +34,16 @@
                         <tr>
                             <th style="width: 5%;">#</th>
                             <th>
-                                Name
+                                FullName
                             </th>
                             <th style="width: 20%">
-                                Code
+                                Birthday
                             </th>
                             <th style="width: 20%">
-                                Sort
+                                Country
                             </th>
                             <th style="width: 20%">
-                                Flag
+                                Avartar
                             </th>
                             <th style="width: 20%">
                                 Active
@@ -58,11 +58,11 @@
                             <td>
                                 <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                             </td>
-                            <td>{{ item.name }}</td>
-                            <td>{{ item.code }}</td>
-                            <td>{{ item.sort }}</td>
+                            <td>{{ item.fullName }}</td>
+                            <td>{{ item.birthDay }}</td>
+                            <td>{{ item.country.name }}</td>
                             <td>
-                                <img class="user-avatar" src="{{ item.flag }}" *ngIf="item.flag"/>
+                                <img class="user-avatar" src="{{ item.picture }}" *ngIf="item.picture"/>
                             </td>
                             <td>
                                 <a href="#" *ngIf="item.isActive">
