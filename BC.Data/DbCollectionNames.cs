@@ -7,7 +7,7 @@
         public static string AdminUserRole = "AdminUserRole";
         public static string AdminUser = "AdminUser";
         public static string Country = "Country";
-        public static string Author = "";
+        public static string Author = "Author";
         public static string Book = "Book";
         public static string BookCase = "BookCase";
         public static string BookCaseItem = "BookCaseItem";

@@ -4,10 +4,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import {
     Country,
-    ExtendedCountry,
     ResponseNotify,
     GetCountriesParams,
-    CountryListResponse
+    ListResponse
 } from "../../../services/models";
 
 @Component({
@@ -16,7 +15,7 @@ import {
   styleUrls: ["./country.list.component.css"]
 })
 export class CountryListComponent implements OnInit {
-    public countryList: CountryListResponse;
+    public countryList: ListResponse<Country>;
     public responseNotify: ResponseNotify;
     public page = 1;
 
@@ -25,19 +24,19 @@ export class CountryListComponent implements OnInit {
         private router: Router,
         private countryService: CountryService
     ) {
-     }
+    }
 
     ngOnInit() {
         const params: GetCountriesParams = {
             offset: 0,
-            limit: 5
+            limit: 10
         };
         this.countryService.getCountries(params).subscribe((result) => {
             if (!result.data) {
                 return;
             }
 
-            const extCountries = result.data.map(item => <ExtendedCountry>item);
+            const extCountries = result.data.map(item => <Country>item);
             this.countryList = {
                 count: result.count,
                 data: extCountries
@@ -69,7 +68,7 @@ export class CountryListComponent implements OnInit {
     }
 
     public pageChanged($event): void {
-        const limit = 5;
+        const limit = 10;
         this.page = +$event;
         const params: GetCountriesParams = {
             offset: (this.page - 1) * limit,

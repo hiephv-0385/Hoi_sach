@@ -4,10 +4,9 @@ import { Router, ActivatedRoute } from "@angular/router";
 import { UserService } from "../../../services/user.service";
 import {
     AdminUser,
-    ExtendedAdminUser,
     ResponseNotify,
     GetAdminUsersParams,
-    AdminUserListResponse
+    ListResponse
 } from "../../../services/models";
 
 @Component({
@@ -16,7 +15,7 @@ import {
   styleUrls: ["./user.list.component.css"]
 })
 export class UserListComponent implements OnInit {
-    public adminUserList: AdminUserListResponse;
+    public adminUserList: ListResponse<AdminUser>;
     public responseNotify: ResponseNotify;
     public page = 1;
 
@@ -37,7 +36,7 @@ export class UserListComponent implements OnInit {
                 return;
             }
 
-            const extUsers = result.data.map(item => <ExtendedAdminUser>item);
+            const extUsers = result.data.map(item => <AdminUser>item);
             this.adminUserList = {
                 count: result.count,
                 data: extUsers

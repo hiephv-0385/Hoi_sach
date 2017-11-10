@@ -54,7 +54,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of countryList.data | paginate: { itemsPerPage: 5, currentPage: page, totalItems: countryList.count }">
+                    <tr *ngFor="let item of countryList.data | paginate: { itemsPerPage: 10, currentPage: page, totalItems: countryList.count }">
                         <td>
                             <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                         </td>

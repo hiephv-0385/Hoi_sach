@@ -7,7 +7,13 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
 
 import { CookieService } from "angular2-cookie/core";
-import * as adminModel from "./models";
+import {
+    AdminUser,
+    GetAdminUsersParams,
+    ListResponse,
+    Avatar,
+    UpdateAdminUserDto
+} from "./models";
 
 @Injectable()
 export class UserService {
@@ -21,21 +27,21 @@ export class UserService {
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
-    public getAdminUser(userId: string): Observable<adminModel.AdminUser> {
+    public getAdminUser(userId: string): Observable<AdminUser> {
         const url = `${this.adminUserUrl}/${userId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
-    public getAdminUsers(params: adminModel.GetAdminUsersParams): Observable<adminModel.AdminUserListResponse> {
+    public getAdminUsers(params: GetAdminUsersParams): Observable<ListResponse<AdminUser>> {
         const url = `${this.adminUserUrl}?offset=${params.offset}&limit=${params.limit}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
-    public addAdminUser(user: adminModel.AdminUser): Observable<adminModel.AdminUser> {
+    public addAdminUser(user: AdminUser): Observable<AdminUser> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
@@ -47,7 +53,7 @@ export class UserService {
             });
     }
 
-    public updateAdminUser(userId, payload: adminModel.UpdateAdminUserDto): Observable<adminModel.UpdateAdminUserDto> {
+    public updateAdminUser(userId, payload: UpdateAdminUserDto): Observable<UpdateAdminUserDto> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.adminUserUrl}/${userId}`;
@@ -82,7 +88,7 @@ export class UserService {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.adminUserUrl}/avatar/remove`;
-        const payload: adminModel.Avatar = {
+        const payload: Avatar = {
             fileName: fileName
         };
 

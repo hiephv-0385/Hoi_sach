@@ -1,10 +1,32 @@
+export interface UploadResult {
+    fileName: string;
+    status: number;
+}
+
+export interface ResponseNotify {
+    isSuccess: boolean;
+    message: string;
+}
+
+export interface PagingRequest {
+    offset?: number;
+    limit?: number;
+}
+
+export interface ListResponse<T> {
+    count: number;
+    data: T[];
+}
+
 export interface BaseModel {
     id?: string;
     updatedOn?: string;
     createdOn?: string;
     isActive: boolean;
+    isChecked?: boolean;
 }
 
+// User
 export interface AdminUser extends BaseModel {
     firstName: string;
     lastName: string;
@@ -18,24 +40,6 @@ export interface ExtendedAdminUser extends AdminUser {
     isChecked?: boolean;
 }
 
-export interface ListResponse {
-    count: number;
-}
-
-export interface AdminUserListResponse extends ListResponse {
-    data: ExtendedAdminUser[];
-}
-
-export interface UploadResult {
-    fileName: string;
-    status: number;
-}
-
-export interface ResponseNotify {
-    isSuccess: boolean;
-    message: string;
-}
-
 export interface UpdateAdminUserDto {
     firstName: string;
     lastName: string;
@@ -47,15 +51,11 @@ export interface Avatar {
     fileName: string;
 }
 
-export interface PagingRequest {
-    offset?: number;
-    limit?: number;
-}
-
 export interface GetAdminUsersParams extends PagingRequest {
     email?: string;
 }
 
+// Country
 export interface Country extends BaseModel {
     name: string;
     code: string;
@@ -63,15 +63,20 @@ export interface Country extends BaseModel {
     flag: string;
 }
 
-export interface ExtendedCountry extends Country {
-    isChecked?: boolean;
-}
-
 export interface GetCountriesParams extends PagingRequest {
     name?: string;
     code?: string;
 }
 
-export interface CountryListResponse extends ListResponse {
-    data: ExtendedCountry[];
+// Author
+export interface Author extends BaseModel {
+    fullName: string;
+    birthDay: string;
+    picture: string;
+    introduction: string;
+    country: Country;
+}
+
+export interface GetAuthorsParams extends PagingRequest {
+    fullName?: string;
 }

@@ -13,6 +13,7 @@ import { UserListComponent } from "./components/user/list/user.list.component";
 import { UserDetailComponent } from "./components/user/detail/user.detail.component";
 import { CountryListComponent } from "./components/country/list/country.list.component";
 import { CountryDetailComponent } from "./components/country/detail/country.detail.component";
+import { AuthorListComponent } from "./components/author/list/author.list.component";
 
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
@@ -26,6 +27,7 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         UserDetailComponent,
         CountryListComponent,
         CountryDetailComponent,
+        AuthorListComponent,
         AlertMessageComponent,
         ErrorCssDirective,
         ValidatorMessageComponent
@@ -44,7 +46,8 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "users", component: UserListComponent },
             { path: "countries", component: CountryListComponent },
             { path: "countries/add", component: CountryDetailComponent },
-            { path: "countries/edit/:id", component: CountryDetailComponent }
+            { path: "countries/edit/:id", component: CountryDetailComponent },
+            { path: "authors", component: AuthorListComponent }
         ])
     ],
     providers: [
