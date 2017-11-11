@@ -3,21 +3,21 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
 import { ActivatedRoute } from "@angular/router";
 
 import { CountryService } from "../../../services/country.service";
-import { ReleaseCompanyService } from "../../../services/releaseCompany.service";
+import { PublisherService } from "../../../services/publisher.service";
 import { UploadService } from "../../../services/upload.service";
-import { ReleaseCompany, Country, ResponseNotify, ListResponse } from "../../../services/models";
+import { Publisher, Country, ResponseNotify, ListResponse } from "../../../services/models";
 
 @Component({
-    selector: "app-releasecompany-detail",
-    templateUrl: "./releaseCompany.detail.component.html",
-    styleUrls: ["./releaseCompany.detail.component.css"]
+    selector: "app-publisher-detail",
+    templateUrl: "./publisher.detail.component.html",
+    styleUrls: ["./publisher.detail.component.css"]
 })
-export class ReleaseCompanyDetailComponent implements OnInit {
-    public releaseCompanyForm: FormGroup;
+export class PublisherDetailComponent implements OnInit {
+    public publisherForm: FormGroup;
     public responseNotify: ResponseNotify;
     public countries: Country[];
-    public releaseCompanyId: string;
-    public releaseCompany: ReleaseCompany;
+    public publisherId: string;
+    public publisher: Publisher;
 
     private uploadedFileName: string;
 
@@ -27,7 +27,7 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     isActive: FormControl;
 
     constructor(
-        private releaseCompanyService: ReleaseCompanyService,
+        private publisherService: PublisherService,
         private countryService: CountryService,
         private uploadService: UploadService,
         protected fb: FormBuilder,
@@ -45,16 +45,16 @@ export class ReleaseCompanyDetailComponent implements OnInit {
                 return;
             }
 
-            this.releaseCompanyId = params["id"];
-            this.releaseCompanyService.getReleaseCompany(this.releaseCompanyId).subscribe(data => {
-                this.releaseCompany = data;
-                this.fillReleaseCompany(data);
+            this.publisherId = params["id"];
+            this.publisherService.getPublisher(this.publisherId).subscribe(data => {
+                this.publisher = data;
+                this.fillPublisher(data);
             });
         });
     }
 
-    public saveReleaseCompany(): void {
-        if (this.releaseCompanyForm.invalid) {
+    public savePublisher(): void {
+        if (this.publisherForm.invalid) {
             return;
         }
 
@@ -62,14 +62,14 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/releasecompanies/logos";
+        const apiUrl = "/api/publishers/logos";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeLogo(): void {
-        this.releaseCompanyService.removePicture(this.uploadedFileName).subscribe(data => {
+        this.publisherService.removeLogo(this.uploadedFileName).subscribe(data => {
         },
         err => {
             this.responseNotify = {
@@ -81,26 +81,26 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     }
 
     private saveOrUpdate(): void {
-        if (this.releaseCompanyId) {
-            this.updateReleaseCompany();
+        if (this.publisherId) {
+            this.updatePublisher();
         } else {
-            this.addReleaseCompany();
+            this.addPublisher();
         }
     }
 
-    private addReleaseCompany(): void {
+    private addPublisher(): void {
         const selectedCountry = this.countries.find(c => c.id === this.countryId.value);
-        const relseaseCompany: ReleaseCompany = {
+        const publisher: Publisher = {
             name: this.name.value,
             logo: this.uploadedFileName,
             country: selectedCountry,
             isActive: this.isActive.value || false,
         };
 
-        this.releaseCompanyService.addReleaseCompany(relseaseCompany).subscribe((data) => {
+        this.publisherService.addPublisher(publisher).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
-                message: "Release company has been added successfuly"
+                message: "Publisher has been added successfuly"
             };
         },
         (err: Response) => {
@@ -111,20 +111,20 @@ export class ReleaseCompanyDetailComponent implements OnInit {
         });
     }
 
-    private updateReleaseCompany(): void {
+    private updatePublisher(): void {
         const selectedCountry = this.countries.find(c => c.id === this.countryId.value);
-        const payload: ReleaseCompany = {
+        const payload: Publisher = {
             name: this.name.value,
             logo: this.uploadedFileName,
             country: selectedCountry,
             isActive: this.isActive.value || false
         };
 
-        this.releaseCompanyService.updateReleaseCompany(this.releaseCompanyId, payload)
+        this.publisherService.updatePublisher(this.publisherId, payload)
             .subscribe((data) => {
                 this.responseNotify = {
                     isSuccess: true,
-                    message: "Release company has been updated successfuly"
+                    message: "Publisher has been updated successfuly"
                 };
             },
             (err) => {
@@ -142,19 +142,19 @@ export class ReleaseCompanyDetailComponent implements OnInit {
         this.isActive = new FormControl(false);
     }
 
-    private fillReleaseCompany(releaseCompany: ReleaseCompany) {
-        if (!releaseCompany) {
+    private fillPublisher(publisher: Publisher) {
+        if (!publisher) {
             return;
         }
 
-        this.name.setValue(releaseCompany.name);
-        this.uploadedFileName = releaseCompany.logo;
-        this.countryId.setValue(releaseCompany.country.id);
-        this.isActive.setValue(releaseCompany.isActive);
+        this.name.setValue(publisher.name);
+        this.uploadedFileName = publisher.logo;
+        this.countryId.setValue(publisher.country.id);
+        this.isActive.setValue(publisher.isActive);
     }
 
     private createForm() {
-        this.releaseCompanyForm = this.fb.group({
+        this.publisherForm = this.fb.group({
             name: this.name,
             logo: this.logo,
             countryId: this.countryId,
@@ -164,7 +164,7 @@ export class ReleaseCompanyDetailComponent implements OnInit {
 
     public clearForm() {
         this.uploadedFileName = "";
-        this.releaseCompanyForm.reset();
+        this.publisherForm.reset();
         this.countryId.setValue("");
     }
 }

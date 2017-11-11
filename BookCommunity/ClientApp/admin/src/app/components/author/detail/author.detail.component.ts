@@ -182,5 +182,6 @@ export class AuthorDetailComponent implements OnInit {
     public clearForm() {
         this.uploadedFileName = "";
         this.authorForm.reset();
+        this.countryId.setValue("");
     }
 }

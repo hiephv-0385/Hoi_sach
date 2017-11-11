@@ -18,6 +18,8 @@ import { AuthorListComponent } from "./components/author/list/author.list.compon
 import { AuthorDetailComponent } from "./components/author/detail/author.detail.component";
 import { ReleaseCompanyListComponent } from "./components/releaseCompany/list/releaseCompany.list.component";
 import { ReleaseCompanyDetailComponent } from "./components/releaseCompany/detail/releaseCompany.detail.component";
+import { PublisherListComponent } from "./components/publisher/list/publisher.list.component";
+import { PublisherDetailComponent } from "./components/publisher/detail/publisher.detail.component";
 
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
@@ -35,6 +37,8 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         AuthorDetailComponent,
         ReleaseCompanyListComponent,
         ReleaseCompanyDetailComponent,
+        PublisherListComponent,
+        PublisherDetailComponent,
         AlertMessageComponent,
         ErrorCssDirective,
         ValidatorMessageComponent
@@ -60,7 +64,10 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "authors/edit/:id", component: AuthorDetailComponent },
             { path: "releasecompanies", component: ReleaseCompanyListComponent },
             { path: "releasecompanies/add", component: ReleaseCompanyDetailComponent },
-            { path: "releasecompanies/edit/:id", component: ReleaseCompanyDetailComponent }
+            { path: "releasecompanies/edit/:id", component: ReleaseCompanyDetailComponent },
+            { path: "publishers", component: PublisherListComponent},
+            { path: "publishers/add", component: PublisherDetailComponent },
+            { path: "publishers/edit/:id", component: PublisherDetailComponent },
         ])
     ],
     providers: [

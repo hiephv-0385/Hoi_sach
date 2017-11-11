@@ -6,5 +6,6 @@
         public static string CountryFlag = "admin/flags";
         public static string AuthorPicture = "admin/authors";
         public static string ReleaseCompanyLogo = "admin/logos";
+        public static string PublisherLogo = "admin/publiser_logos";
     }
 }

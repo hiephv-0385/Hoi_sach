@@ -7,11 +7,11 @@ import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
 
 import { CookieService } from "angular2-cookie/core";
-import { ListResponse, GetReleaseCompaniesParams, Avatar, ReleaseCompany } from "./models";
+import { ListResponse, GetPublisherParams, Avatar, Publisher } from "./models";
 
 @Injectable()
-export class ReleaseCompanyService {
-    private releaseCompanyUrl = "/api/releasecompanies";
+export class PublisherService {
+    private publisherUrl = "/api/publishers";
     private csrfToken: string;
 
     constructor(
@@ -21,25 +21,25 @@ export class ReleaseCompanyService {
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
-    public getReleaseCompany(releaseCompanyId: string): Observable<ReleaseCompany> {
-        const url = `${this.releaseCompanyUrl}/${releaseCompanyId}`;
+    public getPublisher(publisherId: string): Observable<Publisher> {
+        const url = `${this.publisherUrl}/${publisherId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
-    public getReleaseCompanies(params: GetReleaseCompaniesParams): Observable<ListResponse<ReleaseCompany>> {
-        const url = `${this.releaseCompanyUrl}?offset=${params.offset}&limit=${params.limit}`;
+    public getPublishers(params: GetPublisherParams): Observable<ListResponse<Publisher>> {
+        const url = `${this.publisherUrl}?offset=${params.offset}&limit=${params.limit}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || "Server error"));
     }
 
-    public addReleaseCompany(author: ReleaseCompany): Observable<ReleaseCompany> {
+    public addPublisher(publisher: Publisher): Observable<Publisher> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
-        return this.http.post(this.releaseCompanyUrl, author, { headers: headers })
+        return this.http.post(this.publisherUrl, publisher, { headers: headers })
             .map((res: Response) => res)
             .catch((error: any) => {
                 console.log("error", error);
@@ -47,10 +47,10 @@ export class ReleaseCompanyService {
             });
     }
 
-    public updateReleaseCompany(releaseCompanyId: string, payload: ReleaseCompany): Observable<ReleaseCompany> {
+    public updatePublisher(publisherId: string, payload: Publisher): Observable<Publisher> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
-        const url = `${this.releaseCompanyUrl}/${releaseCompanyId}`;
+        const url = `${this.publisherUrl}/${publisherId}`;
 
         return this.http.put(url, payload, { headers: headers })
             .map((res: Response) => res)
@@ -60,17 +60,17 @@ export class ReleaseCompanyService {
             });
     }
 
-    public deleteReleaseCompany(authorId: string): Observable<Response> {
+    public deletePublisher(publisherId: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
-        const deleteUrl = `${this.releaseCompanyUrl}/${authorId}`;
+        const deleteUrl = `${this.publisherUrl}/${publisherId}`;
 
         return this.http.delete(deleteUrl, { headers: headers })
             .map((res: Response) => res);
     }
 
-    public deleteReleaseCompanies(releaseCompanyIds: string[]): Observable<void> {
-        const requests = releaseCompanyIds.map(a => this.deleteReleaseCompany(a));
+    public deletePublishers(publisherIds: string[]): Observable<void> {
+        const requests = publisherIds.map(a => this.deletePublisher(a));
         return Observable.combineLatest(requests)
             .catch((error: any) => {
                 console.log("error", error);
@@ -78,10 +78,10 @@ export class ReleaseCompanyService {
             });
     }
 
-    public removePicture(fileName: string): Observable<Response> {
+    public removeLogo(fileName: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
-        const url = `${this.releaseCompanyUrl}/logos/remove`;
+        const url = `${this.publisherUrl}/logos/remove`;
         const payload: Avatar = {
             fileName: fileName
         };

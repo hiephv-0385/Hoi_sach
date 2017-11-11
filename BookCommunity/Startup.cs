@@ -104,6 +104,8 @@ namespace BookCommunity
 
             services.AddTransient<IReleaseCompanyRepository, ReleaseCompanyRepository>();
 
+            services.AddTransient<IPublisherRepository, PublisherRepository>();
+
             services.AddTransient<ICryptography, Cryptography>();
 
             services.AddTransient<IUploadFile, UploadFile>();
@@ -117,6 +119,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<Author>, AuthorValidator>();
 
             services.AddTransient<IValidator<ReleaseCompany>, ReleaseCompanyValidator>();
+
+            services.AddTransient<IValidator<Publisher>, PublisherValidator>();
         }
     }
 }

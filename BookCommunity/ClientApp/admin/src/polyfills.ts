@@ -43,7 +43,7 @@
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es7/reflect';
+import "core-js/es7/reflect";
 
 
 /**
@@ -57,7 +57,7 @@ import 'core-js/es7/reflect';
 /***************************************************************************************************
  * Zone JS is required by Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+import "zone.js/dist/zone";  // Included with Angular CLI.
 
 
 
@@ -74,6 +74,5 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  * Need to import at least one locale-data with intl.
  */
 // import 'intl/locale-data/jsonp/en';
-import * as $ from "jquery";
 import "admin-lte";
 

@@ -81,7 +81,7 @@ export interface GetAuthorsParams extends PagingRequest {
     fullName?: string;
 }
 
-// Author
+// Release company
 export interface ReleaseCompany extends BaseModel {
     name: string;
     logo: string;
@@ -89,5 +89,16 @@ export interface ReleaseCompany extends BaseModel {
 }
 
 export interface GetReleaseCompaniesParams extends PagingRequest {
+    name?: string;
+}
+
+// Publisher
+export interface Publisher extends BaseModel {
+    name: string;
+    logo: string;
+    country: Country;
+}
+
+export interface GetPublisherParams extends PagingRequest {
     name?: string;
 }

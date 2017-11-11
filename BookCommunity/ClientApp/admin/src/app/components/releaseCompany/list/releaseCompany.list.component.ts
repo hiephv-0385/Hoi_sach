@@ -36,10 +36,10 @@ export class ReleaseCompanyListComponent implements OnInit {
                 return;
             }
 
-            const extAuthors = result.data.map(item => <ReleaseCompany>item);
+            const extReleaseCompanies = result.data.map(item => <ReleaseCompany>item);
             this.releaseCompanyList = {
                 count: result.count,
-                data: extAuthors
+                data: extReleaseCompanies
             };
         });
     }
