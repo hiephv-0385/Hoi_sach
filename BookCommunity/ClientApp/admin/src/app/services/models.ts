@@ -80,3 +80,16 @@ export interface Author extends BaseModel {
 export interface GetAuthorsParams extends PagingRequest {
     fullName?: string;
 }
+
+// Author
+export interface ReleaseCompany extends BaseModel {
+    fullName: string;
+    birthday: string;
+    picture: string;
+    introduction: string;
+    country: Country;
+}
+
+export interface GetReleaseCompaniesParams extends PagingRequest {
+    name?: string;
+}

@@ -5,5 +5,6 @@
         public static string UserAvatar = "admin/avartars";
         public static string CountryFlag = "admin/flags";
         public static string AuthorPicture = "admin/authors";
+        public static string ReleaseCompanyLogo = "admin/logos";
     }
 }

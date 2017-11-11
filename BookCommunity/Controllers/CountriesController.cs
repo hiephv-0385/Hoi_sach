@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using BC.Data.Repositories.Countries;
+using BC.Data.Repositories;
 using BC.Data.Models;
 using BC.Web.Filters;
 using BC.Web.UploadFiles;

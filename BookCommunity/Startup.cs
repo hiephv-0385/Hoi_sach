@@ -12,7 +12,6 @@ using FluentValidation;
 using BC.Data.Validations;
 using BC.Web.Middlewares;
 using BC.Web.UploadFiles;
-using BC.Data.Repositories.Countries;
 using BC.Data;
 
 namespace BookCommunity
@@ -103,6 +102,8 @@ namespace BookCommunity
 
             services.AddTransient<IAuthorRepository, AuthorRepository>();
 
+            services.AddTransient<IReleaseCompanyRepository, ReleaseCompanyRepository>();
+
             services.AddTransient<ICryptography, Cryptography>();
 
             services.AddTransient<IUploadFile, UploadFile>();
@@ -114,6 +115,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<Country>, CountryValidator>();
 
             services.AddTransient<IValidator<Author>, AuthorValidator>();
+
+            services.AddTransient<IValidator<ReleaseCompany>, ReleaseCompanyValidator>();
         }
     }
 }

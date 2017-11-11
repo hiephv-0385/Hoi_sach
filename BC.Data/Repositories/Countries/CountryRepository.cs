@@ -1,6 +1,6 @@
 ﻿using BC.Data.Models;
 
-namespace BC.Data.Repositories.Countries
+namespace BC.Data.Repositories
 {
     public class CountryRepository: BaseRepository<Country>, ICountryRepository
     {
