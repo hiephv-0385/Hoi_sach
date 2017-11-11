@@ -3,6 +3,7 @@ import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
+import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import * as adminModel from "./models";
@@ -34,10 +35,7 @@ export class UploadService {
 
         return this.http.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 }
 

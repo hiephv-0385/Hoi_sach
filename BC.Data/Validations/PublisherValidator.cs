@@ -9,7 +9,7 @@ namespace BC.Data.Validations
         {
             RuleFor(p => p.Name).NotEmpty();
 
-            RuleFor(p =>p.Country).NotNull();
+            RuleFor(p => p.Country).NotNull();
         }
     }
 }

@@ -119,7 +119,7 @@ export class CountryDetailComponent implements OnInit {
                 message: "User has been updated successfuly"
             };
         },
-        (err) => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: err.statusText

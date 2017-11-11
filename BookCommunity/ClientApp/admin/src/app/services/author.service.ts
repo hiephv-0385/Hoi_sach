@@ -5,6 +5,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
+import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import { Author, ListResponse, GetAuthorsParams, Avatar } from "./models";
@@ -25,14 +26,14 @@ export class AuthorService {
         const url = `${this.authorUrl}/${authorId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public getAuthors(params: GetAuthorsParams): Observable<ListResponse<Author>> {
         const url = `${this.authorUrl}?offset=${params.offset}&limit=${params.limit}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public addAuthor(author: Author): Observable<Author> {
@@ -41,10 +42,7 @@ export class AuthorService {
 
         return this.http.post(this.authorUrl, author, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public updateAuthor(authorId, payload: Author): Observable<Author> {
@@ -54,10 +52,7 @@ export class AuthorService {
 
         return this.http.put(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public deleteAuthor(authorId: string): Observable<Response> {
@@ -88,10 +83,7 @@ export class AuthorService {
 
         return this.http.post(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 }
 

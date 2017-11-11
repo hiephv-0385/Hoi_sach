@@ -59,7 +59,7 @@ export class AuthorListComponent implements OnInit {
                 message: "Authors have delete successfuly"
             };
         },
-        (err) => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: err.statusText

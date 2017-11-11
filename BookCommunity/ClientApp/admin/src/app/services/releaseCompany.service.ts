@@ -5,6 +5,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
+import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import { ListResponse, GetReleaseCompaniesParams, Avatar, ReleaseCompany } from "./models";
@@ -25,14 +26,14 @@ export class ReleaseCompanyService {
         const url = `${this.releaseCompanyUrl}/${releaseCompanyId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public getReleaseCompanies(params: GetReleaseCompaniesParams): Observable<ListResponse<ReleaseCompany>> {
         const url = `${this.releaseCompanyUrl}?offset=${params.offset}&limit=${params.limit}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public addReleaseCompany(author: ReleaseCompany): Observable<ReleaseCompany> {
@@ -41,10 +42,7 @@ export class ReleaseCompanyService {
 
         return this.http.post(this.releaseCompanyUrl, author, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public updateReleaseCompany(releaseCompanyId: string, payload: ReleaseCompany): Observable<ReleaseCompany> {
@@ -54,10 +52,7 @@ export class ReleaseCompanyService {
 
         return this.http.put(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public deleteReleaseCompany(authorId: string): Observable<Response> {
@@ -72,10 +67,7 @@ export class ReleaseCompanyService {
     public deleteReleaseCompanies(releaseCompanyIds: string[]): Observable<void> {
         const requests = releaseCompanyIds.map(a => this.deleteReleaseCompany(a));
         return Observable.combineLatest(requests)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public removePicture(fileName: string): Observable<Response> {
@@ -88,10 +80,7 @@ export class ReleaseCompanyService {
 
         return this.http.post(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 }
 

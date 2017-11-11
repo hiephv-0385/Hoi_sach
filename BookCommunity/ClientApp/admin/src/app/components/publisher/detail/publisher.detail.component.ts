@@ -71,7 +71,7 @@ export class PublisherDetailComponent implements OnInit {
     public removeLogo(): void {
         this.publisherService.removeLogo(this.uploadedFileName).subscribe(data => {
         },
-        err => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: `Remove logo error: ${err.statusText}`
@@ -127,7 +127,7 @@ export class PublisherDetailComponent implements OnInit {
                     message: "Publisher has been updated successfuly"
                 };
             },
-            (err) => {
+            (err: Response) => {
                 this.responseNotify = {
                     isSuccess: false,
                     message: err.statusText

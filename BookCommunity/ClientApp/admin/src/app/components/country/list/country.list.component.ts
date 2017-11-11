@@ -59,7 +59,7 @@ export class CountryListComponent implements OnInit {
                 message: "Countries have delete successfuly"
             };
         },
-        (err) => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: err.statusText

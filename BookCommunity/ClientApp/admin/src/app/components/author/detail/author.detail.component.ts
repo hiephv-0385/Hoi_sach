@@ -74,7 +74,7 @@ export class AuthorDetailComponent implements OnInit {
     public removePicture(): void {
         this.authorService.removePicture(this.uploadedFileName).subscribe(data => {
         },
-        err => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: `Remove avatar error: ${err.statusText}`
@@ -133,7 +133,7 @@ export class AuthorDetailComponent implements OnInit {
                 message: "Author has been updated successfuly"
             };
         },
-        (err) => {
+        (err: Response) => {
             this.responseNotify = {
                 isSuccess: false,
                 message: err.statusText

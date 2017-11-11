@@ -5,6 +5,7 @@ import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
 import "rxjs/add/observable/combineLatest";
+import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import { Country, ListResponse, GetCountriesParams, Avatar } from "./models";
@@ -25,7 +26,7 @@ export class CountryService {
         const url = `${this.countryUrl}/${countryId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public getCountries(params: GetCountriesParams): Observable<ListResponse<Country>> {
@@ -35,14 +36,14 @@ export class CountryService {
         }
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public getAllCountries(): Observable<ListResponse<Country>> {
         const url = `${this.countryUrl}/all`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || "Server error"));
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public addCountry(user: Country): Observable<Country> {
@@ -51,10 +52,7 @@ export class CountryService {
 
         return this.http.post(this.countryUrl, user, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public updateCountry(countryId, payload: Country): Observable<Country> {
@@ -64,10 +62,7 @@ export class CountryService {
 
         return this.http.put(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public deleteCountry(countryId: string): Observable<Response> {
@@ -82,10 +77,7 @@ export class CountryService {
     public deleteCountries(countryIds: string[]): Observable<void> {
         const requests = countryIds.map(c => this.deleteCountry(c));
         return Observable.combineLatest(requests)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+        .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
     public removeFlag(fileName: string): Observable<Response> {
@@ -98,10 +90,7 @@ export class CountryService {
 
         return this.http.post(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 }
 
