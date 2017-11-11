@@ -83,10 +83,8 @@ export interface GetAuthorsParams extends PagingRequest {
 
 // Author
 export interface ReleaseCompany extends BaseModel {
-    fullName: string;
-    birthday: string;
-    picture: string;
-    introduction: string;
+    name: string;
+    logo: string;
     country: Country;
 }
 

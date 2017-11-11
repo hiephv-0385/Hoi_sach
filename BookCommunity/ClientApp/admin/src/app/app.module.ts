@@ -5,6 +5,7 @@ import { AppRoutingModule } from "./app.routing.module";
 import { UserService } from "./services/user.service";
 import { CountryService } from "./services/country.service";
 import { AuthorService } from "./services/author.service";
+import { ReleaseCompanyService } from "./services/releaseCompany.service";
 import { UploadService } from "./services/upload.service";
 import { AppComponent } from "./app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
@@ -17,6 +18,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
   providers: [
     UserService,
     CountryService,
+    ReleaseCompanyService,
     AuthorService,
     UploadService
   ],

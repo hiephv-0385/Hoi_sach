@@ -69,7 +69,7 @@ export class ReleaseCompanyService {
             .map((res: Response) => res);
     }
 
-    public deleteAuthors(releaseCompanyIds: string[]): Observable<void> {
+    public deleteReleaseCompanies(releaseCompanyIds: string[]): Observable<void> {
         const requests = releaseCompanyIds.map(a => this.deleteReleaseCompany(a));
         return Observable.combineLatest(requests)
             .catch((error: any) => {

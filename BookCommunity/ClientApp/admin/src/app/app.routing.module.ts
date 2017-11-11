@@ -16,6 +16,8 @@ import { CountryListComponent } from "./components/country/list/country.list.com
 import { CountryDetailComponent } from "./components/country/detail/country.detail.component";
 import { AuthorListComponent } from "./components/author/list/author.list.component";
 import { AuthorDetailComponent } from "./components/author/detail/author.detail.component";
+import { ReleaseCompanyListComponent } from "./components/releaseCompany/list/releaseCompany.list.component";
+import { ReleaseCompanyDetailComponent } from "./components/releaseCompany/detail/releaseCompany.detail.component";
 
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
@@ -31,6 +33,8 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         CountryDetailComponent,
         AuthorListComponent,
         AuthorDetailComponent,
+        ReleaseCompanyListComponent,
+        ReleaseCompanyDetailComponent,
         AlertMessageComponent,
         ErrorCssDirective,
         ValidatorMessageComponent
@@ -53,7 +57,10 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "countries/edit/:id", component: CountryDetailComponent },
             { path: "authors", component: AuthorListComponent },
             { path: "authors/add", component: AuthorDetailComponent },
-            { path: "authors/edit/:id", component: AuthorDetailComponent }
+            { path: "authors/edit/:id", component: AuthorDetailComponent },
+            { path: "releasecompanies", component: ReleaseCompanyListComponent },
+            { path: "releasecompanies/add", component: ReleaseCompanyDetailComponent },
+            { path: "releasecompanies/edit/:id", component: ReleaseCompanyDetailComponent }
         ])
     ],
     providers: [

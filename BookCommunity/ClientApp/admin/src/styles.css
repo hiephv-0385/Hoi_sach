@@ -8,11 +8,21 @@
     margin-bottom: 10px;
 }
 
-.user-avatar {
-    width: 100px;
-    height: 100px;
-}
-
 .magin-right {
     margin-right: 10px;
+}
+
+.user-avartar {
+    width: 100px;
+    height: 100px;
+    margin-top: 10px;
+}
+
+.avatar-thumb {
+    width: 120px;
+}
+
+.list-avatar {
+    width: 100px;
+    height: 100px;
 }

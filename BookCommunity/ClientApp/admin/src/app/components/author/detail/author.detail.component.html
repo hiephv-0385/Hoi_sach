@@ -20,7 +20,7 @@
                     </div>
                     <div class="form-group">
                         <label for="countryId">Country</label>
-                        <select class="form-control" *ngIf="author" [(ngModel)]="author.country.id" formControlName="countryId" adminErrorCss [input]="countryId">
+                        <select class="form-control" formControlName="countryId" adminErrorCss [input]="countryId">
                             <option value="">-- Select country --</option>
                             <option *ngFor="let country of countries" [value]="country.id">{{ country.name }}</option>
                         </select>

@@ -7,8 +7,6 @@ import { CountryService } from "../../../services/country.service";
 import { AuthorService } from "../../../services/author.service";
 import { UploadService } from "../../../services/upload.service";
 import { Author, Country, ResponseNotify, ListResponse } from "../../../services/models";
-import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/combineLatest";
 
 @Component({
     selector: "app-author-detail",
@@ -152,7 +150,7 @@ export class AuthorDetailComponent implements OnInit {
             Validators.max(1000)
         ]);
         this.picture = new FormControl("");
-        this.countryId = new FormControl("");
+        this.countryId = new FormControl("", Validators.required);
         this.isActive = new FormControl(false);
     }
 
@@ -165,6 +163,7 @@ export class AuthorDetailComponent implements OnInit {
         const date = moment(author.birthday).format("YYYY-MM-DD");
         this.birthday.setValue(date);
         this.introduction.setValue(author.introduction);
+        this.countryId.setValue(author.country.id);
         this.uploadedFileName = author.picture;
         this.isActive.setValue(author.isActive);
     }

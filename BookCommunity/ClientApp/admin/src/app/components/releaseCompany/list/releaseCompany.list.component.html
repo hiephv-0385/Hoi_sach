@@ -1,7 +1,7 @@
 <div class="row">
     <div class="col-md-12 action-row">
-        <button class="btn btn-primary pull-right" (click)="addAuthor()">Add</button>
-        <button class="btn btn-danger pull-right magin-right" (click)="deleteAuthor()">Delete</button>
+        <button class="btn btn-primary pull-right" (click)="addReleaseCompany()">Add</button>
+        <button class="btn btn-danger pull-right magin-right" (click)="deleteReleaseCompanies()">Delete</button>
     </div>
 </div>
 <app-alert-message [notify]="responseNotify"></app-alert-message>
@@ -9,7 +9,7 @@
     <div class="col-md-12">
         <div class="box">
             <div class="box-header with-border">
-            <h3 class="box-title">Country list</h3>
+            <h3 class="box-title">Release Company list</h3>
 
             <div class="box-tools pull-right">
                 <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
@@ -29,21 +29,18 @@
             </div>
             </div>
             <div class="box-body">
-                <table class="table table-striped" *ngIf="authorList && authorList.data">
+                <table class="table table-striped" *ngIf="releaseCompanyList && releaseCompanyList.data">
                     <thead>
                         <tr>
                             <th style="width: 5%;">#</th>
                             <th>
-                                FullName
-                            </th>
-                            <th style="width: 20%">
-                                Birthday
+                                Name
                             </th>
                             <th style="width: 20%">
                                 Country
                             </th>
                             <th style="width: 20%">
-                                Avartar
+                                Logo
                             </th>
                             <th style="width: 20%">
                                 Active
@@ -54,15 +51,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of authorList.data | paginate: { itemsPerPage: 10, currentPage: page, totalItems: authorList.count }">
+                        <tr *ngFor="let item of releaseCompanyList.data | paginate: { itemsPerPage: 10, currentPage: page, totalItems: releaseCompanyList.count }">
                             <td>
                                 <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                             </td>
-                            <td>{{ item.fullName }}</td>
-                            <td>{{ item.birthday | date: 'dd/MM/yyyy' }}</td>
+                            <td>{{ item.name }}</td>
                             <td>{{ item.country.name }}</td>
                             <td>
-                                <img class="list-avatar" src="{{ item.picture }}" *ngIf="item.picture"/>
+                                <img class="list-avatar" src="{{ item.logo }}" *ngIf="item.logo"/>
                             </td>
                             <td>
                                 <a href="#" *ngIf="item.isActive">
@@ -70,7 +66,7 @@
                                 </a>
                             </td>
                             <td>
-                                <a [routerLink]="['/authors/edit', item.id]"><i class="fa fa-fw fa-edit"></i></a>
+                                <a [routerLink]="['/releasecompanies/edit', item.id]"><i class="fa fa-fw fa-edit"></i></a>
                             </td>
                         </tr>
                     </tbody>
