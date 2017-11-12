@@ -8,6 +8,7 @@ using BC.Data.Responses;
 using BC.Data.Requests;
 using BC.Data.Models;
 using BC.Web.Constants;
+using System.Collections.Generic;
 
 namespace BookCommunity.Controllers
 {
@@ -35,6 +36,12 @@ namespace BookCommunity.Controllers
                 Count = count,
                 Data = categories
             };
+        }
+
+        [HttpGet("search")]
+        public List<BookCategory> Search([FromQuery]BookCategoriesRequest request)
+        {
+            return _bookCategoryRepository.Search(request);
         }
 
         [HttpGet("{id}")]

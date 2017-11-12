@@ -17,13 +17,21 @@ namespace BC.Data.Repositories
             _dbCollection = context.GetDbColection(collectionName);
         }
 
+        protected IMongoCollection<T> DbCollection
+        {
+            get
+            {
+                return _dbCollection;
+            }
+        }
+
         public async Task<IEnumerable<T>> GetList(PagingRequest request)
         {
             try
             {
                 return await _dbCollection.Find(new BsonDocument())
                     .SortByDescending(u => u.CreatedOn)
-                    .Skip(request.Offset)
+                    .Skip(request.Offset ?? 0)
                     .Limit(request.Limit)
                     .ToListAsync();
             }

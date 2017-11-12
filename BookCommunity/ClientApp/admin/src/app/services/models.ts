@@ -106,11 +106,13 @@ export interface GetPublisherParams extends PagingRequest {
 // Publisher
 export interface BookCategory extends BaseModel {
     name: string;
+    sort: number;
     picture: string;
     parent: BookCategory;
 }
 
 export interface GetBookCategoryParams extends PagingRequest {
     name?: string;
+    parentId?: string;
 }
 

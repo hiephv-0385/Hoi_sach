@@ -36,6 +36,23 @@ export class BookCategoryService {
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
+    public searchBookCategories(params: GetBookCategoryParams): Observable<BookCategory[]> {
+
+        let url = `${this.booCategoryUrl}/search?offset=${params.offset}`;
+        if (params.limit) {
+            url = `${url}&limit=${params.limit}`;
+        }
+        if (params.name) {
+            url = `${url}&name=${params.name}`;
+        }
+        if (params.parentId || params.parentId === "") {
+            url = `${url}&parentId=${params.parentId}`;
+        }
+        return this.http.get(url)
+            .map((res: Response) => res.json())
+            .catch((error: Response) => Observable.throw(error || "Server error"));
+    }
+
     public addBookCategory(category: BookCategory): Observable<BookCategory> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
@@ -45,7 +62,7 @@ export class BookCategoryService {
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
-    public updateBooCategory(categoryId: string, payload: BookCategory): Observable<BookCategory> {
+    public updateBookCategory(categoryId: string, payload: BookCategory): Observable<BookCategory> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.booCategoryUrl}/${categoryId}`;
@@ -70,7 +87,7 @@ export class BookCategoryService {
         .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
-    public removeLogo(fileName: string): Observable<Response> {
+    public removePicture(fileName: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.booCategoryUrl}/pictures/remove`;
