@@ -106,6 +106,8 @@ namespace BookCommunity
 
             services.AddTransient<IPublisherRepository, PublisherRepository>();
 
+            services.AddTransient<IBookCategoryRepository, BookCategoryRepository>();
+
             services.AddTransient<ICryptography, Cryptography>();
 
             services.AddTransient<IUploadFile, UploadFile>();

@@ -1,0 +1,84 @@
+<div class="row">
+    <div class="col-md-12 action-row">
+        <button class="btn btn-primary pull-right" (click)="addBookCategory()">Add</button>
+        <button class="btn btn-danger pull-right magin-right" (click)="deleteBookCategories()">Delete</button>
+    </div>
+</div>
+<app-alert-message [notify]="responseNotify"></app-alert-message>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-header with-border">
+            <h3 class="box-title">Publisher list</h3>
+
+            <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <div class="btn-group">
+                <button type="button" class="btn btn-box-tool dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-wrench"></i></button>
+                <ul class="dropdown-menu" role="menu">
+                    <li><a href="#">Action</a></li>
+                    <li><a href="#">Another action</a></li>
+                    <li><a href="#">Something else here</a></li>
+                    <li class="divider"></li>
+                    <li><a href="#">Separated link</a></li>
+                </ul>
+                </div>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+            </div>
+            </div>
+            <div class="box-body">
+                <table class="table table-striped" *ngIf="categoryList && categoryList.data">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;">#</th>
+                            <th>
+                                Name
+                            </th>
+                            <th style="width: 10%">
+                                Sort
+                            </th>
+                            <th style="width: 20%">
+                                Parent
+                            </th>
+                            <th style="width: 20%">
+                                Active
+                            </th>
+                            <th style="width: 5%">
+                                Action
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of categoryList.data | paginate: { itemsPerPage: 10, currentPage: page, totalItems: categoryList.count }">
+                            <td>
+                                <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
+                            </td>
+                            <td>{{ item.name }}</td>
+                            <td>{{ item.sort }}</td>
+                            <td>
+                                {{ item.parent?.name }}
+                            </td>
+                            <td>
+                                <a href="#" *ngIf="item.isActive">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a [routerLink]="['/bookcategories/edit', item.id]"><i class="fa fa-fw fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4">
+                                <pagination-controls (pageChange)="pageChanged($event)"></pagination-controls>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -20,6 +20,7 @@ import { ReleaseCompanyListComponent } from "./components/releaseCompany/list/re
 import { ReleaseCompanyDetailComponent } from "./components/releaseCompany/detail/releaseCompany.detail.component";
 import { PublisherListComponent } from "./components/publisher/list/publisher.list.component";
 import { PublisherDetailComponent } from "./components/publisher/detail/publisher.detail.component";
+import { BookCategoryListComponent } from "./components/bookCategory/list/bookCategory.list.component";
 
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
@@ -39,6 +40,7 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
         ReleaseCompanyDetailComponent,
         PublisherListComponent,
         PublisherDetailComponent,
+        BookCategoryListComponent,
         AlertMessageComponent,
         ErrorCssDirective,
         ValidatorMessageComponent
@@ -68,6 +70,7 @@ import { ValidatorMessageComponent } from "./directives/validator.mesage/validat
             { path: "publishers", component: PublisherListComponent},
             { path: "publishers/add", component: PublisherDetailComponent },
             { path: "publishers/edit/:id", component: PublisherDetailComponent },
+            { path: "bookcategories", component: BookCategoryListComponent}
         ])
     ],
     providers: [

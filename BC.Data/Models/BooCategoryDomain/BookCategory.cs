@@ -7,5 +7,7 @@
         public int Sort { get; set; }
 
         public string Picture { get; set; }
+
+        public BookCategory Parent { get; set; }
     }
 }
