@@ -13,7 +13,7 @@ using System.Collections.Generic;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/BookCategories")]
+    [Route("api/bookCategories")]
     public class BookCategoriesController : Controller
     {
         private readonly IBookCategoryRepository _bookCategoryRepository;

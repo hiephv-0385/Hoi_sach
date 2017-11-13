@@ -4,9 +4,9 @@
     {
         public string Name { get; set; }
 
-        public string Picture { get; set; }
+        public int PageCount { get; set; } = 0;
 
-        public int PageCount { get; set; }
+        public int PublishedYear { get; set; }
 
         public string Summary { get; set; }
 
@@ -14,11 +14,7 @@
 
         public Publisher Publisher { get; set; }
 
-        public int PublishedYear { get; set; }
-
-        public ReleaseCompany GetReleaseCompany { get; set; }
-
-        public Language Language { get; set; }
+        public ReleaseCompany ReleaseCompany { get; set; }
 
         public Author Author { get; set; }
 

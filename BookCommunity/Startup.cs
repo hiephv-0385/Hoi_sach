@@ -72,10 +72,6 @@ namespace BookCommunity
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            var angularRoutes = new[] {
-                 "/dashboard"
-             };
-
             app.UseStaticFiles();
 
             app.UseMvc(routes =>
@@ -108,6 +104,10 @@ namespace BookCommunity
 
             services.AddTransient<IBookCategoryRepository, BookCategoryRepository>();
 
+            services.AddTransient<IBookRepository, BookRepository>();
+
+            services.AddTransient<IBookImageRepository, BookImageRepository>();
+
             services.AddTransient<ICryptography, Cryptography>();
 
             services.AddTransient<IUploadFile, UploadFile>();
@@ -123,6 +123,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<ReleaseCompany>, ReleaseCompanyValidator>();
 
             services.AddTransient<IValidator<Publisher>, PublisherValidator>();
+
+            services.AddTransient<IValidator<BookCategory>, BookCategoryValidator>();
         }
     }
 }

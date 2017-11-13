@@ -16,6 +16,8 @@ namespace BC.Data.Repositories
 
         Task Add(T item);
 
+        Task AddMany(IList<T> items);
+
         Task<ReplaceOneResult> Update(string id, T item);
 
         Task<DeleteResult> Remove(string id);

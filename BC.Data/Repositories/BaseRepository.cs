@@ -83,6 +83,18 @@ namespace BC.Data.Repositories
             }
         }
 
+        public async Task AddMany(IList<T> items)
+        {
+            try
+            {
+                await _dbCollection.InsertManyAsync(items);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
         public async Task<ReplaceOneResult> Update(string id, T updatedItem)
         {
             try

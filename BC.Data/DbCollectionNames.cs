@@ -9,6 +9,7 @@
         public static string Country = "Country";
         public static string Author = "Author";
         public static string Book = "Book";
+        public static string BookImage = "BookImage";
         public static string BookCase = "BookCase";
         public static string BookCaseItem = "BookCaseItem";
         public static string BookCaseTransaction = "BookCaseTransaction";
