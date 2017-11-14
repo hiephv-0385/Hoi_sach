@@ -60,7 +60,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void Post([FromBody]SavedBookDto value)
         {
-            _bookRepository.Add(new Book
+            var book = new Book
             {
                 Name = value.Name,
                 PageCount = value.PageCount,
@@ -74,14 +74,24 @@ namespace BookCommunity.Controllers
                 IsActive = value.IsActive,
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
-            });
+            };
 
+            _bookRepository.Add(book);
+
+            if (value.Images == null)
+            {
+                return;
+            }
+            foreach (var img in value.Images)
+            {
+                img.BookId = book.Id;
+            }
             _bookImageRepository.AddMany(value.Images);
         }
 
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(string id, [FromBody]Book value)
+        public async Task<IActionResult> Put(string id, [FromBody]SavedBookDto value)
         {
             var book = await _bookRepository.GetById(id);
             if (book == null)
@@ -101,35 +111,40 @@ namespace BookCommunity.Controllers
             book.UpdatedOn = DateTime.Now;
 
             var updateResult = await _bookRepository.Update(id, book);
+            
+            await _bookImageRepository.DeleteImagesByBookId(id);
+            await _bookImageRepository.AddMany(value.Images);
 
             return Ok(updateResult);
         }
 
         [HttpDelete("{id}")]
         [ValidateAntiForgeryToken]
-        public void Delete(string id)
+        public async Task Delete(string id)
         {
-            _bookRepository.Remove(id);
+            await _bookImageRepository.DeleteImagesByBookId(id);
+            await _bookRepository.Remove(id);
         }
 
         [HttpPost("images")]
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.BookImage, Request.Form);
+            var updatedFileNames = await _uploadFile.UploadMany(FolderPath.BookImage, Request.Form);
 
             return new UploadResult
             {
-                FileName = updatedFileName,
+                FileNames = updatedFileNames,
                 Status = 200
             };
         }
 
         [HttpPost("images/remove")]
         [ValidateAntiForgeryToken]
-        public void RemoveAvatar([FromBody]Avatar avatar)
+        public void RemoveAvatar([FromBody]BookAvatar avatar)
         {
             _uploadFile.RemoveFile(avatar.FileName);
+            _bookImageRepository.Remove(avatar.ImageId);
         }
     }
 }

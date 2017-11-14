@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace BC.Web.UploadFiles
@@ -6,6 +7,8 @@ namespace BC.Web.UploadFiles
     public interface IUploadFile
     {
         Task<string> Upload(string folderName, IFormCollection form);
+
+        Task<List<string>> UploadMany(string folderName, IFormCollection form);
 
         void RemoveFile(string fileName);
     }
