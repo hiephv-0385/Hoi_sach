@@ -83,7 +83,7 @@ namespace BC.Data.Repositories
             }
         }
 
-        public async Task AddMany(IList<T> items)
+        public async Task AddMany(IEnumerable<T> items)
         {
             try
             {

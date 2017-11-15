@@ -8,13 +8,11 @@ namespace BC.Data.Repositories
 {
     public class BookRepository: BaseRepository<Book>, IBookRepository
     {
-        private readonly IBCContext<Book> _context;
-
         public BookRepository(IBCContext<Book> context): base(context, DbCollectionNames.Book)
         {
         }
 
-        public IList<BookDto> Search(BookRequest request)
+        public IList<BookModel> Search(BookRequest request)
         {
             var books = DbCollection.AsQueryable()
                 .OrderBy(c => c.CreatedOn)
@@ -32,13 +30,15 @@ namespace BC.Data.Repositories
                 books = books.Where(b => b.BookCategory.Id == request.CategoryId);
             }
 
-            return books.Select(b => new BookDto
+            return books.Select(b => new BookModel
             {
                 Id = b.Id,
                 Name = b.Name,
-                PageCount = b.PageCount,
                 PublishedYear = b.PublishedYear,
-                BuyAddress = b.BuyAddress
+                IsActive = b.IsActive,
+                CreatedOn = b.CreatedOn,
+                Category = b.BookCategory,
+                Author = b.Author
             }).ToList();
         }
     }

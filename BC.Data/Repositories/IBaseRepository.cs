@@ -16,7 +16,7 @@ namespace BC.Data.Repositories
 
         Task Add(T item);
 
-        Task AddMany(IList<T> items);
+        Task AddMany(IEnumerable<T> items);
 
         Task<ReplaceOneResult> Update(string id, T item);
 

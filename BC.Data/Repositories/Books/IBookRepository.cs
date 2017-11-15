@@ -6,6 +6,6 @@ namespace BC.Data.Repositories
 {
     public interface IBookRepository: IBaseRepository<Book>
     {
-        IList<BookDto> Search(BookRequest request);
+        IList<BookModel> Search(BookRequest request);
     }
 }

@@ -8,9 +8,13 @@ export interface ResponseNotify {
     message: string;
 }
 
-export interface PagingRequest {
+export interface PagingRequest extends QueryParams {
     offset?: number;
     limit?: number;
+}
+
+export interface QueryParams {
+    [key: string]: string | number | boolean | undefined;
 }
 
 export interface ListResponse<T> {
@@ -115,4 +119,51 @@ export interface GetBookCategoryParams extends PagingRequest {
     name?: string;
     parentId?: string;
 }
+
+// Book
+export interface Book extends BaseModel {
+    name: string;
+    pageCount: number;
+    publishedYear: number;
+    summary: string;
+    buyAddress: string;
+    publisher:  Publisher;
+    releaseCompany: ReleaseCompany;
+    author: Author;
+    bookCategory: BookCategory;
+}
+
+export interface BookModel extends BaseModel {
+    name: string;
+    pageCount: number;
+    publishedYear: number;
+    summary: string;
+    author: Author;
+    bookCategory: BookCategory;
+}
+
+export interface BookImage {
+    bookId: string;
+    sort: number;
+    imageUrl: string;
+}
+
+export interface StoredBookModel {
+    book: Book;
+    images: BookImage[];
+}
+
+export interface GetBookParams extends PagingRequest {
+    name?: string;
+    categoryId?: string;
+}
+
+export interface BookListResponse extends ListResponse<BookModel> {
+    books: BookModel[];
+}
+
+export interface BookAvatar extends Avatar {
+    imageId: string;
+}
+
 

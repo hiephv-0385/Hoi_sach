@@ -6,17 +6,19 @@ import {
     BookCategory,
     ResponseNotify,
     GetBookCategoryParams,
-    ListResponse
+    ListResponse,
+    GetBookParams
 } from "../../../services/models";
 
 @Component({
-  selector: "app-book-category-list",
-  templateUrl: "./bookCategory.list.component.html",
-  styleUrls: ["./bookCategory.list.component.css"]
+    selector: "app-book-category-list",
+    templateUrl: "./bookCategory.list.component.html",
+    styleUrls: ["./bookCategory.list.component.css"]
 })
 export class BookCategoryListComponent implements OnInit {
     public categoryList: ListResponse<BookCategory>;
     public responseNotify: ResponseNotify;
+    public searchParams: GetBookParams;
     public page = 1;
 
     constructor(
@@ -27,11 +29,11 @@ export class BookCategoryListComponent implements OnInit {
      }
 
     ngOnInit() {
-        const params: GetBookCategoryParams = {
+        this.searchParams = {
             offset: 0,
             limit: 10
         };
-        this.bookCategoryService.getBookCategories(params).subscribe((result) => {
+        this.bookCategoryService.getBookCategories(this.searchParams).subscribe((result) => {
             if (!result.data) {
                 return;
             }
@@ -73,12 +75,12 @@ export class BookCategoryListComponent implements OnInit {
     public pageChanged($event): void {
         const limit = 10;
         this.page = +$event;
-        const params: GetBookCategoryParams = {
+        this.searchParams = {
             offset: (this.page - 1) * limit,
             limit: limit
         };
 
-        this.bookCategoryService.getBookCategories(params).subscribe((result) => {
+        this.bookCategoryService.getBookCategories(this.searchParams).subscribe((result) => {
             this.categoryList = result;
         });
     }

@@ -8,6 +8,7 @@ import { AuthorService } from "./services/author.service";
 import { ReleaseCompanyService } from "./services/releaseCompany.service";
 import { PublisherService } from "./services/publisher.service";
 import { BookCategoryService } from "./services/bookCategory.service";
+import { BookService } from "./services/book.service";
 import { UploadService } from "./services/upload.service";
 import { AppComponent } from "./app.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
@@ -24,6 +25,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
     AuthorService,
     PublisherService,
     BookCategoryService,
+    BookService,
     UploadService
   ],
   bootstrap: [AppComponent]

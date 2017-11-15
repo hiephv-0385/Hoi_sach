@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace BC.Data.Responses
 {
-    public class BookListResponse: ListResponse<BookDto>
+    public class BookListResponse: ListResponse<BookModel>
     {
-        public IList<BookDto> Dtos { get; set; }
+        public IList<BookModel> Books { get; set; }
     }
 }

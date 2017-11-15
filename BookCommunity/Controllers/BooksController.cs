@@ -39,7 +39,7 @@ namespace BookCommunity.Controllers
             {
                 Count = count,
                 Data = books,
-                Dtos = books
+                Books = books
             };
         }
 
@@ -52,26 +52,31 @@ namespace BookCommunity.Controllers
             {
                 return NotFound();
             }
+            var images = await _bookImageRepository.GetImagesByBookId(id);
 
-            return Ok(book);
+            return Ok(new StoredBookModel
+            {
+                Book = book,
+                Images = images
+            });
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Post([FromBody]SavedBookDto value)
+        public void Post([FromBody]StoredBookModel value)
         {
             var book = new Book
             {
-                Name = value.Name,
-                PageCount = value.PageCount,
-                PublishedYear = value.PublishedYear,
-                Summary = value.Summary,
-                BuyAddress = value.BuyAddress,
-                Author = value.Author,
-                ReleaseCompany = value.ReleaseCompany,
-                BookCategory = value.BookCategory,
-                Publisher = value.Publisher,
-                IsActive = value.IsActive,
+                Name = value.Book.Name,
+                PageCount = value.Book.PageCount,
+                PublishedYear = value.Book.PublishedYear,
+                Summary = value.Book.Summary,
+                BuyAddress = value.Book.BuyAddress,
+                Author = value.Book.Author,
+                ReleaseCompany = value.Book.ReleaseCompany,
+                BookCategory = value.Book.BookCategory,
+                Publisher = value.Book.Publisher,
+                IsActive = value.Book.IsActive,
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
             };
@@ -91,7 +96,7 @@ namespace BookCommunity.Controllers
 
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(string id, [FromBody]SavedBookDto value)
+        public async Task<IActionResult> Put(string id, [FromBody]StoredBookModel value)
         {
             var book = await _bookRepository.GetById(id);
             if (book == null)
@@ -99,15 +104,15 @@ namespace BookCommunity.Controllers
                 return BadRequest();
             }
 
-            book.Name = value.Name;
-            book.PageCount = value.PageCount;
-            book.PublishedYear = value.PublishedYear;
-            book.Summary = value.Summary;
-            book.BuyAddress = value.BuyAddress;
-            book.Author = value.Author;
-            book.ReleaseCompany = value.ReleaseCompany;
-            book.BookCategory = value.BookCategory;
-            book.Publisher = value.Publisher;
+            book.Name = value.Book.Name;
+            book.PageCount = value.Book.PageCount;
+            book.PublishedYear = value.Book.PublishedYear;
+            book.Summary = value.Book.Summary;
+            book.BuyAddress = value.Book.BuyAddress;
+            book.Author = value.Book.Author;
+            book.ReleaseCompany = value.Book.ReleaseCompany;
+            book.BookCategory = value.Book.BookCategory;
+            book.Publisher = value.Book.Publisher;
             book.UpdatedOn = DateTime.Now;
 
             var updateResult = await _bookRepository.Update(id, book);

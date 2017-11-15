@@ -3,17 +3,17 @@ using FluentValidation;
 
 namespace BC.Data.Validations
 {
-    public class BookValidator: AbstractValidator<Book>
+    public class BookValidator: AbstractValidator<StoredBookModel>
     {
         public BookValidator()
         {
-            RuleFor(b => b.Name).NotEmpty();
+            RuleFor(b => b.Book.Name).NotEmpty();
 
-            RuleFor(b => b.Author).NotNull();
+            RuleFor(b => b.Book.Author).NotNull();
 
-            RuleFor(b => b.BookCategory).NotNull();
+            RuleFor(b => b.Book.BookCategory).NotNull();
 
-            RuleFor(b => b.Publisher).NotNull();
+            RuleFor(b => b.Book.Publisher).NotNull();
         }
     }
 }

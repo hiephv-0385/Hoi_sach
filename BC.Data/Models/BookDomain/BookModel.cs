@@ -1,13 +1,13 @@
 ﻿namespace BC.Data.Models
 {
-    public class BookDto: BaseModel
+    public class BookModel: BaseModel
     {
         public string Name { get; set; }
 
-        public int PageCount { get; set; }
-
         public int PublishedYear { get; set; }
 
-        public string BuyAddress { get; set; }
+        public BookCategory Category { get; set; }
+
+        public Author Author { get; set; }
     }
 }
