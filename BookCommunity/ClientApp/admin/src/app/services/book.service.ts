@@ -81,7 +81,7 @@ export class BookService extends BaseService {
         .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
-    public removePicture(imageId: string, fileName: string): Observable<Response> {
+    public removeImage(imageId: string, fileName: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
         const url = `${this.bookUrl}/images/remove`;

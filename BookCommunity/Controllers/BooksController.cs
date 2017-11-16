@@ -118,7 +118,14 @@ namespace BookCommunity.Controllers
             var updateResult = await _bookRepository.Update(id, book);
             
             await _bookImageRepository.DeleteImagesByBookId(id);
-            await _bookImageRepository.AddMany(value.Images);
+            if (value.Images != null)
+            {
+                foreach (var img in value.Images)
+                {
+                    img.BookId = book.Id;
+                }
+                await _bookImageRepository.AddMany(value.Images);
+            }
 
             return Ok(updateResult);
         }

@@ -1,0 +1,87 @@
+<app-alert-message [notify]="responseNotify"></app-alert-message>
+<div class="row">
+    <div class="col-md-12">
+        <div class="box box-primary">
+            <div class="box-header with-border">
+                <h3 class="box-title">Book info</h3>
+            </div>
+
+            <form role="form" [formGroup]="bookForm" (ngSubmit)="saveBook()" #form="ngForm">
+                <div class="box-body">
+                    <div class="form-group">
+                        <label for="name">Name</label>
+                        <input type="text" class="form-control" formControlName="name" adminErrorCss [input]="name">
+                        <app-validator-message name="Name" [control]="name"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="pageCount">Page count</label>
+                        <input type="number" class="form-control" formControlName="pageCount" adminErrorCss [input]="pageCount">
+                        <app-validator-message name="PageCount" [control]="pageCount"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="publishedYear">Published Year</label>
+                        <input type="number" class="form-control" formControlName="publishedYear" adminErrorCss [input]="publishedYear">
+                        <app-validator-message name="PublishedYear" [control]="publishedYear"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="buyAddress">Buy address</label>
+                        <input type="text" class="form-control" formControlName="buyAddress" adminErrorCss [input]="buyAddress">
+                        <app-validator-message name="BuyAddress" [control]="buyAddress"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoryId">Category</label>
+                        <select class="form-control" formControlName="categoryId" adminErrorCss [input]="categoryId">
+                            <option value="">-- Select category --</option>
+                            <option *ngFor="let cate of categories" [value]="cate.id">{{ cate.name }}</option>
+                        </select>
+                        <app-validator-message name="Category" [control]="categoryId"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="authorId">Author</label>
+                        <select class="form-control" formControlName="authorId" adminErrorCss [input]="authorId">
+                            <option value="">-- Select author --</option>
+                            <option *ngFor="let author of authors" [value]="author.id">{{ author.fullName }}</option>
+                        </select>
+                        <app-validator-message name="Author" [control]="authorId"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="publisherId">Publisher</label>
+                        <select class="form-control" formControlName="publisherId" adminErrorCss [input]="publisherId">
+                            <option value="">-- Select publisher --</option>
+                            <option *ngFor="let pub of publishers" [value]="pub.id">{{ pub.name }}</option>
+                        </select>
+                        <app-validator-message name="Publisher" [control]="publisherId"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="releaseCompanyId">Release company</label>
+                        <select class="form-control" formControlName="releaseCompanyId" adminErrorCss [input]="releaseCompanyId">
+                            <option value="">-- Select release company --</option>
+                            <option *ngFor="let company of releaseCompanies" [value]="company.id">{{ company.name }}</option>
+                        </select>
+                        <app-validator-message name="ReleaseCompany" [control]="releaseCompanyId"></app-validator-message>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Images</label>
+                        <input type="file" (change)="onFileChange($event)">
+                        <div class="avatar-thumb">
+                            <img src="" alt="" class="img-thumbnail user-avartar">
+                            <button type="button" class="close" aria-label="Close" title="Remove" (click)="removeImage()" *ngIf="uploadedFileNames">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" formControlName="isActive"> Is Active
+                        </label>
+                    </div>
+                </div>
+
+                <div class="box-footer">
+                    <button type="submit" class="btn btn-primary" [disabled]="form.invalid">Save</button>
+                    <button type="button" class="btn btn-default" *ngIf="!bookId" (click)="clearForm()">Clear</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

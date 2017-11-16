@@ -9,9 +9,10 @@ import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import { Author, ListResponse, GetAuthorsParams, Avatar } from "./models";
+import { BaseService } from "./base.service";
 
 @Injectable()
-export class AuthorService {
+export class AuthorService extends BaseService {
     private authorUrl = "/api/authors";
     private csrfToken: string;
 
@@ -19,6 +20,7 @@ export class AuthorService {
         private http: Http,
         private cookieService: CookieService
     ) {
+        super();
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
@@ -30,7 +32,7 @@ export class AuthorService {
     }
 
     public getAuthors(params: GetAuthorsParams): Observable<ListResponse<Author>> {
-        const url = `${this.authorUrl}?offset=${params.offset}&limit=${params.limit}`;
+        const url = `${this.authorUrl}?${this.joinUrlParams(params)}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: Response) => Observable.throw(error || "Server error"));

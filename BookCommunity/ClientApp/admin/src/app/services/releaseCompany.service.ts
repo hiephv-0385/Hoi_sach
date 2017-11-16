@@ -9,9 +9,11 @@ import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
 import { ListResponse, GetReleaseCompaniesParams, Avatar, ReleaseCompany } from "./models";
+import { BaseService } from "./base.service";
+import { Subject } from "rxjs/Subject";
 
 @Injectable()
-export class ReleaseCompanyService {
+export class ReleaseCompanyService extends BaseService {
     private releaseCompanyUrl = "/api/releasecompanies";
     private csrfToken: string;
 
@@ -19,6 +21,7 @@ export class ReleaseCompanyService {
         private http: Http,
         private cookieService: CookieService
     ) {
+        super();
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
@@ -30,7 +33,7 @@ export class ReleaseCompanyService {
     }
 
     public getReleaseCompanies(params: GetReleaseCompaniesParams): Observable<ListResponse<ReleaseCompany>> {
-        const url = `${this.releaseCompanyUrl}?offset=${params.offset}&limit=${params.limit}`;
+        const url = `${this.releaseCompanyUrl}?${this.joinUrlParams(params)}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
             .catch((error: Response) => Observable.throw(error || "Server error"));

@@ -31,7 +31,7 @@ namespace BC.Data.Repositories
 
                 if (request.ParentId != null)
                 {
-                    categories = categories.Where(c => c.Parent.Id != null && c.Parent.Id == request.ParentId);
+                    categories = categories.Where(c => c.Parent != null && c.Parent.Id == request.ParentId);
                 }
                 
                 return categories.ToList();
