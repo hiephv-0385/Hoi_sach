@@ -6,7 +6,7 @@ namespace BC.Web.UploadFiles
     {
         public string FileName { get; set; }
 
-        public List<string> FileNames { get; set; }
+        public List<UploadedFile> UploadedFiles { get; set; }
 
         public int Status { get; set; }
     }

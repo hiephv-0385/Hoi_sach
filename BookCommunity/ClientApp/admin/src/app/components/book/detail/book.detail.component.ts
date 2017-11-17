@@ -18,7 +18,8 @@ import {
     Author,
     ReleaseCompany,
     Publisher,
-    BookImage
+    BookImage,
+    UploadedFile
 } from "../../../services/models";
 import { BookService } from "../../../services/book.service";
 
@@ -38,7 +39,7 @@ export class BookDetailComponent implements OnInit {
     public publishers: Publisher[];
     public bookImages: BookImage[];
 
-    private uploadedFileNames: string[];
+    private uploadedFiles: UploadedFile[];
 
     name: FormControl;
     pageCount: FormControl;
@@ -106,15 +107,14 @@ export class BookDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/books/pictures";
-        this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
-            console.log(result);
-            //this.uploadedFileNames = result.fileName;
+        const apiUrl = "/api/books/images";
+        this.uploadService.uploadMultipleFiles(event, apiUrl).subscribe((result) => {
+            this.uploadedFiles = result.uploadedFiles;
         });
     }
 
-    public removeImage(imageId: string): void {
-        this.bookService.removeImage(imageId, this.uploadedFileNames[0]).subscribe(data => {
+    public removeImage(img: UploadedFile): void {
+        this.bookService.removeImage(img.id || undefined, img.fileName).subscribe(data => {
         },
         (err: Response) => {
             this.responseNotify = {
@@ -122,7 +122,13 @@ export class BookDetailComponent implements OnInit {
                 message: err.statusText
             };
         });
-        this.uploadedFileNames = [];
+        const index = this.uploadedFiles.indexOf(img);
+        this.uploadedFiles.splice(index, 1);
+        // if (imageId) {
+        //     this.uploadedFiles = this.uploadedFiles.filter(f => f.id === imageId);
+        // } else if (fileName) {
+        //     this.uploadedFiles = this.uploadedFiles.filter(f => f.fileName === fileName);
+        // }
     }
 
     private saveOrUpdate(): void {
@@ -138,6 +144,16 @@ export class BookDetailComponent implements OnInit {
         const selectedAuthor = this.authors.find(a => a.id === this.authorId.value);
         const selectedReleaseCompany = this.releaseCompanies.find(r => r.id === this.releaseCompanyId.value);
         const selectedPublisher = this.publishers.find(r => r.id === this.publisherId.value);
+        const bookImages: BookImage[] = this.uploadedFiles.map(f => {
+            const img: BookImage = {
+                bookId: "",
+                imageUrl: f.fileName,
+                isActive: true
+            };
+
+            return img;
+        });
+        console.log("bookImages", bookImages);
 
         const storedBook: StoredBookModel = {
             book: {
@@ -152,7 +168,7 @@ export class BookDetailComponent implements OnInit {
                 publisher: selectedPublisher,
                 isActive: this.isActive.value
             },
-            images: []
+            images: bookImages
         };
 
         this.bookService.addBook(storedBook).subscribe((data) => {
@@ -174,6 +190,15 @@ export class BookDetailComponent implements OnInit {
         const selectedAuthor = this.authors.find(a => a.id === this.authorId.value);
         const selectedReleaseCompany = this.releaseCompanies.find(r => r.id === this.releaseCompanyId.value);
         const selectedPublisher = this.publishers.find(r => r.id === this.publisherId.value);
+        const bookImages: BookImage[] = this.uploadedFiles.map(f => {
+            const img: BookImage = {
+                bookId: this.bookId,
+                imageUrl: f.fileName,
+                isActive: true
+            };
+
+            return img;
+        });
 
         const payload: StoredBookModel = {
             book: {
@@ -188,7 +213,7 @@ export class BookDetailComponent implements OnInit {
                 publisher: selectedPublisher,
                 isActive: this.isActive.value || false
             },
-            images: []
+            images: bookImages
         };
 
         this.bookService.updateBook(this.bookId, payload)
@@ -233,6 +258,12 @@ export class BookDetailComponent implements OnInit {
         this.authorId.setValue(model.book.author.id);
         this.publisherId.setValue(model.book.publisher.id);
         this.releaseCompanyId.setValue(model.book.releaseCompany ? model.book.releaseCompany.id : "");
+        this.uploadedFiles = model.images.map(img => {
+            return {
+                id: img.id,
+                fileName: img.imageUrl
+            };
+        });
         this.isActive.setValue(model.book.isActive);
     }
 
@@ -252,7 +283,7 @@ export class BookDetailComponent implements OnInit {
     }
 
     public clearForm() {
-        this.uploadedFileNames = [];
+        this.uploadedFiles = [];
         this.bookForm.reset();
         this.categoryId.setValue("");
         this.authorId.setValue("");

@@ -29,6 +29,11 @@
                         <app-validator-message name="BuyAddress" [control]="buyAddress"></app-validator-message>
                     </div>
                     <div class="form-group">
+                        <label for="summary">Summary</label>
+                        <textarea class="form-control" formControlName="summary" adminErrorCss [input]="summary"></textarea>
+                        <app-validator-message name="Summary" [control]="summary"></app-validator-message>
+                    </div>
+                    <div class="form-group">
                         <label for="categoryId">Category</label>
                         <select class="form-control" formControlName="categoryId" adminErrorCss [input]="categoryId">
                             <option value="">-- Select category --</option>
@@ -62,10 +67,10 @@
                     </div>
                     <div class="form-group">
                         <label for="">Images</label>
-                        <input type="file" (change)="onFileChange($event)">
-                        <div class="avatar-thumb">
-                            <img src="" alt="" class="img-thumbnail user-avartar">
-                            <button type="button" class="close" aria-label="Close" title="Remove" (click)="removeImage()" *ngIf="uploadedFileNames">
+                        <input type="file" (change)="onFileChange($event)" multiple>
+                        <div class="avatar-thumb" *ngFor="let img of uploadedFiles">
+                            <img  src="{{ img.fileName }}" alt="" class="img-thumbnail user-avartar">
+                            <button type="button" class="close" aria-label="Close" title="Remove" (click)="removeImage(img)" *ngIf="uploadedFiles.length > 0">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>

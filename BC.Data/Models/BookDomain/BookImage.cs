@@ -6,6 +6,6 @@
 
         public int Sort { get; set; }
 
-        public string ImgageUrl { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

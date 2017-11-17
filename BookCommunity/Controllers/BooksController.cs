@@ -8,6 +8,7 @@ using BC.Data.Responses;
 using BC.Data.Requests;
 using BC.Data.Models;
 using BC.Web.Constants;
+using System.Linq;
 
 namespace BookCommunity.Controllers
 {
@@ -83,7 +84,7 @@ namespace BookCommunity.Controllers
 
             _bookRepository.Add(book);
 
-            if (value.Images == null)
+            if (value.Images == null || value.Images.ToList().Count <= 0)
             {
                 return;
             }
@@ -113,17 +114,14 @@ namespace BookCommunity.Controllers
             book.ReleaseCompany = value.Book.ReleaseCompany;
             book.BookCategory = value.Book.BookCategory;
             book.Publisher = value.Book.Publisher;
+            book.IsActive = value.Book.IsActive;
             book.UpdatedOn = DateTime.Now;
 
             var updateResult = await _bookRepository.Update(id, book);
             
             await _bookImageRepository.DeleteImagesByBookId(id);
-            if (value.Images != null)
+            if (value.Images != null && value.Images.ToList().Count > 0)
             {
-                foreach (var img in value.Images)
-                {
-                    img.BookId = book.Id;
-                }
                 await _bookImageRepository.AddMany(value.Images);
             }
 
@@ -142,13 +140,11 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            var updatedFileNames = await _uploadFile.UploadMany(FolderPath.BookImage, Request.Form);
+            var uploadResult = await _uploadFile.UploadMany(FolderPath.BookImage, Request.Form);
+            uploadResult.Status = 200;
+            uploadResult.FileName = "";
 
-            return new UploadResult
-            {
-                FileNames = updatedFileNames,
-                Status = 200
-            };
+            return uploadResult;
         }
 
         [HttpPost("images/remove")]
@@ -156,7 +152,10 @@ namespace BookCommunity.Controllers
         public void RemoveAvatar([FromBody]BookAvatar avatar)
         {
             _uploadFile.RemoveFile(avatar.FileName);
-            _bookImageRepository.Remove(avatar.ImageId);
+            if (!string.IsNullOrEmpty(avatar.ImageId))
+            {
+                _bookImageRepository.Remove(avatar.ImageId);
+            }
         }
     }
 }

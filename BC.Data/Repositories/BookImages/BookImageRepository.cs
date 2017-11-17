@@ -29,12 +29,11 @@ namespace BC.Data.Repositories
             }
         }
 
-
         public async Task<DeleteResult> DeleteImagesByBookId(string bookId)
         {
             try
             {
-                var filter = Builders<BookImage>.Filter.In("BookId", bookId);
+                var filter = Builders<BookImage>.Filter.Eq("BookId", bookId);
                 return await DbCollection.DeleteManyAsync(filter);
             }
             catch(Exception ex)

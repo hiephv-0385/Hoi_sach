@@ -1,5 +1,11 @@
+export interface UploadedFile {
+    id?: string;
+    fileName: string;
+}
+
 export interface UploadResult {
     fileName: string;
+    uploadedFiles: UploadedFile[];
     status: number;
 }
 
@@ -142,9 +148,9 @@ export interface BookModel extends BaseModel {
     bookCategory: BookCategory;
 }
 
-export interface BookImage {
+export interface BookImage extends BaseModel {
     bookId: string;
-    sort: number;
+    sort?: number;
     imageUrl: string;
 }
 

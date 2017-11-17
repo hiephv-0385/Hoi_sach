@@ -43,9 +43,9 @@ namespace BC.Web.UploadFiles
             return string.Format("{0}/{1}", folderName, updatedFileName);
         }
 
-        public async Task<List<string>> UploadMany(string folderName, IFormCollection form)
+        public async Task<UploadResult> UploadMany(string folderName, IFormCollection form)
         {
-            List<string> updatedFileNames = new List<string>();
+            List<UploadedFile> uploadedFiles = new List<UploadedFile>();
             string fullPath = Path.Combine(_env.WebRootPath, folderName);
             var files = form.Files;
             if (Directory.Exists(fullPath) == false)
@@ -64,12 +64,19 @@ namespace BC.Web.UploadFiles
                 using (var stream = new FileStream(destinationPath, FileMode.Create))
                 {
                     string filePath = string.Format("{0}/{1}", folderName, file.FileName);
-                    updatedFileNames.Add(filePath);
+                    uploadedFiles.Add(new UploadedFile
+                    {
+                        Id = "",
+                        FileName = filePath
+                    });
                     await file.CopyToAsync(stream);
                 }
             }
 
-            return updatedFileNames;
+            return new UploadResult
+            {
+                UploadedFiles = uploadedFiles
+            };
         }
 
         public void RemoveFile(string fileName)

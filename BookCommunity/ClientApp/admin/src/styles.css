@@ -20,6 +20,8 @@
 
 .avatar-thumb {
     width: 120px;
+    display: inline-block;
+    margin-right: 15px;
 }
 
 .list-avatar {

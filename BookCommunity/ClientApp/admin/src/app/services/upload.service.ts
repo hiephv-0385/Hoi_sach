@@ -37,6 +37,26 @@ export class UploadService {
             .map((res: Response) => res.json())
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
+
+    public uploadMultipleFiles(event: any, apiUrl: string): Observable<adminModel.UploadResult> {
+        const fi = event.srcElement;
+        if (!fi.files) {
+            return;
+        }
+
+        const formData: FormData = new FormData();
+        for (const file of fi.files) {
+            formData.append(file.name, file);
+        }
+
+        const headers = new Headers();
+        headers.set("Accept", "application/json");
+        headers.set("X-XSRF-TOKEN", this.csrfToken);
+
+        return this.http.post(apiUrl, formData, { headers: headers })
+            .map((res: Response) => res.json())
+            .catch((error: Response) => Observable.throw(error || "Server error"));
+    }
 }
 
 
