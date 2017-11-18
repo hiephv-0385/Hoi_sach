@@ -2,8 +2,8 @@ import { Component } from "@angular/core";
 
 @Component({
     selector: "app-sidebar",
-    templateUrl: "./mainSidebar.component.html"
+    templateUrl: "./mainSidebar.component.html",
+    styleUrls: ["./mainSidebar.component.css"]
 })
 export class MainSidebarComponent {
-    title = "app";
 }
