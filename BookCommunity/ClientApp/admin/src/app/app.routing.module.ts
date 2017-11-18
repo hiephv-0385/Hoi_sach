@@ -9,6 +9,10 @@ import { MomentModule } from "angular2-moment";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
+import { HeaderComponent } from "./layouts/header/header.component";
+import { FooterComponent } from "./layouts/footer/footer.component";
+import { MainSidebarComponent } from "./layouts/mainSidebar/mainSidebar.component";
+import { ControlSidebarComponent } from "./layouts/controlSidebar/controlSidebar.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { UserListComponent } from "./components/user/list/user.list.component";
 import { UserDetailComponent } from "./components/user/detail/user.detail.component";
@@ -28,10 +32,15 @@ import { BookDetailComponent } from "./components/book/detail/book.detail.compon
 import { ErrorCssDirective } from "./directives/error.css.directive";
 import { AlertMessageComponent } from "./directives/alers/alert.message.component";
 import { ValidatorMessageComponent } from "./directives/validator.mesage/validator.message.component";
+import { ControlContainer } from "@angular/forms/src/directives/control_container";
 
 @NgModule({
     declarations: [
         AppComponent,
+        HeaderComponent,
+        FooterComponent,
+        MainSidebarComponent,
+        ControlSidebarComponent,
         DashboardComponent,
         UserListComponent,
         UserDetailComponent,
