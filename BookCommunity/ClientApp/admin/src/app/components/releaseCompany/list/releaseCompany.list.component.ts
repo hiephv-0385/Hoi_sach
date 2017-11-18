@@ -6,7 +6,8 @@ import {
     ReleaseCompany,
     ResponseNotify,
     GetReleaseCompaniesParams,
-    ListResponse
+    ListResponse,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -63,10 +64,10 @@ export class ReleaseCompanyListComponent implements OnInit {
                     message: "Release companies have delete successfuly"
                 };
             },
-            (err) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

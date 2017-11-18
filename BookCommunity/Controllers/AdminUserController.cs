@@ -72,9 +72,15 @@ namespace BookCommunity.Controllers
         // POST api/adminusers
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Post([FromBody]AdminUserModel value)
+        public async Task<IActionResult> Post([FromBody]AdminUserModel value)
         {
-            _adminUserRepository.Add(new AdminUser
+            var isEmailExisted = _adminUserRepository.IsEmailExisted(value.Email);
+            if (isEmailExisted == true)
+            {
+                var error = new Exception(String.Format(ErrorMessage.EmailExisted, value.Email));
+                return BadRequest(error);
+            }
+            await _adminUserRepository.Add(new AdminUser
             {
                 FirstName = value.FirstName,
                 LastName = value.LastName,
@@ -86,6 +92,8 @@ namespace BookCommunity.Controllers
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
             });
+
+            return Ok();
         }
 
         // PUT api/adminusers/5

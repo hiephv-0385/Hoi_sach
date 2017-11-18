@@ -1,3 +1,7 @@
+export interface ErrorInfo {
+    message: string;
+}
+
 export interface UploadedFile {
     id?: string;
     fileName: string;

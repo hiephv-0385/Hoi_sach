@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { CountryService } from "../../../services/country.service";
 import { UploadService } from "../../../services/upload.service";
-import { Country, ResponseNotify } from "../../../services/models";
+import { Country, ResponseNotify, ErrorInfo } from "../../../services/models";
 
 @Component({
     selector: "app-country-detail",
@@ -97,10 +97,10 @@ export class CountryDetailComponent implements OnInit {
                 message: "User has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -120,10 +120,10 @@ export class CountryDetailComponent implements OnInit {
                 message: "User has been updated successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }

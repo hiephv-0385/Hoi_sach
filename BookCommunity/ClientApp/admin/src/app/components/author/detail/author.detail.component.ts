@@ -6,7 +6,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { AuthorService } from "../../../services/author.service";
 import { UploadService } from "../../../services/upload.service";
-import { Author, Country, ResponseNotify, ListResponse } from "../../../services/models";
+import { Author, Country, ResponseNotify, ListResponse, ErrorInfo } from "../../../services/models";
 
 @Component({
     selector: "app-author-detail",
@@ -75,10 +75,10 @@ export class AuthorDetailComponent implements OnInit {
         const apiUrl = "/api/authors/pictures/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Remove avatar error: ${err.statusText}`
+                message: `Remove avatar error: ${err.message}`
             };
         });
         this.uploadedFileName = "";
@@ -109,10 +109,10 @@ export class AuthorDetailComponent implements OnInit {
                 message: "Author has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -134,10 +134,10 @@ export class AuthorDetailComponent implements OnInit {
                 message: "Author has been updated successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }

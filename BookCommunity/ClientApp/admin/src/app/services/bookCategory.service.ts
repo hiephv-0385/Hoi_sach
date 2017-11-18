@@ -24,6 +24,6 @@ export class BookCategoryService extends BaseService {
         const url = `${this.apiUrl}/search?${this.joinUrlParams(params)}`;
         return this.childHttp.get(url)
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 }

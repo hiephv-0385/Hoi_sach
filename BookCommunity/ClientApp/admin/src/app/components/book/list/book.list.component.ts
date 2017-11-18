@@ -8,7 +8,8 @@ import {
     ResponseNotify,
     GetBookParams,
     ListResponse,
-    BookCategory
+    BookCategory,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -71,10 +72,10 @@ export class BookListComponent implements OnInit {
                     message: "Book(s) have delete successfuly"
                 };
             },
-            (err) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

@@ -6,7 +6,8 @@ import {
     Publisher,
     ResponseNotify,
     GetPublisherParams,
-    ListResponse
+    ListResponse,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -61,10 +62,10 @@ export class PublisherListComponent implements OnInit {
                     message: "Publisher have delete successfuly"
                 };
             },
-            (err) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

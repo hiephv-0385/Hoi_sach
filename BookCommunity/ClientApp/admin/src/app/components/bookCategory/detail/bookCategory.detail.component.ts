@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { BookCategoryService } from "../../../services/bookCategory.service";
 import { UploadService } from "../../../services/upload.service";
-import { BookCategory, ResponseNotify, GetBookCategoryParams } from "../../../services/models";
+import { BookCategory, ResponseNotify, GetBookCategoryParams, ErrorInfo } from "../../../services/models";
 
 @Component({
     selector: "app-book-category-detail",
@@ -76,10 +76,10 @@ export class BookCategoryDetailComponent implements OnInit {
         const apiUrl = "/api/bookcategories/pictures/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
         this.uploadedFileName = "";
@@ -109,10 +109,10 @@ export class BookCategoryDetailComponent implements OnInit {
                 message: "Book category has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -134,10 +134,10 @@ export class BookCategoryDetailComponent implements OnInit {
                     message: "Book category has been updated successfuly"
                 };
             },
-            (err: Response) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

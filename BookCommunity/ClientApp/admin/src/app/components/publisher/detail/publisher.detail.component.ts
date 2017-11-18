@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { PublisherService } from "../../../services/publisher.service";
 import { UploadService } from "../../../services/upload.service";
-import { Publisher, Country, ResponseNotify } from "../../../services/models";
+import { Publisher, Country, ResponseNotify, ErrorInfo } from "../../../services/models";
 
 @Component({
     selector: "app-publisher-detail",
@@ -72,10 +72,10 @@ export class PublisherDetailComponent implements OnInit {
         const apiUrl = "/api/publishers/logos/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Remove logo error: ${err.statusText}`
+                message: `Remove logo error: ${err.message}`
             };
         });
         this.uploadedFileName = "";
@@ -104,10 +104,10 @@ export class PublisherDetailComponent implements OnInit {
                 message: "Publisher has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -128,10 +128,10 @@ export class PublisherDetailComponent implements OnInit {
                     message: "Publisher has been updated successfuly"
                 };
             },
-            (err: Response) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

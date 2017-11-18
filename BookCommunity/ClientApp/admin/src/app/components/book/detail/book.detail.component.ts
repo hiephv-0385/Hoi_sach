@@ -17,7 +17,8 @@ import {
     ReleaseCompany,
     Publisher,
     BookImage,
-    UploadedFile
+    UploadedFile,
+    ErrorInfo
 } from "../../../services/models";
 import { BookService } from "../../../services/book.service";
 
@@ -114,10 +115,10 @@ export class BookDetailComponent implements OnInit {
     public removeImage(img: UploadedFile): void {
         this.bookService.removeImage(img.id || undefined, img.fileName).subscribe(data => {
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
         const index = this.uploadedFiles.indexOf(img);
@@ -169,10 +170,10 @@ export class BookDetailComponent implements OnInit {
                 message: "Book has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -215,10 +216,10 @@ export class BookDetailComponent implements OnInit {
                     message: "Book has been updated successfuly"
                 };
             },
-            (err: Response) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

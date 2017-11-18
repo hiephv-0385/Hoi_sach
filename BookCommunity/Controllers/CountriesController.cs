@@ -52,8 +52,14 @@ namespace BookCommunity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Post([FromBody]Country value)
+        public IActionResult Post([FromBody]Country value)
         {
+            var isCountryCodeExisted = _countryRepository.IsCountryCodeExisted(value.Code);
+            if (isCountryCodeExisted == true)
+            {
+                var error = new Exception(string.Format(ErrorMessage.CountryCodeExisted, value.Code));
+                return BadRequest(error);
+            }
             _countryRepository.Add(new Country
             {
                 Name = value.Name,
@@ -64,6 +70,8 @@ namespace BookCommunity.Controllers
                 CreatedOn = DateTime.Now,
                 UpdatedOn = DateTime.Now
             });
+
+            return Ok();
         }
 
         [HttpPut("{id}")]

@@ -4,5 +4,6 @@ namespace BC.Data.Repositories
 {
     public interface IAdminUserRepository: IBaseRepository<AdminUser>
     {
+        bool IsEmailExisted(string email);
     }
 }

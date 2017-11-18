@@ -25,7 +25,7 @@ export class BookService extends BaseService {
         const url = `${this.apiUrl}/search/?${this.joinUrlParams(params)}`;
         return this.childHttp.get(url)
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public removeImage(imageId: string, fileName: string): Observable<Response> {
@@ -39,6 +39,6 @@ export class BookService extends BaseService {
 
         return this.childHttp.post(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 }

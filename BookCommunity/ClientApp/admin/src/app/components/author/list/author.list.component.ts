@@ -6,7 +6,8 @@ import {
     Author,
     ResponseNotify,
     GetAuthorsParams,
-    ListResponse
+    ListResponse,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -59,10 +60,10 @@ export class AuthorListComponent implements OnInit {
                 message: "Authors have delete successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }

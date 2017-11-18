@@ -6,17 +6,17 @@ import "rxjs/add/operator/map";
 import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
+import { BaseService } from "./base.service";
 import { Avatar, UploadResult } from "./models";
 
 @Injectable()
-export class UploadService {
-    private csrfToken: string;
+export class UploadService extends BaseService {
 
     constructor(
-        private http: Http,
-        private cookieService: CookieService
+        private childHttp: Http,
+        private childCookieService: CookieService
     ) {
-        this.csrfToken = this.cookieService.get("XSRF-TOKEN");
+        super(childHttp, childCookieService);
     }
 
     public uploadFile(event: any, apiUrl: string): Observable<UploadResult> {
@@ -33,9 +33,9 @@ export class UploadService {
         headers.set("Accept", "application/json");
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
-        return this.http.post(apiUrl, formData, { headers: headers })
+        return this.childHttp.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public uploadMultipleFiles(event: any, apiUrl: string): Observable<UploadResult> {
@@ -53,9 +53,9 @@ export class UploadService {
         headers.set("Accept", "application/json");
         headers.set("X-XSRF-TOKEN", this.csrfToken);
 
-        return this.http.post(apiUrl, formData, { headers: headers })
+        return this.childHttp.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public removeFile(fileName: string, removeApi: string): Observable<Response> {
@@ -65,11 +65,9 @@ export class UploadService {
             fileName: fileName
         };
 
-        return this.http.post(removeApi, payload, { headers: headers })
+        return this.childHttp.post(removeApi, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 }
-
-
 

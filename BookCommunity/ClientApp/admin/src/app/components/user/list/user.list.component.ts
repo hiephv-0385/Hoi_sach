@@ -6,7 +6,8 @@ import {
     AdminUser,
     ResponseNotify,
     GetAdminUsersParams,
-    ListResponse
+    ListResponse,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -58,10 +59,10 @@ export class UserListComponent implements OnInit {
                 message: "User(s) have delete successfuly"
             };
         },
-        (err) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Error happen: ${err.toString()}`
+                message: `Error happen: ${err.message}`
             };
         });
     }

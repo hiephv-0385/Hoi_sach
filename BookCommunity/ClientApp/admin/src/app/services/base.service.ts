@@ -7,7 +7,8 @@ import "rxjs/add/observable/combineLatest";
 import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
-import { QueryParams, ListResponse, Avatar } from "./models";
+import { QueryParams, ListResponse, Avatar, ErrorInfo } from "./models";
+import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 
 export class BaseService {
     public apiUrl: string;
@@ -23,14 +24,14 @@ export class BaseService {
         const url = `${this.apiUrl}/${itemId}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public getList<T>(params: QueryParams): Observable<ListResponse<T>> {
         const url = `${this.apiUrl}?${this.joinUrlParams(params)}`;
         return this.http.get(url)
             .map((res: Response) => res.json())
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) =>this.handleError(error));
     }
 
     public add<T>(item: T): Observable<T> {
@@ -39,7 +40,7 @@ export class BaseService {
 
         return this.http.post(this.apiUrl, item, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) =>this.handleError(error));
     }
 
     public update<T>(itemId: string, payload: T): Observable<T> {
@@ -49,7 +50,7 @@ export class BaseService {
 
         return this.http.put(url, payload, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: Response) => Observable.throw(error || "Server error"));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public deleteOne(itemId: string): Observable<Response> {
@@ -64,10 +65,19 @@ export class BaseService {
     public deleteMany(itemIds: string[]): Observable<void> {
         const requests = itemIds.map(item => this.deleteOne(item));
         return Observable.combineLatest(requests)
-            .catch((error: any) => {
-                console.log("error", error);
-                return Observable.throw(JSON.stringify(error) || "Server error");
-            });
+            .catch((error: Response) => this.handleError(error));
+    }
+
+    public handleError(error: Response): ErrorObservable {
+        const errorInfo: ErrorInfo = {
+            message: error.statusText
+        };
+
+        const errorBody = error.json();
+        if (errorBody && errorBody.Message) {
+            errorInfo.message = errorBody.Message;
+        }
+        return Observable.throw(errorInfo || "Server error");
     }
 
     public joinUrlParams(params: QueryParams): string {

@@ -1,4 +1,6 @@
 ﻿using BC.Data.Models;
+using MongoDB.Driver;
+using System;
 
 namespace BC.Data.Repositories
 {
@@ -6,6 +8,22 @@ namespace BC.Data.Repositories
     {
         public AdminUserRepository(IBCContext<AdminUser> context): base(context, DbCollectionNames.AdminUser)
         {
+        }
+
+        public bool IsEmailExisted(string email)
+        {
+            var filter = Builders<AdminUser>.Filter.Eq("Email", email);
+
+            try
+            {
+                var user = DbCollection.Find(filter).FirstOrDefault();
+
+                return user != null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
     }
 }

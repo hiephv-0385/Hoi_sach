@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { ReleaseCompanyService } from "../../../services/releaseCompany.service";
 import { UploadService } from "../../../services/upload.service";
-import { ReleaseCompany, Country, ResponseNotify } from "../../../services/models";
+import { ReleaseCompany, Country, ResponseNotify, ErrorInfo } from "../../../services/models";
 
 @Component({
     selector: "app-releasecompany-detail",
@@ -72,10 +72,10 @@ export class ReleaseCompanyDetailComponent implements OnInit {
         const apiUrl = "/api/releasecompanies/logos/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        err => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Remove logo error: ${err.statusText}`
+                message: `Remove logo error: ${err.message}`
             };
         });
         this.uploadedFileName = "";
@@ -104,10 +104,10 @@ export class ReleaseCompanyDetailComponent implements OnInit {
                 message: "Release company has been added successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
@@ -128,10 +128,10 @@ export class ReleaseCompanyDetailComponent implements OnInit {
                     message: "Release company has been updated successfuly"
                 };
             },
-            (err) => {
+            (err: ErrorInfo) => {
                 this.responseNotify = {
                     isSuccess: false,
-                    message: err.statusText
+                    message: err.message
                 };
             });
     }

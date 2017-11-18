@@ -6,7 +6,8 @@ import {
     Country,
     ResponseNotify,
     GetCountriesParams,
-    ListResponse
+    ListResponse,
+    ErrorInfo
 } from "../../../services/models";
 
 @Component({
@@ -59,10 +60,10 @@ export class CountryListComponent implements OnInit {
                 message: "Countries have delete successfuly"
             };
         },
-        (err: Response) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }

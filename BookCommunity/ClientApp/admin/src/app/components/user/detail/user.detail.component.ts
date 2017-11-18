@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../../../services/user.service";
 import { UploadService } from "../../../services/upload.service";
-import { AdminUser, UpdateAdminUserModel, ResponseNotify } from "../../../services/models";
+import { AdminUser, UpdateAdminUserModel, ResponseNotify, ErrorInfo } from "../../../services/models";
 import { PasswordValidation } from "../../../shared/password.validation";
 
 @Component({
@@ -68,10 +68,10 @@ export class UserDetailComponent implements OnInit {
         const apiUrl = "/api/adminusers/avatars/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        err => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Remove avatar error: ${err.statusText}`
+                message: `Remove avatar error: ${err.message}`
             };
         });
         this.uploadedFileName = "";
@@ -102,10 +102,10 @@ export class UserDetailComponent implements OnInit {
                 message: "User has been updated successfuly"
             };
         },
-        (err) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Error happen: ${err.statusText}`
+                message: err.message
             };
         });
     }
@@ -124,10 +124,10 @@ export class UserDetailComponent implements OnInit {
                 message: "User has been updated successfuly"
             };
         },
-        (err) => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: err.statusText
+                message: err.message
             };
         });
     }
