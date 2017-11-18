@@ -9,6 +9,7 @@ import { MomentModule } from "angular2-moment";
 import { CookieService } from "angular2-cookie/services/cookies.service";
 
 import { AppComponent } from "./app.component";
+import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./layouts/header/header.component";
 import { FooterComponent } from "./layouts/footer/footer.component";
 import { MainSidebarComponent } from "./layouts/mainSidebar/mainSidebar.component";
@@ -37,6 +38,7 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
 @NgModule({
     declarations: [
         AppComponent,
+        LoginComponent,
         HeaderComponent,
         FooterComponent,
         MainSidebarComponent,
@@ -69,6 +71,7 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
         NgxPaginationModule,
         RouterModule.forRoot([
             { path: "", redirectTo: "dashboard", pathMatch: "full" },
+            { path: "login", component: LoginComponent },
             { path: "dashboard", component: DashboardComponent },
             { path: "users/add", component: UserDetailComponent },
             { path: "users/edit/:id", component: UserDetailComponent },

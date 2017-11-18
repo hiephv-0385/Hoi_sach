@@ -5,5 +5,4 @@ import { Component } from "@angular/core";
     templateUrl: "./controlSidebar.component.html"
 })
 export class ControlSidebarComponent {
-    title = "app";
 }
