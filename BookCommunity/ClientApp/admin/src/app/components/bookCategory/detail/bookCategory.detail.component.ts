@@ -2,10 +2,9 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 
-import { CountryService } from "../../../services/country.service";
 import { BookCategoryService } from "../../../services/bookCategory.service";
 import { UploadService } from "../../../services/upload.service";
-import { BookCategory, ResponseNotify, ListResponse, GetBookCategoryParams } from "../../../services/models";
+import { BookCategory, ResponseNotify, GetBookCategoryParams } from "../../../services/models";
 
 @Component({
     selector: "app-book-category-detail",
@@ -51,7 +50,7 @@ export class BookCategoryDetailComponent implements OnInit {
             }
 
             this.categoryId = params["id"];
-            this.bookCategoryService.getBookCategory(this.categoryId).subscribe(data => {
+            this.bookCategoryService.get<BookCategory>(this.categoryId).subscribe(data => {
                 this.category = data;
                 this.fillBookCategory(data);
             });
@@ -74,7 +73,8 @@ export class BookCategoryDetailComponent implements OnInit {
     }
 
     public removePicture(): void {
-        this.bookCategoryService.removePicture(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/bookcategories/pictures/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: Response) => {
             this.responseNotify = {
@@ -103,7 +103,7 @@ export class BookCategoryDetailComponent implements OnInit {
             isActive: this.isActive.value || false,
         };
 
-        this.bookCategoryService.addBookCategory(category).subscribe((data) => {
+        this.bookCategoryService.add<BookCategory>(category).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Book category has been added successfuly"
@@ -127,7 +127,7 @@ export class BookCategoryDetailComponent implements OnInit {
             isActive: this.isActive.value || false
         };
 
-        this.bookCategoryService.updateBookCategory(this.categoryId, payload)
+        this.bookCategoryService.update<BookCategory>(this.categoryId, payload)
             .subscribe((data) => {
                 this.responseNotify = {
                     isSuccess: true,

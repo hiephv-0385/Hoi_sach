@@ -16,13 +16,13 @@ namespace BookCommunityTest
     {
         private Mock<IAdminUserRepository> _mockRepo;
         private Mock<ICryptography> _mockCryptography;
-        private Mock<IUploadFile> _mockUploadFile;
+        private Mock<IUploadFileService> _mockUploadFile;
 
         public AdminUserControllerTest()
         {
             _mockRepo = new Mock<IAdminUserRepository>();
             _mockCryptography = new Mock<ICryptography>();
-            _mockUploadFile = new Mock<IUploadFile>();
+            _mockUploadFile = new Mock<IUploadFileService>();
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace BookCommunityTest
             var result = await controller.Get(request);
 
             // Assert
-            var allAdminUsers = result.Data?.ToList();
+            var allAdminUsers = result.Items?.ToList();
             Assert.Equal(2, allAdminUsers?.Count);
 
             Assert.Equal("test1@example.com", allAdminUsers[0].Email);

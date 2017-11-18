@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { BookService } from "../../../services/book.service";
 import { BookCategoryService } from "../../../services/bookCategory.service";
@@ -7,8 +7,7 @@ import {
     BookModel,
     ResponseNotify,
     GetBookParams,
-    BookListResponse,
-    Book,
+    ListResponse,
     BookCategory
 } from "../../../services/models";
 
@@ -18,14 +17,13 @@ import {
   styleUrls: ["./book.list.component.css"]
 })
 export class BookListComponent implements OnInit {
-    public bookList: BookListResponse;
+    public bookList: ListResponse<BookModel>;
     public categories: BookCategory[];
     public responseNotify: ResponseNotify;
     public searchParams: GetBookParams;
     public page = 1;
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private bookService: BookService,
         private bookCategoryService: BookCategoryService
@@ -43,15 +41,14 @@ export class BookListComponent implements OnInit {
         });
 
         this.bookService.searchBooks(this.searchParams).subscribe((result) => {
-            if (!result.books) {
+            if (!result.items) {
                 return;
             }
 
-            const extBooks = result.books.map(item => <BookModel>item);
+            const extBooks = result.items.map(item => <BookModel>item);
             this.bookList = {
                 count: result.count,
-                data: extBooks,
-                books: extBooks
+                items: extBooks
             };
         });
     }
@@ -62,12 +59,12 @@ export class BookListComponent implements OnInit {
     }
 
     public deleteBooks(): void {
-        const deletedBookIds = this.bookList.books
+        const deletedBookIds = this.bookList.items
             .filter(c => c.isChecked)
             .map(c => c.id);
-        this.bookService.deleteBooks(deletedBookIds)
+        this.bookService.deleteMany(deletedBookIds)
             .subscribe((data) => {
-                this.bookList.books = this.bookList.data.filter(u => !deletedBookIds.includes(u.id, 0));
+                this.bookList.items = this.bookList.items.filter(u => !deletedBookIds.includes(u.id, 0));
                 this.bookList.count = this.bookList.count - deletedBookIds.length;
                 this.responseNotify = {
                     isSuccess: true,

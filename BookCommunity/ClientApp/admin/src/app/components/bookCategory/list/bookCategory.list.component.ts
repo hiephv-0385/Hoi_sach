@@ -1,11 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { BookCategoryService } from "../../../services/bookCategory.service";
 import {
     BookCategory,
     ResponseNotify,
-    GetBookCategoryParams,
     ListResponse,
     GetBookParams
 } from "../../../services/models";
@@ -22,7 +21,6 @@ export class BookCategoryListComponent implements OnInit {
     public page = 1;
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private bookCategoryService: BookCategoryService
     ) {
@@ -33,15 +31,15 @@ export class BookCategoryListComponent implements OnInit {
             offset: 0,
             limit: 10
         };
-        this.bookCategoryService.getBookCategories(this.searchParams).subscribe((result) => {
-            if (!result.data) {
+        this.bookCategoryService.getList<BookCategory>(this.searchParams).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extCategories = result.data.map(item => <BookCategory>item);
+            const extCategories = result.items.map(item => <BookCategory>item);
             this.categoryList = {
                 count: result.count,
-                data: extCategories
+                items: extCategories
             };
         });
     }
@@ -52,12 +50,12 @@ export class BookCategoryListComponent implements OnInit {
     }
 
     public deleteBookCategories(): void {
-        const deletedCategoryIds = this.categoryList.data
+        const deletedCategoryIds = this.categoryList.items
             .filter(c => c.isChecked)
             .map(c => c.id);
-        this.bookCategoryService.deleteBookCategories(deletedCategoryIds)
+        this.bookCategoryService.deleteMany(deletedCategoryIds)
             .subscribe((data) => {
-                this.categoryList.data = this.categoryList.data.filter(u => !deletedCategoryIds.includes(u.id, 0));
+                this.categoryList.items = this.categoryList.items.filter(u => !deletedCategoryIds.includes(u.id, 0));
                 this.categoryList.count = this.categoryList.count - deletedCategoryIds.length;
                 this.responseNotify = {
                     isSuccess: true,
@@ -80,7 +78,7 @@ export class BookCategoryListComponent implements OnInit {
             limit: limit
         };
 
-        this.bookCategoryService.getBookCategories(this.searchParams).subscribe((result) => {
+        this.bookCategoryService.getList<BookCategory>(this.searchParams).subscribe((result) => {
             this.categoryList = result;
         });
     }

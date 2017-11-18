@@ -7,6 +7,6 @@ namespace BC.Data.Responses
     public class ListResponse<T> where T: BaseModel
     {
         public long Count { get; set; }
-        public IEnumerable<T> Data { get; set; }
+        public IEnumerable<T> Items { get; set; }
     }
 }

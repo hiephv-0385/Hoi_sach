@@ -3,7 +3,7 @@ using FluentValidation;
 
 namespace BC.Data.Validations
 {
-    public class CreateAdminUserValidator: AbstractValidator<AdminUserDto>
+    public class CreateAdminUserValidator: AbstractValidator<AdminUserModel>
     {
         public CreateAdminUserValidator()
         {

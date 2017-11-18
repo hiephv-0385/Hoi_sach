@@ -110,11 +110,11 @@ namespace BookCommunity
 
             services.AddTransient<ICryptography, Cryptography>();
 
-            services.AddTransient<IUploadFile, UploadFile>();
+            services.AddTransient<IUploadFileService, UploadFileService>();
 
-            services.AddTransient<IValidator<AdminUserDto>, CreateAdminUserValidator>();
+            services.AddTransient<IValidator<AdminUserModel>, CreateAdminUserValidator>();
 
-            services.AddTransient<IValidator<UpdateAdminUserDto>, UpdateAdminUserValidator>();
+            services.AddTransient<IValidator<UpdateAdminUserModel>, UpdateAdminUserValidator>();
 
             services.AddTransient<IValidator<Country>, CountryValidator>();
 
@@ -125,6 +125,8 @@ namespace BookCommunity
             services.AddTransient<IValidator<Publisher>, PublisherValidator>();
 
             services.AddTransient<IValidator<BookCategory>, BookCategoryValidator>();
+
+            services.AddTransient<IValidator<StoredBookModel>, BookValidator>();
         }
     }
 }

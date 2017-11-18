@@ -31,15 +31,15 @@ export class ReleaseCompanyListComponent implements OnInit {
             offset: 0,
             limit: 10
         };
-        this.releaseCompanyService.getReleaseCompanies(params).subscribe((result) => {
-            if (!result.data) {
+        this.releaseCompanyService.getList<ReleaseCompany>(params).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extReleaseCompanies = result.data.map(item => <ReleaseCompany>item);
+            const extReleaseCompanies = result.items.map(item => <ReleaseCompany>item);
             this.releaseCompanyList = {
                 count: result.count,
-                data: extReleaseCompanies
+                items: extReleaseCompanies
             };
         });
     }
@@ -50,12 +50,12 @@ export class ReleaseCompanyListComponent implements OnInit {
     }
 
     public deleteReleaseCompanies(): void {
-        const deletedReleaseCompanyIds = this.releaseCompanyList.data
+        const deletedReleaseCompanyIds = this.releaseCompanyList.items
             .filter(c => c.isChecked)
             .map(c => c.id);
-        this.releaseCompanyService.deleteReleaseCompanies(deletedReleaseCompanyIds)
+        this.releaseCompanyService.deleteMany(deletedReleaseCompanyIds)
             .subscribe((data) => {
-                this.releaseCompanyList.data = this.releaseCompanyList.data
+                this.releaseCompanyList.items = this.releaseCompanyList.items
                     .filter(u => !deletedReleaseCompanyIds.includes(u.id, 0));
                 this.releaseCompanyList.count = this.releaseCompanyList.count - deletedReleaseCompanyIds.length;
                 this.responseNotify = {
@@ -79,7 +79,7 @@ export class ReleaseCompanyListComponent implements OnInit {
             limit: limit
         };
 
-        this.releaseCompanyService.getReleaseCompanies(params).subscribe((result) => {
+        this.releaseCompanyService.getList<ReleaseCompany>(params).subscribe((result) => {
             this.releaseCompanyList = result;
         });
     }

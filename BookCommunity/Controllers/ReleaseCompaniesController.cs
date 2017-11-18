@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BC.Web.Filters;
 using BC.Data.Repositories;
@@ -19,12 +16,14 @@ namespace BookCommunity.Controllers
     public class ReleaseCompaniesController : Controller
     {
         private readonly IReleaseCompanyRepository _releaseCompanyRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
-        public ReleaseCompaniesController(IReleaseCompanyRepository releaseCompanyRepository, IUploadFile uploadFile)
+        public ReleaseCompaniesController(
+            IReleaseCompanyRepository releaseCompanyRepository, 
+            IUploadFileService uploadFileService)
         {
             _releaseCompanyRepository = releaseCompanyRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -36,7 +35,7 @@ namespace BookCommunity.Controllers
             return new ReleaseCompanyListResponse
             {
                 Count = count,
-                Data = releaseCompanies
+                Items = releaseCompanies
             };
         }
 
@@ -100,7 +99,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.ReleaseCompanyLogo, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.ReleaseCompanyLogo, Request.Form);
 
             return new UploadResult
             {
@@ -113,7 +112,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
         }
     }
 }

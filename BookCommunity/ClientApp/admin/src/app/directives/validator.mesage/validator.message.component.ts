@@ -1,4 +1,4 @@
-import { ElementRef, Component, Input, HostListener, Renderer2 } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { FormControl } from "@angular/forms";
 
 @Component({

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using BC.Data.Repositories;
 using BC.Web.UploadFiles;
@@ -19,12 +16,12 @@ namespace BookCommunity.Controllers
     public class PublishersController : Controller
     {
         private readonly IPublisherRepository _publisherRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
-        public PublishersController(IPublisherRepository publisherRepository, IUploadFile uploadFile)
+        public PublishersController(IPublisherRepository publisherRepository, IUploadFileService uploadFileService)
         {
             _publisherRepository = publisherRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -36,7 +33,7 @@ namespace BookCommunity.Controllers
             return new PublisherListResponse
             {
                 Count = count,
-                Data = publishers
+                Items = publishers
             };
         }
 
@@ -100,7 +97,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.PublisherLogo, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.PublisherLogo, Request.Form);
 
             return new UploadResult
             {
@@ -113,7 +110,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
         }
     }
 }

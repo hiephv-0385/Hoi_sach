@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { UserService } from "../../../services/user.service";
 import {
@@ -20,7 +20,6 @@ export class UserListComponent implements OnInit {
     public page = 1;
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private userService: UserService
     ) {
@@ -31,15 +30,15 @@ export class UserListComponent implements OnInit {
             offset: 0,
             limit: 5
         };
-        this.userService.getAdminUsers(params).subscribe((result) => {
-            if (!result.data) {
+        this.userService.getList<AdminUser>(params).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extUsers = result.data.map(item => <AdminUser>item);
+            const extUsers = result.items.map(item => <AdminUser>item);
             this.adminUserList = {
                 count: result.count,
-                data: extUsers
+                items: extUsers
             };
         });
     }
@@ -50,9 +49,9 @@ export class UserListComponent implements OnInit {
     }
 
     public deleteUser(): void {
-        const deletedUserIds = this.adminUserList.data.filter(u => u.isChecked).map(u => u.id);
-        this.userService.deleteAdminUsers(deletedUserIds).subscribe((data) => {
-            this.adminUserList.data = this.adminUserList.data.filter(u => !deletedUserIds.includes(u.id, 0));
+        const deletedUserIds = this.adminUserList.items.filter(u => u.isChecked).map(u => u.id);
+        this.userService.deleteMany(deletedUserIds).subscribe((data) => {
+            this.adminUserList.items = this.adminUserList.items.filter(u => !deletedUserIds.includes(u.id, 0));
             this.adminUserList.count = this.adminUserList.count - deletedUserIds.length;
             this.responseNotify = {
                 isSuccess: true,
@@ -75,7 +74,7 @@ export class UserListComponent implements OnInit {
             limit: limit
         };
 
-        this.userService.getAdminUsers(params).subscribe((data) => {
+        this.userService.getList<AdminUser>(params).subscribe((data) => {
             this.adminUserList = data;
         });
     }

@@ -29,7 +29,7 @@
           </div>
         </div>
         <div class="box-body">
-            <table class="table table-striped" *ngIf="adminUserList && adminUserList.data">
+            <table class="table table-striped" *ngIf="adminUserList && adminUserList.items">
                 <thead>
                     <tr>
                         <th style="width: 5%;">#</th>
@@ -51,7 +51,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let item of adminUserList.data | paginate: { itemsPerPage: 5, currentPage: page, totalItems: adminUserList.count }">
+                    <tr *ngFor="let item of adminUserList.items | paginate: { itemsPerPage: 5, currentPage: page, totalItems: adminUserList.count }">
                         <td>
                             <input class="checkbox" type="checkbox" name="chkItem" #chkUser [(ngModel)]="item.isChecked">
                         </td>

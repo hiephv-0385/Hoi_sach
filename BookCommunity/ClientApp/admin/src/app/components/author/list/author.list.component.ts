@@ -31,15 +31,15 @@ export class AuthorListComponent implements OnInit {
             offset: 0,
             limit: 10
         };
-        this.authorService.getAuthors(params).subscribe((result) => {
-            if (!result.data) {
+        this.authorService.getList<Author>(params).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extAuthors = result.data.map(item => <Author>item);
+            const extAuthors = result.items.map(item => <Author>item);
             this.authorList = {
                 count: result.count,
-                data: extAuthors
+                items: extAuthors
             };
         });
     }
@@ -50,9 +50,9 @@ export class AuthorListComponent implements OnInit {
     }
 
     public deleteAuthor(): void {
-        const deletedAuthorIds = this.authorList.data.filter(c => c.isChecked).map(c => c.id);
-        this.authorService.deleteAuthors(deletedAuthorIds).subscribe((data) => {
-            this.authorList.data = this.authorList.data.filter(u => !deletedAuthorIds.includes(u.id, 0));
+        const deletedAuthorIds = this.authorList.items.filter(c => c.isChecked).map(c => c.id);
+        this.authorService.deleteMany(deletedAuthorIds).subscribe((data) => {
+            this.authorList.items = this.authorList.items.filter(u => !deletedAuthorIds.includes(u.id, 0));
             this.authorList.count = this.authorList.count - deletedAuthorIds.length;
             this.responseNotify = {
                 isSuccess: true,
@@ -75,7 +75,7 @@ export class AuthorListComponent implements OnInit {
             limit: limit
         };
 
-        this.authorService.getAuthors(params).subscribe((result) => {
+        this.authorService.getList<Author>(params).subscribe((result) => {
             this.authorList = result;
         });
     }

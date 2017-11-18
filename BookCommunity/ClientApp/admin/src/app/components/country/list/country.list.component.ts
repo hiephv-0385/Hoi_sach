@@ -31,15 +31,15 @@ export class CountryListComponent implements OnInit {
             offset: 0,
             limit: 10
         };
-        this.countryService.getCountries(params).subscribe((result) => {
-            if (!result.data) {
+        this.countryService.getList<Country>(params).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extCountries = result.data.map(item => <Country>item);
+            const extCountries = result.items.map(item => <Country>item);
             this.countryList = {
                 count: result.count,
-                data: extCountries
+                items: extCountries
             };
         });
     }
@@ -50,9 +50,9 @@ export class CountryListComponent implements OnInit {
     }
 
     public deleteCountry(): void {
-        const deletedCountryIds = this.countryList.data.filter(c => c.isChecked).map(c => c.id);
-        this.countryService.deleteCountries(deletedCountryIds).subscribe((data) => {
-            this.countryList.data = this.countryList.data.filter(u => !deletedCountryIds.includes(u.id, 0));
+        const deletedCountryIds = this.countryList.items.filter(c => c.isChecked).map(c => c.id);
+        this.countryService.deleteMany(deletedCountryIds).subscribe((data) => {
+            this.countryList.items = this.countryList.items.filter(u => !deletedCountryIds.includes(u.id, 0));
             this.countryList.count = this.countryList.count - deletedCountryIds.length;
             this.responseNotify = {
                 isSuccess: true,
@@ -75,7 +75,7 @@ export class CountryListComponent implements OnInit {
             limit: limit
         };
 
-        this.countryService.getCountries(params).subscribe((result) => {
+        this.countryService.getList<Country>(params).subscribe((result) => {
             this.countryList = result;
         });
     }

@@ -25,7 +25,7 @@ export interface QueryParams {
 
 export interface ListResponse<T> {
     count: number;
-    data: T[];
+    items: T[];
 }
 
 export interface BaseModel {
@@ -46,11 +46,10 @@ export interface AdminUser extends BaseModel {
     isSupperUser: boolean;
 }
 
-export interface ExtendedAdminUser extends AdminUser {
-    isChecked?: boolean;
+export interface AdminUserModel extends AdminUser {
 }
 
-export interface UpdateAdminUserDto {
+export interface UpdateAdminUserModel {
     firstName: string;
     lastName: string;
     avatar?: string;
@@ -162,10 +161,6 @@ export interface StoredBookModel {
 export interface GetBookParams extends PagingRequest {
     name?: string;
     categoryId?: string;
-}
-
-export interface BookListResponse extends ListResponse<BookModel> {
-    books: BookModel[];
 }
 
 export interface BookAvatar extends Avatar {

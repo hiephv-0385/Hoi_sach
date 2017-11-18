@@ -18,16 +18,16 @@ namespace BookCommunity.Controllers
     {
         private readonly IBookRepository _bookRepository;
         private readonly IBookImageRepository _bookImageRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
         public BooksController(
             IBookRepository bookRepository,
             IBookImageRepository bookImageRepository,
-            IUploadFile uploadFile)
+            IUploadFileService uploadFileService)
         {
             _bookRepository = bookRepository;
             _bookImageRepository = bookImageRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -39,8 +39,7 @@ namespace BookCommunity.Controllers
             return new BookListResponse
             {
                 Count = count,
-                Data = books,
-                Books = books
+                Items = books
             };
         }
 
@@ -140,7 +139,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            var uploadResult = await _uploadFile.UploadMany(FolderPath.BookImage, Request.Form);
+            var uploadResult = await _uploadFileService.UploadMultiple(FolderPath.BookImage, Request.Form);
             uploadResult.Status = 200;
             uploadResult.FileName = "";
 
@@ -151,7 +150,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]BookAvatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
             if (!string.IsNullOrEmpty(avatar.ImageId))
             {
                 _bookImageRepository.Remove(avatar.ImageId);

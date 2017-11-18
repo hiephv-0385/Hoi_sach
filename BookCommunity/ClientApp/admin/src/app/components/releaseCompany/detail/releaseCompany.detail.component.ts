@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { ReleaseCompanyService } from "../../../services/releaseCompany.service";
 import { UploadService } from "../../../services/upload.service";
-import { ReleaseCompany, Country, ResponseNotify, ListResponse } from "../../../services/models";
+import { ReleaseCompany, Country, ResponseNotify } from "../../../services/models";
 
 @Component({
     selector: "app-releasecompany-detail",
@@ -37,8 +37,8 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     ngOnInit() {
         this.createFormControls();
         this.createForm();
-        this.countryService.getCountries({ offset: 0 }).subscribe(result => {
-            this.countries = result.data;
+        this.countryService.getList<Country>({ offset: 0 }).subscribe(result => {
+            this.countries = result.items;
         });
         this.route.params.subscribe(params => {
             if (!params["id"]) {
@@ -46,7 +46,7 @@ export class ReleaseCompanyDetailComponent implements OnInit {
             }
 
             this.releaseCompanyId = params["id"];
-            this.releaseCompanyService.getReleaseCompany(this.releaseCompanyId).subscribe(data => {
+            this.releaseCompanyService.get<ReleaseCompany>(this.releaseCompanyId).subscribe(data => {
                 this.releaseCompany = data;
                 this.fillReleaseCompany(data);
             });
@@ -69,7 +69,8 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     }
 
     public removeLogo(): void {
-        this.releaseCompanyService.removePicture(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/releasecompanies/logos/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         err => {
             this.responseNotify = {
@@ -97,7 +98,7 @@ export class ReleaseCompanyDetailComponent implements OnInit {
             isActive: this.isActive.value || false,
         };
 
-        this.releaseCompanyService.addReleaseCompany(relseaseCompany).subscribe((data) => {
+        this.releaseCompanyService.add(relseaseCompany).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Release company has been added successfuly"
@@ -120,7 +121,7 @@ export class ReleaseCompanyDetailComponent implements OnInit {
             isActive: this.isActive.value || false
         };
 
-        this.releaseCompanyService.updateReleaseCompany(this.releaseCompanyId, payload)
+        this.releaseCompanyService.update(this.releaseCompanyId, payload)
             .subscribe((data) => {
                 this.responseNotify = {
                     isSuccess: true,

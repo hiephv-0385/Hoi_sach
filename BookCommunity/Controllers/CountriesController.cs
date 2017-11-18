@@ -16,12 +16,12 @@ namespace BookCommunity.Controllers
     public class CountriesController : Controller
     {
         private readonly ICountryRepository _countryRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
-        public CountriesController(ICountryRepository countryRepository, IUploadFile uploadFile)
+        public CountriesController(ICountryRepository countryRepository, IUploadFileService uploadFileService)
         {
             _countryRepository = countryRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -33,7 +33,7 @@ namespace BookCommunity.Controllers
             return new CountryListResponse
             {
                 Count = count,
-                Data = countries
+                Items = countries
             };
         }
 
@@ -99,7 +99,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.CountryFlag, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.CountryFlag, Request.Form);
 
             return new UploadResult
             {
@@ -112,7 +112,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
         }
     }
 }

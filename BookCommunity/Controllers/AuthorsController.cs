@@ -16,12 +16,12 @@ namespace BookCommunity.Controllers
     public class AuthorsController : Controller
     {
         private readonly IAuthorRepository _authorRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
-        public AuthorsController(IAuthorRepository authorRepository, IUploadFile uploadFile)
+        public AuthorsController(IAuthorRepository authorRepository, IUploadFileService uploadFileService)
         {
             _authorRepository = authorRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -34,7 +34,7 @@ namespace BookCommunity.Controllers
             return new AuthorListResponse
             {
                 Count = count,
-                Data = countries
+                Items = countries
             };
         }
 
@@ -102,7 +102,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.AuthorPicture, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.AuthorPicture, Request.Form);
 
             return new UploadResult
             {
@@ -115,7 +115,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
         }
     }
 }

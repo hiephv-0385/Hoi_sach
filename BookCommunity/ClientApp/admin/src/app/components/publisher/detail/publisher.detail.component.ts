@@ -5,7 +5,7 @@ import { ActivatedRoute } from "@angular/router";
 import { CountryService } from "../../../services/country.service";
 import { PublisherService } from "../../../services/publisher.service";
 import { UploadService } from "../../../services/upload.service";
-import { Publisher, Country, ResponseNotify, ListResponse } from "../../../services/models";
+import { Publisher, Country, ResponseNotify } from "../../../services/models";
 
 @Component({
     selector: "app-publisher-detail",
@@ -37,8 +37,8 @@ export class PublisherDetailComponent implements OnInit {
     ngOnInit() {
         this.createFormControls();
         this.createForm();
-        this.countryService.getCountries({ offset: 0 }).subscribe(result => {
-            this.countries = result.data;
+        this.countryService.getList<Country>({ offset: 0 }).subscribe(result => {
+            this.countries = result.items;
         });
         this.route.params.subscribe(params => {
             if (!params["id"]) {
@@ -46,7 +46,7 @@ export class PublisherDetailComponent implements OnInit {
             }
 
             this.publisherId = params["id"];
-            this.publisherService.getPublisher(this.publisherId).subscribe(data => {
+            this.publisherService.get<Publisher>(this.publisherId).subscribe(data => {
                 this.publisher = data;
                 this.fillPublisher(data);
             });
@@ -69,7 +69,8 @@ export class PublisherDetailComponent implements OnInit {
     }
 
     public removeLogo(): void {
-        this.publisherService.removeLogo(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/publishers/logos/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: Response) => {
             this.responseNotify = {
@@ -97,7 +98,7 @@ export class PublisherDetailComponent implements OnInit {
             isActive: this.isActive.value || false,
         };
 
-        this.publisherService.addPublisher(publisher).subscribe((data) => {
+        this.publisherService.add(publisher).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Publisher has been added successfuly"
@@ -120,7 +121,7 @@ export class PublisherDetailComponent implements OnInit {
             isActive: this.isActive.value || false
         };
 
-        this.publisherService.updatePublisher(this.publisherId, payload)
+        this.publisherService.update(this.publisherId, payload)
             .subscribe((data) => {
                 this.responseNotify = {
                     isSuccess: true,

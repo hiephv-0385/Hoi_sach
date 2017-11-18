@@ -6,7 +6,7 @@ import "rxjs/add/operator/map";
 import "rxjs/add/observable/throw";
 
 import { CookieService } from "angular2-cookie/core";
-import * as adminModel from "./models";
+import { Avatar, UploadResult } from "./models";
 
 @Injectable()
 export class UploadService {
@@ -19,7 +19,7 @@ export class UploadService {
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
-    public uploadFile(event: any, apiUrl: string): Observable<adminModel.UploadResult> {
+    public uploadFile(event: any, apiUrl: string): Observable<UploadResult> {
         const fi = event.srcElement;
         if (!fi.files || !fi.files[0]) {
             return;
@@ -38,7 +38,7 @@ export class UploadService {
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
-    public uploadMultipleFiles(event: any, apiUrl: string): Observable<adminModel.UploadResult> {
+    public uploadMultipleFiles(event: any, apiUrl: string): Observable<UploadResult> {
         const fi = event.srcElement;
         if (!fi.files) {
             return;
@@ -55,6 +55,18 @@ export class UploadService {
 
         return this.http.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
+            .catch((error: Response) => Observable.throw(error || "Server error"));
+    }
+
+    public removeFile(fileName: string, removeApi: string): Observable<Response> {
+        const headers = new Headers();
+        headers.set("X-XSRF-TOKEN", this.csrfToken);
+        const payload: Avatar = {
+            fileName: fileName
+        };
+
+        return this.http.post(removeApi, payload, { headers: headers })
+            .map((res: Response) => res)
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 }

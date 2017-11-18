@@ -17,12 +17,12 @@ namespace BookCommunity.Controllers
     public class BookCategoriesController : Controller
     {
         private readonly IBookCategoryRepository _bookCategoryRepository;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileService;
 
-        public BookCategoriesController(IBookCategoryRepository bookCategoryRepository, IUploadFile uploadFile)
+        public BookCategoriesController(IBookCategoryRepository bookCategoryRepository, IUploadFileService uploadFileService)
         {
             _bookCategoryRepository = bookCategoryRepository;
-            _uploadFile = uploadFile;
+            _uploadFileService = uploadFileService;
         }
 
         [NoCache]
@@ -34,7 +34,7 @@ namespace BookCommunity.Controllers
             return new BookCategoryListResponse
             {
                 Count = count,
-                Data = categories
+                Items = categories
             };
         }
 
@@ -106,7 +106,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.BookCategoryPicture, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.BookCategoryPicture, Request.Form);
 
             return new UploadResult
             {
@@ -119,7 +119,7 @@ namespace BookCommunity.Controllers
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileService.RemoveFile(avatar.FileName);
         }
     }
 }

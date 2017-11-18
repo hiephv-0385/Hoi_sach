@@ -40,8 +40,8 @@ export class AuthorDetailComponent implements OnInit {
     ngOnInit() {
         this.createAuthorFormControls();
         this.createForm();
-        this.countryService.getCountries({ offset: 0 }).subscribe(result => {
-            this.countries = result.data;
+        this.countryService.getList<Country>({ offset: 0 }).subscribe(result => {
+            this.countries = result.items;
         });
         this.route.params.subscribe(params => {
             if (!params["id"]) {
@@ -49,7 +49,7 @@ export class AuthorDetailComponent implements OnInit {
             }
 
             this.authorId = params["id"];
-            this.authorService.getAuthor(this.authorId).subscribe(data => {
+            this.authorService.get<Author>(this.authorId).subscribe(data => {
                 this.author = data;
                 this.fillAuthor(data);
             });
@@ -72,7 +72,8 @@ export class AuthorDetailComponent implements OnInit {
     }
 
     public removePicture(): void {
-        this.authorService.removePicture(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/authors/pictures/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: Response) => {
             this.responseNotify = {
@@ -102,7 +103,7 @@ export class AuthorDetailComponent implements OnInit {
             isActive: this.isActive.value || false,
         };
 
-        this.authorService.addAuthor(author).subscribe((data) => {
+        this.authorService.add<Author>(author).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Author has been added successfuly"
@@ -127,7 +128,7 @@ export class AuthorDetailComponent implements OnInit {
             isActive: this.isActive.value || false
         };
 
-        this.authorService.updateAuthor(this.authorId, payload).subscribe((data) => {
+        this.authorService.update<Author>(this.authorId, payload).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Author has been updated successfuly"

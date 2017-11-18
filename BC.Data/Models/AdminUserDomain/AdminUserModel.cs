@@ -1,6 +1,6 @@
 ﻿namespace BC.Data.Models
 {
-    public class AdminUserDto
+    public class AdminUserModel
     {
         public string FirstName { get; set; }
 

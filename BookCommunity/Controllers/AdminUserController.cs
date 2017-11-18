@@ -19,16 +19,16 @@ namespace BookCommunity.Controllers
     {
         private readonly IAdminUserRepository _adminUserRepository;
         private readonly ICryptography _cryptography;
-        private IUploadFile _uploadFile;
+        private IUploadFileService _uploadFileSerivce;
 
         public AdminUsersController(
             IAdminUserRepository adminUserRepository, 
             ICryptography cryptography, 
-            IUploadFile uploadFile)
+            IUploadFileService uploadFileSerivce)
         {
             _adminUserRepository = adminUserRepository;
             _cryptography = cryptography;
-            _uploadFile = uploadFile;
+            _uploadFileSerivce = uploadFileSerivce;
             ViewBag.PageName = "Users";
         }
 
@@ -41,7 +41,7 @@ namespace BookCommunity.Controllers
             return new AdminUserListResponse
             {
                 Count =  count,
-                Data = adminUsers
+                Items = adminUsers
             };
         }
 
@@ -72,7 +72,7 @@ namespace BookCommunity.Controllers
         // POST api/adminusers
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public void Post([FromBody]AdminUserDto value)
+        public void Post([FromBody]AdminUserModel value)
         {
             _adminUserRepository.Add(new AdminUser
             {
@@ -91,7 +91,7 @@ namespace BookCommunity.Controllers
         // PUT api/adminusers/5
         [HttpPut("{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(string id, [FromBody]UpdateAdminUserDto value)
+        public async Task<IActionResult> Put(string id, [FromBody]UpdateAdminUserModel value)
         {
             var adminUser = await _adminUserRepository.GetById(id);
             if (adminUser == null)
@@ -118,11 +118,11 @@ namespace BookCommunity.Controllers
             _adminUserRepository.Remove(id);
         }
 
-        [HttpPost("avatar")]
+        [HttpPost("avatars")]
         [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFile.Upload(FolderPath.UserAvatar, Request.Form);
+            string updatedFileName = await _uploadFileSerivce.UploadSigle(FolderPath.UserAvatar, Request.Form);
 
             return new UploadResult {
                 FileName = updatedFileName,
@@ -130,11 +130,11 @@ namespace BookCommunity.Controllers
             };
         }
 
-        [HttpPost("avatar/remove")]
+        [HttpPost("avatars/remove")]
         [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
-            _uploadFile.RemoveFile(avatar.FileName);
+            _uploadFileSerivce.RemoveFile(avatar.FileName);
         }
     }
 }

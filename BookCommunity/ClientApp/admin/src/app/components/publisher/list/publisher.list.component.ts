@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 
 import { PublisherService } from "../../../services/publisher.service";
 import {
@@ -20,7 +20,6 @@ export class PublisherListComponent implements OnInit {
     public page = 1;
 
     constructor(
-        private route: ActivatedRoute,
         private router: Router,
         private publisherService: PublisherService
     ) {
@@ -31,15 +30,15 @@ export class PublisherListComponent implements OnInit {
             offset: 0,
             limit: 10
         };
-        this.publisherService.getPublishers(params).subscribe((result) => {
-            if (!result.data) {
+        this.publisherService.getList<Publisher>(params).subscribe((result) => {
+            if (!result.items) {
                 return;
             }
 
-            const extPublishers = result.data.map(item => <Publisher>item);
+            const extPublishers = result.items.map(item => <Publisher>item);
             this.publisherList = {
                 count: result.count,
-                data: extPublishers
+                items: extPublishers
             };
         });
     }
@@ -50,12 +49,12 @@ export class PublisherListComponent implements OnInit {
     }
 
     public deletePublishers(): void {
-        const deletedPublisherIds = this.publisherList.data
+        const deletedPublisherIds = this.publisherList.items
             .filter(c => c.isChecked)
             .map(c => c.id);
-        this.publisherService.deletePublishers(deletedPublisherIds)
+        this.publisherService.deleteMany(deletedPublisherIds)
             .subscribe((data) => {
-                this.publisherList.data = this.publisherList.data.filter(u => !deletedPublisherIds.includes(u.id, 0));
+                this.publisherList.items = this.publisherList.items.filter(u => !deletedPublisherIds.includes(u.id, 0));
                 this.publisherList.count = this.publisherList.count - deletedPublisherIds.length;
                 this.responseNotify = {
                     isSuccess: true,
@@ -78,7 +77,7 @@ export class PublisherListComponent implements OnInit {
             limit: limit
         };
 
-        this.publisherService.getPublishers(params).subscribe((result) => {
+        this.publisherService.getList<Publisher>(params).subscribe((result) => {
             this.publisherList = result;
         });
     }

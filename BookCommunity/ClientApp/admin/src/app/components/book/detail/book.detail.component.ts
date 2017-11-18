@@ -2,7 +2,6 @@ import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
 import { Observable } from "rxjs/Observable";
-import "rxjs/add/observable/of";
 import "rxjs/add/observable/combineLatest";
 
 import { BookCategoryService } from "../../../services/bookCategory.service";
@@ -13,7 +12,6 @@ import { UploadService } from "../../../services/upload.service";
 import {
     BookCategory,
     ResponseNotify,
-    ListResponse,
     StoredBookModel,
     Author,
     ReleaseCompany,
@@ -69,19 +67,19 @@ export class BookDetailComponent implements OnInit {
 
         Observable.combineLatest(
             this.bookCategoryService.searchBookCategories({ offset: 0 }),
-            this.authorService.getAuthors({ offset: 0 }),
-            this.releaseCompanyService.getReleaseCompanies({offset: 0 }),
-            this.publisherService.getPublishers({ offset: 0 })
+            this.authorService.getList<Author>({ offset: 0 }),
+            this.releaseCompanyService.getList<ReleaseCompany>({offset: 0 }),
+            this.publisherService.getList<Publisher>({ offset: 0 })
         ).subscribe(result => {
             this.categories = result[0];
             if (result[1]) {
-                this.authors = result[1].data;
+                this.authors = result[1].items;
             }
             if (result[2]) {
-                this.releaseCompanies = result[2].data;
+                this.releaseCompanies = result[2].items;
             }
             if (result[3]) {
-                this.publishers = result[3].data;
+                this.publishers = result[3].items;
             }
         });
 
@@ -91,7 +89,7 @@ export class BookDetailComponent implements OnInit {
             }
 
             this.bookId = params["id"];
-            this.bookService.getBook(this.bookId).subscribe(data => {
+            this.bookService.get<StoredBookModel>(this.bookId).subscribe(data => {
                 this.book = data;
                 this.fillBook(data);
             });
@@ -124,11 +122,6 @@ export class BookDetailComponent implements OnInit {
         });
         const index = this.uploadedFiles.indexOf(img);
         this.uploadedFiles.splice(index, 1);
-        // if (imageId) {
-        //     this.uploadedFiles = this.uploadedFiles.filter(f => f.id === imageId);
-        // } else if (fileName) {
-        //     this.uploadedFiles = this.uploadedFiles.filter(f => f.fileName === fileName);
-        // }
     }
 
     private saveOrUpdate(): void {
@@ -153,7 +146,6 @@ export class BookDetailComponent implements OnInit {
 
             return img;
         });
-        console.log("bookImages", bookImages);
 
         const storedBook: StoredBookModel = {
             book: {
@@ -171,7 +163,7 @@ export class BookDetailComponent implements OnInit {
             images: bookImages
         };
 
-        this.bookService.addBook(storedBook).subscribe((data) => {
+        this.bookService.add(storedBook).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "Book has been added successfuly"
@@ -216,7 +208,7 @@ export class BookDetailComponent implements OnInit {
             images: bookImages
         };
 
-        this.bookService.updateBook(this.bookId, payload)
+        this.bookService.update(this.bookId, payload)
             .subscribe((data) => {
                 this.responseNotify = {
                     isSuccess: true,

@@ -4,7 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 
 import { UserService } from "../../../services/user.service";
 import { UploadService } from "../../../services/upload.service";
-import { AdminUser, UpdateAdminUserDto, ResponseNotify } from "../../../services/models";
+import { AdminUser, UpdateAdminUserModel, ResponseNotify } from "../../../services/models";
 import { PasswordValidation } from "../../../shared/password.validation";
 
 @Component({
@@ -43,7 +43,7 @@ export class UserDetailComponent implements OnInit {
             }
 
             this.userId = params["id"];
-            this.userService.getAdminUser(this.userId).subscribe((data) => {
+            this.userService.get<AdminUser>(this.userId).subscribe((data) => {
                 this.fillAdminUser(data);
             });
          });
@@ -58,14 +58,15 @@ export class UserDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/adminusers/avatar";
+        const apiUrl = "/api/adminusers/avatars";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeAvatar(): void {
-        this.userService.removeAvatar(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/adminusers/avatars/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         err => {
             this.responseNotify = {
@@ -95,7 +96,7 @@ export class UserDetailComponent implements OnInit {
             isSupperUser: false
         };
 
-        this.userService.addAdminUser(user).subscribe((data) => {
+        this.userService.add(user).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "User has been updated successfuly"
@@ -110,14 +111,14 @@ export class UserDetailComponent implements OnInit {
     }
 
     private updateAdminUser(): void {
-        const payload: UpdateAdminUserDto = {
+        const payload: UpdateAdminUserModel = {
             firstName: this.firstName.value,
             lastName: this.lastName.value,
             avatar: this.uploadedFileName,
             isActive: this.isActive.value || false
         };
 
-        this.userService.updateAdminUser(this.userId, payload).subscribe((data) => {
+        this.userService.update(this.userId, payload).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "User has been updated successfuly"

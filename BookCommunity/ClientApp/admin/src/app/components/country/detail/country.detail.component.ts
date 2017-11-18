@@ -40,7 +40,7 @@ export class CountryDetailComponent implements OnInit {
             }
 
             this.countryId = params["id"];
-            this.countryService.getCountry(this.countryId).subscribe((data) => {
+            this.countryService.get<Country>(this.countryId).subscribe((data) => {
                 this.fillCountry(data);
             });
          });
@@ -62,7 +62,8 @@ export class CountryDetailComponent implements OnInit {
     }
 
     public removeFlag(): void {
-        this.countryService.removeFlag(this.uploadedFileName).subscribe(data => {
+        const apiUrl = "/api/countries/flags/remove";
+        this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         err => {
             this.responseNotify = {
@@ -90,7 +91,7 @@ export class CountryDetailComponent implements OnInit {
             isActive: this.isActive.value || false,
         };
 
-        this.countryService.addCountry(country).subscribe((data) => {
+        this.countryService.add<Country>(country).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "User has been added successfuly"
@@ -113,7 +114,7 @@ export class CountryDetailComponent implements OnInit {
             isActive: this.isActive.value || false
         };
 
-        this.countryService.updateCountry(this.countryId, payload).subscribe((data) => {
+        this.countryService.update<Country>(this.countryId, payload).subscribe((data) => {
             this.responseNotify = {
                 isSuccess: true,
                 message: "User has been updated successfuly"

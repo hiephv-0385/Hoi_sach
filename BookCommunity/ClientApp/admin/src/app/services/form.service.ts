@@ -1,5 +1,4 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers } from "@angular/http";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { PasswordValidation } from "../shared/password.validation";
 
