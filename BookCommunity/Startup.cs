@@ -13,6 +13,7 @@ using BC.Data.Validations;
 using BC.Web.Middlewares;
 using BC.Web.UploadFiles;
 using BC.Data;
+using BC.Auth;
 
 namespace BookCommunity
 {
@@ -42,6 +43,9 @@ namespace BookCommunity
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
             }).AddFluentValidation();
+
+            services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
+            services.AddSession();
 
             services.Configure<Settings>(options =>
             {
@@ -74,6 +78,8 @@ namespace BookCommunity
 
             app.UseStaticFiles();
 
+            app.UseSession();
+
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -91,6 +97,8 @@ namespace BookCommunity
             services.AddTransient(typeof(IBCContext<>), typeof(BCContext<>));
 
             services.AddTransient(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+
+            services.AddTransient<IAuth, Auth>();
 
             services.AddTransient<IAdminUserRepository, AdminUserRepository>();
 

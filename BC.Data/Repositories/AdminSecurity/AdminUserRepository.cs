@@ -25,5 +25,21 @@ namespace BC.Data.Repositories
                 throw ex;
             }
         }
+
+        public AdminUser GetByEmail(string email)
+        {
+            var filter = Builders<AdminUser>.Filter.Eq("Email", email);
+
+            try
+            {
+                var user = DbCollection.Find(filter).FirstOrDefault();
+
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

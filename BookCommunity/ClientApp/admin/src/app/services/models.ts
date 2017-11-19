@@ -1,3 +1,9 @@
+export interface UserCredential {
+    email: string;
+    password: string;
+    isRememberMe: boolean;
+}
+
 export interface ErrorInfo {
     message: string;
 }

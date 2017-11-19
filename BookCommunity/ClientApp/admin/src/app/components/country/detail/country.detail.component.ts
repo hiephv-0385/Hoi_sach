@@ -65,10 +65,10 @@ export class CountryDetailComponent implements OnInit {
         const apiUrl = "/api/countries/flags/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
-        err => {
+        (err: ErrorInfo) => {
             this.responseNotify = {
                 isSuccess: false,
-                message: `Remove avatar error: ${err.statusText}`
+                message: `Remove avatar error: ${err.message}`
             };
         });
         this.uploadedFileName = "";

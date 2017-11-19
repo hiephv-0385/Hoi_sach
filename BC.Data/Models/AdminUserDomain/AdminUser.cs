@@ -15,6 +15,8 @@ namespace BC.Data.Models
        
         public string Password { get; set; }
 
+        public string RememberToken { get; set; }
+
         public bool IsSupperUser { get; set; }
     }
 }
