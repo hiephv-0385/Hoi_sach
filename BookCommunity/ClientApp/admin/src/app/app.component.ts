@@ -12,9 +12,9 @@ export class AppComponent {
     public isLogged = false;
 
     constructor(
-      private router: Router,
-
-      private authService: AuthService) {
+        private router: Router,
+        private authService: AuthService
+    ) {
         this.authService.getLoginStatus().subscribe(result => {
             this.isLogged = result;
             if (!this.isLogged) {

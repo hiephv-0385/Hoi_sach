@@ -13,7 +13,7 @@ namespace BC.Data.Validations
 
             RuleFor(m => m.Email).NotEmpty().EmailAddress();
 
-            RuleFor(m => m.Password).NotEmpty().Length(8, 20); ;
+            RuleFor(m => m.Password).NotEmpty().Length(8, 100); ;
         }
     }
 }

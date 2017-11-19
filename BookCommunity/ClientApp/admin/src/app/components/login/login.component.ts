@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
+import { Md5 } from "ts-md5/dist/md5";
 
 import { AuthService } from "../../services/auth.service";
 import { UserCredential, ResponseNotify, ErrorInfo } from "../../services/models";
@@ -34,11 +35,10 @@ export class LoginComponent implements OnInit {
     public login(): void {
         const credential: UserCredential = {
             email: this.email.value,
-            password: this.password.value,
+            password: Md5.hashStr(this.password.value).toString(),
             isRememberMe: this.isRememberMe.value
         }
         this.authService.login(credential).subscribe(result => {
-            console.log("result", result);
             this.isLogged = true;
             this.router.navigate(["/"]);
         },

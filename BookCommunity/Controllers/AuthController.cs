@@ -48,7 +48,7 @@ namespace BookCommunity.Controllers
 
             if (value.IsRemember == true)
             {
-                adminUser.RememberToken = _cryptography.Encrypt(adminUser.Email);
+                adminUser.RememberToken = _cryptography.GenerateToken(adminUser.Id);
                 await _adminUserRepository.Update(adminUser.Id, adminUser);
             }
 

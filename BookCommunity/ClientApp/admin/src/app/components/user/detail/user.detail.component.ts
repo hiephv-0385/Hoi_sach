@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms";
 import { ActivatedRoute } from "@angular/router";
+import { Md5 } from "ts-md5/dist/md5";
 
 import { UserService } from "../../../services/user.service";
 import { UploadService } from "../../../services/upload.service";
@@ -86,11 +87,12 @@ export class UserDetailComponent implements OnInit {
     }
 
     private addUser(): void {
+        console.log("md5", Md5.hashStr(this.password.value).toString());
         const user: AdminUser = {
             firstName: this.firstName.value,
             lastName: this.lastName.value,
             email: this.email.value,
-            password: this.password.value,
+            password: Md5.hashStr(this.password.value).toString(),
             avatar: this.uploadedFileName,
             isActive: this.isActive.value || false,
             isSupperUser: false
