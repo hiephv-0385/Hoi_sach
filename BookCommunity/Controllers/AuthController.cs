@@ -53,17 +53,26 @@ namespace BookCommunity.Controllers
             }
 
             var token = _cryptography.Encrypt(adminUser.Id);
-            HttpContext.Session.SetString("AdminUserToken", token);
+            HttpContext.Session.SetString(AuthKeys.AdminUserToken, token);
 
             return Ok(token);
+        }
+
+        [HttpPost("logout")]
+        public IActionResult Logout()
+        {
+            if (HttpContext.Session.GetString(AuthKeys.AdminUserToken) != null)
+            {
+                HttpContext.Session.Remove(AuthKeys.AdminUserToken);
+            }
+
+            return Ok(AuthKeys.AdminUserToken);
         }
 
         [HttpGet("loginstatus")]
         public bool Get()
         {
-            var isLogin = HttpContext.Session.GetString("AdminUserToken") != null;
-
-            return isLogin;
+            return HttpContext.Session.GetString(AuthKeys.AdminUserToken) != null;
         }
     }
 }

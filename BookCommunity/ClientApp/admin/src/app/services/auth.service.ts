@@ -32,6 +32,14 @@ export class AuthService {
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
+    public logout(): Observable<Response> {
+        const api = `${this.baseApiUrl}/logout`;
+
+        return this.http.post(api, {})
+            .map((res: Response) => res.json())
+            .catch((error: Response) => Observable.throw(error || "Server error"));
+    }
+
     public getLoginStatus(): Observable<boolean> {
         const api = `${this.baseApiUrl}/loginstatus`;
 

@@ -4,6 +4,7 @@ import { Router } from "@angular/router";
 import { Md5 } from "ts-md5/dist/md5";
 
 import { AuthService } from "../../services/auth.service";
+import { ConfimService } from "../../services/confirm.service";
 import { UserCredential, ResponseNotify, ErrorInfo } from "../../services/models";
 
 @Component({
@@ -22,9 +23,10 @@ export class LoginComponent implements OnInit {
     public isRememberMe: FormControl;
 
     constructor(
-      private fb: FormBuilder,
-      private router: Router,
-      private authService: AuthService) {
+        private fb: FormBuilder,
+        private router: Router,
+        private authService: AuthService,
+        private confirmService: ConfimService) {
     }
 
     ngOnInit() {
@@ -39,8 +41,8 @@ export class LoginComponent implements OnInit {
             isRememberMe: this.isRememberMe.value
         }
         this.authService.login(credential).subscribe(result => {
-            this.isLogged = true;
-            this.router.navigate(["/"]);
+            this.confirmService.confirmLogin(true);
+            this.router.navigate(["/admin"]);
         },
         (err: ErrorInfo) => {
             this.responseNotify = {

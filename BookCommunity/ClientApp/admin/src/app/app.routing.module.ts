@@ -7,8 +7,10 @@ import { RouterModule } from "@angular/router";
 import { NgxPaginationModule } from "ngx-pagination";
 import { MomentModule } from "angular2-moment";
 import { CookieService } from "angular2-cookie/services/cookies.service";
+import { AuthGuardService } from "./services/auth-guard.service";
 
 import { AppComponent } from "./app.component";
+import { AdminComponent } from "./components/admin/admin.component";
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./layouts/header/header.component";
 import { FooterComponent } from "./layouts/footer/footer.component";
@@ -38,6 +40,7 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
 @NgModule({
     declarations: [
         AppComponent,
+        AdminComponent,
         LoginComponent,
         HeaderComponent,
         FooterComponent,
@@ -70,34 +73,49 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
         MomentModule,
         NgxPaginationModule,
         RouterModule.forRoot([
-            { path: "", redirectTo: "dashboard", pathMatch: "full" },
-            { path: "login", component: LoginComponent },
-            { path: "dashboard", component: DashboardComponent },
-            { path: "users/add", component: UserDetailComponent },
-            { path: "users/edit/:id", component: UserDetailComponent },
-            { path: "users", component: UserListComponent },
-            { path: "countries", component: CountryListComponent },
-            { path: "countries/add", component: CountryDetailComponent },
-            { path: "countries/edit/:id", component: CountryDetailComponent },
-            { path: "authors", component: AuthorListComponent },
-            { path: "authors/add", component: AuthorDetailComponent },
-            { path: "authors/edit/:id", component: AuthorDetailComponent },
-            { path: "releasecompanies", component: ReleaseCompanyListComponent },
-            { path: "releasecompanies/add", component: ReleaseCompanyDetailComponent },
-            { path: "releasecompanies/edit/:id", component: ReleaseCompanyDetailComponent },
-            { path: "publishers", component: PublisherListComponent},
-            { path: "publishers/add", component: PublisherDetailComponent },
-            { path: "publishers/edit/:id", component: PublisherDetailComponent },
-            { path: "bookcategories", component: BookCategoryListComponent},
-            { path: "bookcategories/add", component: BookCategoryDetailComponent },
-            { path: "bookcategories/edit/:id", component: BookCategoryDetailComponent },
-            { path: "books", component: BookListComponent },
-            { path: "books/add", component: BookDetailComponent },
-            { path: "books/edit/:id", component: BookDetailComponent }
+            { path: "cpanel/login", component: LoginComponent },
+            {
+                path: "admin",
+                component: AdminComponent,
+                canActivate: [AuthGuardService],
+                children: [
+                    {
+                        path: "",
+                        canActivateChild: [AuthGuardService],
+                        children: [
+                            { path: "", redirectTo: "dashboard", pathMatch: "full" },
+                            { path: "dashboard", component: DashboardComponent },
+                            { path: "dashboard", component: DashboardComponent },
+                            { path: "users/add", component: UserDetailComponent },
+                            { path: "users/edit/:id", component: UserDetailComponent },
+                            { path: "users", component: UserListComponent },
+                            { path: "countries", component: CountryListComponent },
+                            { path: "countries/add", component: CountryDetailComponent },
+                            { path: "countries/edit/:id", component: CountryDetailComponent },
+                            { path: "authors", component: AuthorListComponent },
+                            { path: "authors/add", component: AuthorDetailComponent },
+                            { path: "authors/edit/:id", component: AuthorDetailComponent },
+                            { path: "releasecompanies", component: ReleaseCompanyListComponent },
+                            { path: "releasecompanies/add", component: ReleaseCompanyDetailComponent },
+                            { path: "releasecompanies/edit/:id", component: ReleaseCompanyDetailComponent },
+                            { path: "publishers", component: PublisherListComponent},
+                            { path: "publishers/add", component: PublisherDetailComponent },
+                            { path: "publishers/edit/:id", component: PublisherDetailComponent },
+                            { path: "bookcategories", component: BookCategoryListComponent},
+                            { path: "bookcategories/add", component: BookCategoryDetailComponent },
+                            { path: "bookcategories/edit/:id", component: BookCategoryDetailComponent },
+                            { path: "books", component: BookListComponent },
+                            { path: "books/add", component: BookDetailComponent },
+                            { path: "books/edit/:id", component: BookDetailComponent }
+                        ]
+                    },
+                ]
+            }
         ])
     ],
     providers: [
-        CookieService
+        CookieService,
+        AuthGuardService
     ],
 })
 export class AppRoutingModule {

@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { AppRoutingModule } from "./app.routing.module";
 
 import { AuthService } from "./services/auth.service";
+import { ConfimService } from "./services/confirm.service";
 import { UserService } from "./services/user.service";
 import { CountryService } from "./services/country.service";
 import { AuthorService } from "./services/author.service";
@@ -21,6 +22,7 @@ import { DashboardComponent } from "./components/dashboard/dashboard.component";
   ],
   providers: [
     AuthService,
+    ConfimService,
     UserService,
     CountryService,
     ReleaseCompanyService,
