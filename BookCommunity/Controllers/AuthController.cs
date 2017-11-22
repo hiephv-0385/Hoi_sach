@@ -54,8 +54,9 @@ namespace BookCommunity.Controllers
 
             var token = _cryptography.Encrypt(adminUser.Id);
             HttpContext.Session.SetString(AuthKeys.AdminUserToken, token);
+            var jwtToken = _auth.GenerateToken(adminUser.Id);
 
-            return Ok(token);
+            return Ok(new { jwtToken = jwtToken });
         }
 
         [HttpPost("logout")]

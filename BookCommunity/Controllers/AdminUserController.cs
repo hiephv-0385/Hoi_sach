@@ -10,11 +10,14 @@ using BC.Data.Requests;
 using BC.Data.Responses;
 using BC.Web.UploadFiles;
 using BC.Web.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AdminUsersController : Controller
     {
         private readonly IAdminUserRepository _adminUserRepository;
@@ -29,7 +32,6 @@ namespace BookCommunity.Controllers
             _adminUserRepository = adminUserRepository;
             _cryptography = cryptography;
             _uploadFileSerivce = uploadFileSerivce;
-            ViewBag.PageName = "Users";
         }
 
         [NoCache]

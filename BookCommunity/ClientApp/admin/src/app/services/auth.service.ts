@@ -11,6 +11,10 @@ import { BaseService } from "./base.service";
 import { UserCredential, ErrorInfo } from "./models";
 import { ErrorObservable } from "rxjs/observable/ErrorObservable";
 
+export interface Token {
+    jwtToken: string;
+}
+
 @Injectable()
 export class AuthService {
     private baseApiUrl = "/api/auth";
@@ -23,7 +27,7 @@ export class AuthService {
         this.csrfToken = this.cookieService.get("");
     }
 
-    public login(credential: UserCredential): Observable<Response> {
+    public login(credential: UserCredential): Observable<Token> {
         const headers = new Headers();
         const api = `${this.baseApiUrl}/login`;
 

@@ -10,5 +10,7 @@ namespace BC.Auth
         Task RememberMe(AdminUser adminUser, string token);
 
         void Logout();
+
+        string GenerateToken(string userId);
     }
 }

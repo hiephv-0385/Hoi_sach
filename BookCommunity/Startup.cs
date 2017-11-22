@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +14,10 @@ using BC.Web.Middlewares;
 using BC.Web.UploadFiles;
 using BC.Data;
 using BC.Auth;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BookCommunity
 {
@@ -40,6 +44,31 @@ namespace BookCommunity
 
             services.AddAntiforgery(options => options.HeaderName = "X-XSRF-TOKEN");
 
+            services.AddAuthorization(auth =>
+            {
+                auth.AddPolicy("Bearer", new AuthorizationPolicyBuilder()
+                    .AddAuthenticationSchemes(JwtBearerDefaults.AuthenticationScheme‌​)
+                    .RequireAuthenticatedUser().Build());
+            });
+
+            services.AddAuthentication(o =>
+               {
+                   o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                   o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                   o.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
+               })
+               .AddJwtBearer(cfg =>
+               {
+                   cfg.RequireHttpsMetadata = false;
+                   cfg.SaveToken = true;
+                   cfg.TokenValidationParameters = new TokenValidationParameters()
+                   {
+                       ValidIssuer = Configuration["TokenOptions:Issuer"],
+                       ValidAudience = Configuration["TokenOptions:Issuer"],
+                       IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["TokenOptions:Key"])),
+                   };
+               });
+
             services.AddMvc(opt => {
                 opt.Filters.Add(typeof(ValidatorActionFilter));
             }).AddFluentValidation();
@@ -51,6 +80,12 @@ namespace BookCommunity
             {
                 options.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
                 options.Database = Configuration.GetSection("MongoConnection:Database").Value;
+            });
+
+            services.Configure<JwtTokenOptions>(options =>
+            {
+                options.Key = Configuration["TokenOptions:Key"];
+                options.Issuer = Configuration["TokenOptions:Issuer"];
             });
 
             RegisterContainers(services);
@@ -79,6 +114,8 @@ namespace BookCommunity
             app.UseStaticFiles();
 
             app.UseSession();
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {

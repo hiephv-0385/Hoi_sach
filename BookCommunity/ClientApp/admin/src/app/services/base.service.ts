@@ -29,9 +29,12 @@ export class BaseService {
 
     public getList<T>(params: QueryParams): Observable<ListResponse<T>> {
         const url = `${this.apiUrl}?${this.joinUrlParams(params)}`;
-        return this.http.get(url)
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+
+        return this.http.get(url, { headers: headers })
             .map((res: Response) => res.json())
-            .catch((error: Response) =>this.handleError(error));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public add<T>(item: T): Observable<T> {

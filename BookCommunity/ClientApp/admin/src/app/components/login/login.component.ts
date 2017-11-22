@@ -3,8 +3,7 @@ import { FormGroup, FormBuilder, FormControl, Validators } from "@angular/forms"
 import { Router } from "@angular/router";
 import { Md5 } from "ts-md5/dist/md5";
 
-import { AuthService } from "../../services/auth.service";
-import { ConfimService } from "../../services/confirm.service";
+import { AuthService, Token } from "../../services/auth.service";
 import { UserCredential, ResponseNotify, ErrorInfo } from "../../services/models";
 
 @Component({
@@ -25,8 +24,7 @@ export class LoginComponent implements OnInit {
     constructor(
         private fb: FormBuilder,
         private router: Router,
-        private authService: AuthService,
-        private confirmService: ConfimService) {
+        private authService: AuthService) {
     }
 
     ngOnInit() {
@@ -41,7 +39,7 @@ export class LoginComponent implements OnInit {
             isRememberMe: this.isRememberMe.value
         }
         this.authService.login(credential).subscribe(result => {
-            this.confirmService.confirmLogin(true);
+            localStorage.setItem("jwtToken", result.jwtToken);
             this.router.navigate(["/admin"]);
         },
         (err: ErrorInfo) => {
