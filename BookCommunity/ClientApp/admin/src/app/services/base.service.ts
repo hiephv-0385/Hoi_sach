@@ -22,7 +22,10 @@ export class BaseService {
 
     public get<T>(itemId: string): Observable<T> {
         const url = `${this.apiUrl}/${itemId}`;
-        return this.http.get(url)
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+
+        return this.http.get(url, { headers: headers })
             .map((res: Response) => res.json())
             .catch((error: Response) => this.handleError(error));
     }
@@ -40,6 +43,7 @@ export class BaseService {
     public add<T>(item: T): Observable<T> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
 
         return this.http.post(this.apiUrl, item, { headers: headers })
             .map((res: Response) => res)
@@ -49,6 +53,7 @@ export class BaseService {
     public update<T>(itemId: string, payload: T): Observable<T> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
         const url = `${this.apiUrl}/${itemId}`;
 
         return this.http.put(url, payload, { headers: headers })
@@ -59,6 +64,7 @@ export class BaseService {
     public deleteOne(itemId: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
         const deleteUrl = `${this.apiUrl}/${itemId}`;
 
         return this.http.delete(deleteUrl, { headers: headers })
@@ -73,14 +79,18 @@ export class BaseService {
 
     public handleError(error: Response): ErrorObservable {
         const errorInfo: ErrorInfo = {
-            message: error.statusText
+            message: "Server error"
         };
-
-        const errorBody = error.json();
-        if (errorBody && errorBody.Message) {
-            errorInfo.message = errorBody.Message;
+        if (error.status === 500 || error.status === 401) {
+            errorInfo.message = error.statusText;
+        } else {
+            const errorBody = error.json();
+            if (errorBody && errorBody.Message) {
+                errorInfo.message = errorBody.Message;
+            }
         }
-        return Observable.throw(errorInfo || "Server error");
+
+        return Observable.throw(errorInfo);
     }
 
     public joinUrlParams(params: QueryParams): string {

@@ -8,11 +8,14 @@ using BC.Data.Responses;
 using BC.Data.Requests;
 using BC.Data.Models;
 using BC.Web.Constants;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class AuthorsController : Controller
     {
         private readonly IAuthorRepository _authorRepository;

@@ -9,11 +9,14 @@ using BC.Data.Requests;
 using BC.Data.Models;
 using BC.Web.Constants;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
     [Route("api/bookCategories")]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class BookCategoriesController : Controller
     {
         private readonly IBookCategoryRepository _bookCategoryRepository;

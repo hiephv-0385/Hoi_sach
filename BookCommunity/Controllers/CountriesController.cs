@@ -8,11 +8,14 @@ using BC.Web.UploadFiles;
 using BC.Web.Constants;
 using BC.Data.Responses;
 using BC.Data.Requests;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize(JwtBearerDefaults.AuthenticationScheme)]
     public class CountriesController : Controller
     {
         private readonly ICountryRepository _countryRepository;

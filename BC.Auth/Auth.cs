@@ -1,13 +1,10 @@
-﻿using BC.Data.Models;
-using BC.Data.Repositories;
+﻿using BC.Data.Repositories;
 using BC.Infrastructure.Hash;
-using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System;
 using System.Text;
 using System.Security.Claims;
-using Newtonsoft.Json;
 using Microsoft.Extensions.Options;
 
 namespace BC.Auth
@@ -34,17 +31,6 @@ namespace BC.Auth
             return _cryptography.Encrypt(password).Equals(dbPassword);
         }
 
-        public async Task RememberMe(AdminUser adminUser, string token)
-        {
-            adminUser.RememberToken = token;
-            await _adminUserRepository.Update(adminUser.Id, adminUser);
-        }
-
-        public void Logout()
-        {
-
-        }
-
         public string GenerateToken(string userId)
         {
             var now = DateTime.UtcNow;
@@ -63,27 +49,11 @@ namespace BC.Auth
                 audience: _tokenOption.Issuer,
                 claims: claims,
                 notBefore: now,
-                expires: now.Add(TimeSpan.FromMinutes(5)),
+                expires: now.Add(TimeSpan.FromMinutes(60)),
                 signingCredentials: creds
             );
 
-            var encodedJwt = new JwtSecurityTokenHandler().WriteToken(token);
-
-            //var response = new
-            //{
-            //    access_token = encodedJwt,
-            //    expires_in = (int)TimeSpan.FromMinutes(5).TotalSeconds,
-            //};
-
-            //return JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented });
-            return encodedJwt;
-        }
-
-        private bool IsLogged(AdminUser adminUser, UseCredential authUser)
-        {
-            var isLogged = _cryptography.Encrypt(adminUser.Password).Equals(adminUser.Password);
-
-            return _cryptography.Encrypt(adminUser.Password).Equals(adminUser.Password);
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

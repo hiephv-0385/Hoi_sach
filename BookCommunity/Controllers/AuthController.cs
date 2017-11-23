@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +28,7 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Post([FromBody]UseCredential value)
+        public async Task<IActionResult> Login([FromBody]UseCredential value)
         {
             Exception error = null;
             var adminUser = _adminUserRepository.GetByEmail(value.Email);
@@ -71,7 +69,7 @@ namespace BookCommunity.Controllers
         }
 
         [HttpGet("loginstatus")]
-        public bool Get()
+        public bool GetLoginStatus()
         {
             return HttpContext.Session.GetString(AuthKeys.AdminUserToken) != null;
         }
