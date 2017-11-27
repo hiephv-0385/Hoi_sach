@@ -66,14 +66,14 @@ export class BookCategoryDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/bookcategories/pictures";
+        const apiUrl = "/api/admin/bookcategories/pictures";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removePicture(): void {
-        const apiUrl = "/api/bookcategories/pictures/remove";
+        const apiUrl = "/api/admin/bookcategories/pictures/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: ErrorInfo) => {

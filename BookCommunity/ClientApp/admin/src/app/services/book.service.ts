@@ -17,7 +17,7 @@ export class BookService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/books";
+        this.apiUrl = "/api/admin/books";
     }
 
     public searchBooks(params: GetBookParams): Observable<ListResponse<BookModel>> {
@@ -31,6 +31,8 @@ export class BookService extends BaseService {
     public removeImage(imageId: string, fileName: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+
         const url = `${this.apiUrl}/images/remove`;
         const payload: BookAvatar = {
             imageId: imageId,

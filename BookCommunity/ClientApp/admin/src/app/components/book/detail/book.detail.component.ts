@@ -106,7 +106,7 @@ export class BookDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/books/images";
+        const apiUrl = "/api/admin/books/images";
         this.uploadService.uploadMultipleFiles(event, apiUrl).subscribe((result) => {
             this.uploadedFiles = result.uploadedFiles;
         });

@@ -13,7 +13,7 @@ export class ReleaseCompanyService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/releasecompanies";
+        this.apiUrl = "/api/admin/releasecompanies";
     }
 }
 

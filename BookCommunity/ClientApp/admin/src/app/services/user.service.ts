@@ -12,7 +12,7 @@ export class UserService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/adminusers";
+        this.apiUrl = "/api/admin/users";
     }
 }
 

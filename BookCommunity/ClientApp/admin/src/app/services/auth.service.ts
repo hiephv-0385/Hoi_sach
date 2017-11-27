@@ -17,7 +17,7 @@ export interface Token {
 
 @Injectable()
 export class AuthService {
-    private baseApiUrl = "/api/auth";
+    private baseApiUrl = "/api/admin/auth";
     private csrfToken: string;
 
     constructor(

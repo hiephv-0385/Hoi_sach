@@ -12,7 +12,7 @@ export class PublisherService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/publishers";
+        this.apiUrl = "/api/admin/publishers";
     }
 }
 

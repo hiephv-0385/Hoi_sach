@@ -45,8 +45,8 @@ export class PublisherListComponent implements OnInit {
     }
 
     public addPublisher(): void {
-        this.router.navigate(["/publishers"])
-            .then(() => this.router.navigate(["/publishers/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/publishers"])
+            .then(() => this.router.navigate(["/admin/publishers/add"], { replaceUrl: true }));
     }
 
     public deletePublishers(): void {

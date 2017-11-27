@@ -11,7 +11,7 @@ export class CountryService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/countries";
+        this.apiUrl = "/api/admin/countries";
     }
 }
 

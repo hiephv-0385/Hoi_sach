@@ -59,14 +59,14 @@ export class UserDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/adminusers/avatars";
+        const apiUrl = "/api/admin/users/avatars";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeAvatar(): void {
-        const apiUrl = "/api/adminusers/avatars/remove";
+        const apiUrl = "/api/admin/users/avatars/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: ErrorInfo) => {

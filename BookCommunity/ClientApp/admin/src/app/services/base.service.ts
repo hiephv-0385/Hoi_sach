@@ -47,7 +47,7 @@ export class BaseService {
 
         return this.http.post(this.apiUrl, item, { headers: headers })
             .map((res: Response) => res)
-            .catch((error: Response) =>this.handleError(error));
+            .catch((error: Response) => this.handleError(error));
     }
 
     public update<T>(itemId: string, payload: T): Observable<T> {

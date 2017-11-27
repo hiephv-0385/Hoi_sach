@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/[controller]")]
+    [Route("api/admin/users")]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     public class AdminUsersController : Controller
     {
@@ -73,7 +73,6 @@ namespace BookCommunity.Controllers
 
         // POST api/adminusers
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Post([FromBody]AdminUserModel value)
         {
             var isEmailExisted = _adminUserRepository.IsEmailExisted(value.Email);
@@ -100,7 +99,6 @@ namespace BookCommunity.Controllers
 
         // PUT api/adminusers/5
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]UpdateAdminUserModel value)
         {
             var adminUser = await _adminUserRepository.GetById(id);
@@ -122,14 +120,12 @@ namespace BookCommunity.Controllers
 
         // DELETE api/adminusers/23243423
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
             _adminUserRepository.Remove(id);
         }
 
         [HttpPost("avatars")]
-        [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
             string updatedFileName = await _uploadFileSerivce.UploadSigle(FolderPath.UserAvatar, Request.Form);
@@ -141,7 +137,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("avatars/remove")]
-        [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
             _uploadFileSerivce.RemoveFile(avatar.FileName);

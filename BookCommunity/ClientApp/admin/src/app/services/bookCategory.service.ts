@@ -17,7 +17,7 @@ export class BookCategoryService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/bookcategories";
+        this.apiUrl = "/api/admin/bookcategories";
     }
 
     public searchBookCategories(params: GetBookCategoryParams): Observable<BookCategory[]> {

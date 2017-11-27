@@ -10,7 +10,7 @@ using BC.Web.Constants;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/auth")]
+    [Route("api/admin/auth")]
     public class AuthController : Controller
     {
         private readonly IAdminUserRepository _adminUserRepository;

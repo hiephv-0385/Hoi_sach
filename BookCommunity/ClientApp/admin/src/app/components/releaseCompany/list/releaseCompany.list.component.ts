@@ -46,8 +46,8 @@ export class ReleaseCompanyListComponent implements OnInit {
     }
 
     public addReleaseCompany(): void {
-        this.router.navigate(["/releasecompanies"])
-            .then(() => this.router.navigate(["/releasecompanies/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/releasecompanies"])
+            .then(() => this.router.navigate(["/admin/releasecompanies/add"], { replaceUrl: true }));
     }
 
     public deleteReleaseCompanies(): void {

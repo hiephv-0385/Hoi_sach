@@ -32,6 +32,7 @@ export class UploadService extends BaseService {
         const headers = new Headers();
         headers.set("Accept", "application/json");
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
 
         return this.childHttp.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
@@ -52,6 +53,7 @@ export class UploadService extends BaseService {
         const headers = new Headers();
         headers.set("Accept", "application/json");
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
 
         return this.childHttp.post(apiUrl, formData, { headers: headers })
             .map((res: Response) => res.json())
@@ -61,6 +63,7 @@ export class UploadService extends BaseService {
     public removeFile(fileName: string, removeApi: string): Observable<Response> {
         const headers = new Headers();
         headers.set("X-XSRF-TOKEN", this.csrfToken);
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
         const payload: Avatar = {
             fileName: fileName
         };

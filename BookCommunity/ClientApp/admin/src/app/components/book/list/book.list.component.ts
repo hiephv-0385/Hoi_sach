@@ -55,8 +55,8 @@ export class BookListComponent implements OnInit {
     }
 
     public addBook(): void {
-        this.router.navigate(["/books"])
-            .then(() => this.router.navigate(["/books/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/books"])
+            .then(() => this.router.navigate(["/admin/books/add"], { replaceUrl: true }));
     }
 
     public deleteBooks(): void {

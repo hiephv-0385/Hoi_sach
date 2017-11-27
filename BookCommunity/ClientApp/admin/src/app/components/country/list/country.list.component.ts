@@ -46,8 +46,8 @@ export class CountryListComponent implements OnInit {
     }
 
     public addCountry(): void {
-        this.router.navigate(["/countries"])
-            .then(() => this.router.navigate(["/countries/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/countries"])
+            .then(() => this.router.navigate(["/admin/countries/add"], { replaceUrl: true }));
     }
 
     public deleteCountry(): void {

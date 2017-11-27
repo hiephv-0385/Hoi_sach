@@ -45,8 +45,8 @@ export class UserListComponent implements OnInit {
     }
 
     public addUser(): void {
-        this.router.navigate(["/users"])
-            .then(() => this.router.navigate(["/users/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/users"])
+            .then(() => this.router.navigate(["/admin/users/add"], { replaceUrl: true }));
     }
 
     public deleteUser(): void {

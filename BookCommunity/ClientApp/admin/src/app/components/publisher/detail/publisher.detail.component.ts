@@ -62,14 +62,14 @@ export class PublisherDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/publishers/logos";
+        const apiUrl = "/api/admin/publishers/logos";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeLogo(): void {
-        const apiUrl = "/api/publishers/logos/remove";
+        const apiUrl = "/api/admin/publishers/logos/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: ErrorInfo) => {

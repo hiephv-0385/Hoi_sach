@@ -55,14 +55,14 @@ export class CountryDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/countries/flags";
+        const apiUrl = "/api/admin/countries/flags";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeFlag(): void {
-        const apiUrl = "/api/countries/flags/remove";
+        const apiUrl = "/api/admin/countries/flags/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: ErrorInfo) => {

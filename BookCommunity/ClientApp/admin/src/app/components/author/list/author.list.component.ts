@@ -46,8 +46,8 @@ export class AuthorListComponent implements OnInit {
     }
 
     public addAuthor(): void {
-        this.router.navigate(["/authors"])
-            .then(() => this.router.navigate(["/authors/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/authors"])
+            .then(() => this.router.navigate(["/admin/authors/add"], { replaceUrl: true }));
     }
 
     public deleteAuthor(): void {

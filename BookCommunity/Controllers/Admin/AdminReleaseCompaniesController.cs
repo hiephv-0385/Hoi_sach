@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using BC.Web.Filters;
 using BC.Data.Repositories;
 using BC.Web.UploadFiles;
-using BC.Web.Filters;
-using BC.Data.Responses;
 using BC.Data.Requests;
+using BC.Data.Responses;
 using BC.Data.Models;
 using BC.Web.Constants;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -14,29 +14,31 @@ using Microsoft.AspNetCore.Authorization;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/publishers")]
+    [Route("api/admin/releaseCompanies")]
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public class PublishersController : Controller
+    public class AdminReleaseCompaniesController : Controller
     {
-        private readonly IPublisherRepository _publisherRepository;
+        private readonly IReleaseCompanyRepository _releaseCompanyRepository;
         private IUploadFileService _uploadFileService;
 
-        public PublishersController(IPublisherRepository publisherRepository, IUploadFileService uploadFileService)
+        public AdminReleaseCompaniesController(
+            IReleaseCompanyRepository releaseCompanyRepository, 
+            IUploadFileService uploadFileService)
         {
-            _publisherRepository = publisherRepository;
+            _releaseCompanyRepository = releaseCompanyRepository;
             _uploadFileService = uploadFileService;
         }
 
         [NoCache]
         [HttpGet]
-        public async Task<PublisherListResponse> Get([FromQuery]PagingRequest request)
+        public async Task<ReleaseCompanyListResponse> Get([FromQuery]PagingRequest request)
         {
-            var publishers = await _publisherRepository.GetList(request);
-            var count = await _publisherRepository.CountAll();
-            return new PublisherListResponse
+            var releaseCompanies = await _releaseCompanyRepository.GetList(request);
+            var count = await _releaseCompanyRepository.CountAll();
+            return new ReleaseCompanyListResponse
             {
                 Count = count,
-                Items = publishers
+                Items = releaseCompanies
             };
         }
 
@@ -44,20 +46,19 @@ namespace BookCommunity.Controllers
         [MongoDbObjectIdFilter]
         public async Task<IActionResult> Get(string id)
         {
-            var publisher = await _publisherRepository.GetById(id);
-            if (publisher == null)
+            var releaseCompany = await _releaseCompanyRepository.GetById(id);
+            if (releaseCompany == null)
             {
                 return NotFound();
             }
 
-            return Ok(publisher);
+            return Ok(releaseCompany);
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public void Post([FromBody]Publisher value)
+        public void Post([FromBody]ReleaseCompany value)
         {
-            _publisherRepository.Add(new Publisher
+            _releaseCompanyRepository.Add(new ReleaseCompany
             {
                 Name = value.Name,
                 Logo = value.Logo,
@@ -69,38 +70,35 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Put(string id, [FromBody]Publisher value)
+        public async Task<IActionResult> Put(string id, [FromBody]ReleaseCompany value)
         {
-            var publisher = await _publisherRepository.GetById(id);
-            if (publisher == null)
+            var releaseCompany = await _releaseCompanyRepository.GetById(id);
+            if (releaseCompany == null)
             {
                 return BadRequest();
             }
 
-            publisher.Name = value.Name;
-            publisher.Logo = value.Logo;
-            publisher.Country = value.Country;
-            publisher.IsActive = value.IsActive;
-            publisher.UpdatedOn = DateTime.Now;
+            releaseCompany.Name = value.Name;
+            releaseCompany.Logo = value.Logo;
+            releaseCompany.Country = value.Country;
+            releaseCompany.IsActive = value.IsActive;
+            releaseCompany.UpdatedOn = DateTime.Now;
 
-            var updateResult = await _publisherRepository.Update(id, publisher);
+            var updateResult = await _releaseCompanyRepository.Update(id, releaseCompany);
 
             return Ok(updateResult);
         }
 
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
-            _publisherRepository.Remove(id);
+            _releaseCompanyRepository.Remove(id);
         }
 
         [HttpPost("logos")]
-        [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
-            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.PublisherLogo, Request.Form);
+            string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.ReleaseCompanyLogo, Request.Form);
 
             return new UploadResult
             {
@@ -110,7 +108,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("logos/remove")]
-        [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
             _uploadFileService.RemoveFile(avatar.FileName);

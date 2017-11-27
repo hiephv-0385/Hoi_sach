@@ -11,7 +11,7 @@ export class AuthorService extends BaseService {
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
-        this.apiUrl = "/api/authors";
+        this.apiUrl = "/api/admin/authors";
     }
 }
 

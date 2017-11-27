@@ -15,15 +15,15 @@ using Microsoft.AspNetCore.Authorization;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/books")]
+    [Route("api/admin/books")]
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public class BooksController : Controller
+    public class AdminBooksController : Controller
     {
         private readonly IBookRepository _bookRepository;
         private readonly IBookImageRepository _bookImageRepository;
         private IUploadFileService _uploadFileService;
 
-        public BooksController(
+        public AdminBooksController(
             IBookRepository bookRepository,
             IBookImageRepository bookImageRepository,
             IUploadFileService uploadFileService)
@@ -65,7 +65,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public void Post([FromBody]StoredBookModel value)
         {
             var book = new Book
@@ -98,7 +97,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]StoredBookModel value)
         {
             var book = await _bookRepository.GetById(id);
@@ -131,7 +129,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
         public async Task Delete(string id)
         {
             await _bookImageRepository.DeleteImagesByBookId(id);
@@ -139,7 +136,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("images")]
-        [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
             var uploadResult = await _uploadFileService.UploadMultiple(FolderPath.BookImage, Request.Form);
@@ -150,7 +146,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("images/remove")]
-        [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]BookAvatar avatar)
         {
             _uploadFileService.RemoveFile(avatar.FileName);

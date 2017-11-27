@@ -15,14 +15,14 @@ using Microsoft.AspNetCore.Authorization;
 namespace BookCommunity.Controllers
 {
     [Produces("application/json")]
-    [Route("api/bookCategories")]
+    [Route("api/admin/bookCategories")]
     [Authorize(JwtBearerDefaults.AuthenticationScheme)]
-    public class BookCategoriesController : Controller
+    public class AdminBookCategoriesController : Controller
     {
         private readonly IBookCategoryRepository _bookCategoryRepository;
         private IUploadFileService _uploadFileService;
 
-        public BookCategoriesController(IBookCategoryRepository bookCategoryRepository, IUploadFileService uploadFileService)
+        public AdminBookCategoriesController(IBookCategoryRepository bookCategoryRepository, IUploadFileService uploadFileService)
         {
             _bookCategoryRepository = bookCategoryRepository;
             _uploadFileService = uploadFileService;
@@ -61,7 +61,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public void Post([FromBody]BookCategory value)
         {
             _bookCategoryRepository.Add(new BookCategory
@@ -77,7 +76,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPut("{id}")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Put(string id, [FromBody]BookCategory value)
         {
             var category = await _bookCategoryRepository.GetById(id);
@@ -99,14 +97,12 @@ namespace BookCommunity.Controllers
         }
 
         [HttpDelete("{id}")]
-        [ValidateAntiForgeryToken]
         public void Delete(string id)
         {
             _bookCategoryRepository.Remove(id);
         }
 
         [HttpPost("pictures")]
-        [ValidateAntiForgeryToken]
         public async Task<UploadResult> Upload()
         {
             string updatedFileName = await _uploadFileService.UploadSigle(FolderPath.BookCategoryPicture, Request.Form);
@@ -119,7 +115,6 @@ namespace BookCommunity.Controllers
         }
 
         [HttpPost("pictures/remove")]
-        [ValidateAntiForgeryToken]
         public void RemoveAvatar([FromBody]Avatar avatar)
         {
             _uploadFileService.RemoveFile(avatar.FileName);

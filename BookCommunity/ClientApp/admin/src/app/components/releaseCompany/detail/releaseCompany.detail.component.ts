@@ -62,14 +62,14 @@ export class ReleaseCompanyDetailComponent implements OnInit {
     }
 
     public onFileChange(event: any): void {
-        const apiUrl = "/api/releasecompanies/logos";
+        const apiUrl = "/api/admin/releasecompanies/logos";
         this.uploadService.uploadFile(event, apiUrl).subscribe((result) => {
             this.uploadedFileName = result.fileName;
         });
     }
 
     public removeLogo(): void {
-        const apiUrl = "/api/releasecompanies/logos/remove";
+        const apiUrl = "/api/admin/releasecompanies/logos/remove";
         this.uploadService.removeFile(this.uploadedFileName, apiUrl).subscribe(data => {
         },
         (err: ErrorInfo) => {

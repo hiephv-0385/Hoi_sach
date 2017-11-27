@@ -46,8 +46,8 @@ export class BookCategoryListComponent implements OnInit {
     }
 
     public addBookCategory(): void {
-        this.router.navigate(["/bookcategories"])
-            .then(() => this.router.navigate(["/bookcategories/add"], { replaceUrl: true }));
+        this.router.navigate(["/admin/bookcategories"])
+            .then(() => this.router.navigate(["/admin/bookcategories/add"], { replaceUrl: true }));
     }
 
     public deleteBookCategories(): void {
