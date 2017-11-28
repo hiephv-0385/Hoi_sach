@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Http, Response, Headers } from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 import "rxjs/add/operator/catch";
@@ -22,7 +22,10 @@ export class BookCategoryService extends BaseService {
 
     public searchBookCategories(params: GetBookCategoryParams): Observable<BookCategory[]> {
         const url = `${this.apiUrl}/search?${this.joinUrlParams(params)}`;
-        return this.childHttp.get(url)
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+
+        return this.childHttp.get(url, { headers: headers })
             .map((res: Response) => res.json())
             .catch((error: Response) => this.handleError(error));
     }

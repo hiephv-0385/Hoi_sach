@@ -23,7 +23,10 @@ export class BookService extends BaseService {
     public searchBooks(params: GetBookParams): Observable<ListResponse<BookModel>> {
 
         const url = `${this.apiUrl}/search/?${this.joinUrlParams(params)}`;
-        return this.childHttp.get(url)
+        const headers = new Headers();
+        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+
+        return this.childHttp.get(url, { headers: headers})
             .map((res: Response) => res.json())
             .catch((error: Response) => this.handleError(error));
     }
