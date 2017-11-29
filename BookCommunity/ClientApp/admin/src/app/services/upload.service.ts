@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http, Response, Headers } from "@angular/http";
+import { Response } from "@angular/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
@@ -13,7 +14,7 @@ import { Avatar, UploadResult } from "./models";
 export class UploadService extends BaseService {
 
     constructor(
-        private childHttp: Http,
+        private childHttp: HttpClient,
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);
@@ -29,13 +30,14 @@ export class UploadService extends BaseService {
         const formData: FormData = new FormData();
         formData.append(fileToUpload.name, fileToUpload);
 
-        const headers = new Headers();
-        headers.set("Accept", "application/json");
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "Accept": "application/json",
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
 
         return this.childHttp.post(apiUrl, formData, { headers: headers })
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
@@ -50,20 +52,22 @@ export class UploadService extends BaseService {
             formData.append(file.name, file);
         }
 
-        const headers = new Headers();
-        headers.set("Accept", "application/json");
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "Accept": "application/json",
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
 
         return this.childHttp.post(apiUrl, formData, { headers: headers })
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
     public removeFile(fileName: string, removeApi: string): Observable<Response> {
-        const headers = new Headers();
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
         const payload: Avatar = {
             fileName: fileName
         };

@@ -1,4 +1,5 @@
-import { Http, Response, URLSearchParams, Headers } from "@angular/http";
+import { Response, URLSearchParams } from "@angular/http";
+import { HttpClient, HttpHeaders, HttpResponse } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
@@ -15,56 +16,61 @@ export class BaseService {
     public csrfToken: string;
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         private cookieService: CookieService) {
         this.csrfToken = this.cookieService.get("XSRF-TOKEN");
     }
 
     public get<T>(itemId: string): Observable<T> {
         const url = `${this.apiUrl}/${itemId}`;
-        const headers = new Headers();
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
 
         return this.http.get(url, { headers: headers })
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
     public getList<T>(params: QueryParams): Observable<ListResponse<T>> {
         const url = `${this.apiUrl}?${this.joinUrlParams(params)}`;
-        const headers = new Headers();
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
 
         return this.http.get(url, { headers: headers })
-            .map((res: Response) => res.json())
+            .map((res: HttpResponse<ListResponse<T>>) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
     public add<T>(item: T): Observable<T> {
-        const headers = new Headers();
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
 
         return this.http.post(this.apiUrl, item, { headers: headers })
-            .map((res: Response) => res)
+            .map((res: HttpResponse<T>) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
     public update<T>(itemId: string, payload: T): Observable<T> {
-        const headers = new Headers();
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
         const url = `${this.apiUrl}/${itemId}`;
 
         return this.http.put(url, payload, { headers: headers })
-            .map((res: Response) => res)
+            .map((res: HttpResponse<T>) => res)
             .catch((error: Response) => this.handleError(error));
     }
 
     public deleteOne(itemId: string): Observable<Response> {
-        const headers = new Headers();
-        headers.set("X-XSRF-TOKEN", this.csrfToken);
-        headers.set("Authorization", `Bearer ${localStorage.getItem("jwtToken")}`);
+        const headers = new HttpHeaders({
+            "X-XSRF-TOKEN": this.csrfToken,
+            "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+        });
         const deleteUrl = `${this.apiUrl}/${itemId}`;
 
         return this.http.delete(deleteUrl, { headers: headers })

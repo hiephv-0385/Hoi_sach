@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 
 import { CookieService } from "angular2-cookie/core";
 import { BaseService } from "./base.service";
@@ -9,7 +9,7 @@ export class ReleaseCompanyService extends BaseService {
     private releaseCompanyUrl = "/api/releasecompanies";
 
     constructor(
-        private childHttp: Http,
+        private childHttp: HttpClient,
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);

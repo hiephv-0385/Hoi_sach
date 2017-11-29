@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import { Response } from "@angular/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/observable/of";
 import "rxjs/add/operator/map";
@@ -21,18 +22,18 @@ export class AuthService {
     private csrfToken: string;
 
     constructor(
-        private http: Http,
+        private http: HttpClient,
         private cookieService: CookieService
     ) {
         this.csrfToken = this.cookieService.get("");
     }
 
     public login(credential: UserCredential): Observable<Token> {
-        const headers = new Headers();
+        const headers = new HttpHeaders();
         const api = `${this.baseApiUrl}/login`;
 
         return this.http.post(api, credential)
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
@@ -40,7 +41,7 @@ export class AuthService {
         const api = `${this.baseApiUrl}/logout`;
 
         return this.http.post(api, {})
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => Observable.throw(error || "Server error"));
     }
 
@@ -48,7 +49,7 @@ export class AuthService {
         const api = `${this.baseApiUrl}/loginstatus`;
 
         return this.http.get(api)
-            .map((res: Response) => res.json())
+            .map((res: Response) => res)
             .catch((error: Response) => this.handleError(error));
     }
 

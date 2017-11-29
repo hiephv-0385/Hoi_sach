@@ -5,7 +5,7 @@ export interface UserCredential {
 }
 
 export interface ErrorInfo {
-    message: string;
+    message?: string;
 }
 
 export interface UploadedFile {

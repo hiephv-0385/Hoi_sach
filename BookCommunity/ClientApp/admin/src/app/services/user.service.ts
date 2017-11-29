@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { HttpClient } from "@angular/common/http";
 
 import { CookieService } from "angular2-cookie/core";
 import { BaseService } from "./base.service";
@@ -8,7 +8,7 @@ import { BaseService } from "./base.service";
 export class UserService extends BaseService {
 
     constructor(
-        private childHttp: Http,
+        private childHttp: HttpClient,
         private childCookieService: CookieService
     ) {
         super(childHttp, childCookieService);

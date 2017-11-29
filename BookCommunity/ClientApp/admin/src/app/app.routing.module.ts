@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { HttpModule } from "@angular/http";
+import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { NgxPaginationModule } from "ngx-pagination";
 import { MomentModule } from "angular2-moment";
@@ -67,7 +67,7 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
     ],
     imports: [
         CommonModule,
-        HttpModule,
+        HttpClientModule,
         FormsModule,
         ReactiveFormsModule,
         MomentModule,
