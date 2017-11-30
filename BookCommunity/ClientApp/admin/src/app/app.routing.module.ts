@@ -85,7 +85,6 @@ import { ControlContainer } from "@angular/forms/src/directives/control_containe
                         children: [
                             { path: "", redirectTo: "dashboard", pathMatch: "full" },
                             { path: "dashboard", component: DashboardComponent },
-                            { path: "dashboard", component: DashboardComponent },
                             { path: "users/add", component: UserDetailComponent },
                             { path: "users/edit/:id", component: UserDetailComponent },
                             { path: "users", component: UserListComponent },
