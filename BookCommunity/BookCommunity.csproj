@@ -166,15 +166,8 @@
     <Content Include="ClientApp\admin\tslint.json" />
   </ItemGroup>
 
-  <!--<ItemGroup>
-    <None Remove="ClientApp\admin\admin.boot.server.ts" />
-    <None Remove="ClientApp\admin\app\admin.module.server.ts" />
-    <None Remove="ClientApp\admin\app\admin.module.shared.ts" />
-    <None Remove="ClientApp\admin\app\components\dashboard\dashboard.component.ts" />
-  </ItemGroup>-->
-
   <ItemGroup>
-    <ProjectReference Include="..\bc.Auth\BC.Auth.csproj" />
+    <ProjectReference Include="..\BC.Auth\BC.Auth.csproj" />
     <ProjectReference Include="..\BC.Data\BC.Data.csproj" />
     <ProjectReference Include="..\BC.Infrastructure\BC.Infrastructure.csproj" />
     <ProjectReference Include="..\BC.Web\BC.Web.csproj" />

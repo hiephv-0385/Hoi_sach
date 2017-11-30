@@ -14,7 +14,7 @@ import { AdminComponent } from "./components/admin/admin.component";
 import { LoginComponent } from "./components/login/login.component";
 import { HeaderComponent } from "./layouts/header/header.component";
 import { FooterComponent } from "./layouts/footer/footer.component";
-import { MainSidebarComponent } from "./layouts/mainSidebar/mainSidebar.component";
+import { MainSidebarComponent } from "./layouts/mainSideBar/mainSidebar.component";
 import { ControlSidebarComponent } from "./layouts/controlSidebar/controlSidebar.component";
 import { DashboardComponent } from "./components/dashboard/dashboard.component";
 import { UserListComponent } from "./components/user/list/user.list.component";
