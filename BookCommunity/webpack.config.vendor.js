@@ -22,7 +22,7 @@ const nonTreeShakableModules = [
     "event-source-polyfill",
     "jquery",
     "font-awesome/css/font-awesome.min.css",
-    "@angular/material/prebuilt-themes/deeppurple-amber.css"
+    "@angular/material/prebuilt-themes/indigo-pink.css"
 ];
 const allModules = treeShakableModules.concat(nonTreeShakableModules);
 
